@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cpp-notes-rag"
+version = "0.1.0"
+description = "Evidence-based Q&A over personal C++ notes with BM25 and local vector retrieval"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+  "streamlit>=1.44,<2", "httpx>=0.28,<1", "markdown-it-py>=3,<5",
+  "jieba>=0.42,<1", "rank-bm25>=0.2.2,<1", "numpy>=1.26,<3",
+  "sentence-transformers>=3.4,<6", "chromadb>=1,<2", "filelock>=3.16,<4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.11,<1"]
+
+[project.scripts]
+cpp-notes = "cpp_notes_rag.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 110

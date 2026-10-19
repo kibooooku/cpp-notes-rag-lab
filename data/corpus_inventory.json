@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "originality": "User confirms these are their own C++ notes; this tool measures text, not authorship.",
+  "count_method": "Body Han characters exclude fenced code, inline code, HTML tags, image embeds and URLs; range U+3400-U+4DBF/U+4E00-U+9FFF. Non-whitespace characters are a separate metric, not words.",
+  "file_count": 9,
+  "total_lines": 774,
+  "total_fenced_code_blocks": 25,
+  "total_raw_chinese_characters": 7364,
+  "total_body_chinese_characters": 6669,
+  "single_file_body_han_at_least_1500": [],
+  "course_1500_requirement_verified": null,
+  "missing_embedded_images": [],
+  "attachments": [
+    {
+      "file": "1图片引用.png",
+      "bytes": 99277,
+      "sha256": "fad1e7cac193acb1f27ab385fc8021f3420261274ec38fcd307aba51789069b3"
+    }
+  ],
+  "files": [
+    {
+      "source_file": "1运作原理 编译链接.md",
+      "sha256": "515916160958db83105d67f66d2eda9657b0ec1f78b0078fcb6907a01fc0b0c1",
+      "bytes": 2039,
+      "line_count": 21,
+      "headings": [],
+      "fenced_code_blocks": 0,
+      "unclosed_code_fence": false,
+      "raw_chinese_characters": 486,
+      "body_chinese_characters": 486,
+      "body_non_whitespace_characters": 759,
+      "embedded_images": [
+        {
+          "line": 13,
+          "reference": "Pasted image 20260815200459.png|368",
+          "resolved_attachment": "1图片引用.png",
+          "resolution": "explicit_alias",
+          "local_target_present": true
+        }
+      ]
+    },
+    {
+      "source_file": "2变量 头文件 调试 条件.md",
+      "sha256": "e06780f04d50213fb51ebf2fe164feb2b29f9b9d7402529638e0cb613ad45aaf",
+      "bytes": 1865,
+      "line_count": 45,
+      "headings": [
+        {
+          "line": 1,
+          "text": "# 变量"
+        },
+        {
+          "line": 12,
+          "text": "# 头文件"
+        },
+        {
+          "line": 26,
+          "text": "# 调试"
+        },
+        {
+          "line": 36,
+          "text": "# 条件、循环"
+        }
+      ],
+      "fenced_code_blocks": 2,
+      "unclosed_code_fence": false,
+      "raw_chinese_characters": 427,
+      "body_chinese_characters": 416,
+      "body_non_whitespace_characters": 646,
+      "embedded_images": []
+    },
+    {
+      "source_file": "3指针 引用.md",
+      "sha256": "d2bc118f016aac1814654bbbba9e6c137f23c29f2503ff0b00cf89911fe59ab7",
+      "bytes": 2512,
+      "line_count": 65,
+      "headings": [
+        {
+          "line": 1,
+          "text": "# 指针"
+        },
+        {
+          "line": 25,
+          "text": "# 引用"
+        }
+      ],
+      "fenced_code_blocks": 6,
+      "unclosed_code_fence": false,
+      "raw_chinese_characters": 449,
+      "body_chinese_characters": 449,
+      "body_non_whitespace_characters": 552,
+      "embedded_images": []
+    },
+    {
+      "source_file": "4类和结构体 static ODR.md",
+      "sha256": "947431a5633fc1eeaf951dab60e933b33df786d8b6c7a66bc0afa921b827b276",
+      "bytes": 4069,
+      "line_count": 71,
+      "headings": [
+        {
+          "line": 8,
+          "text": "# static的三种用法"
+        },
+        {
+          "line": 9,
+          "text": "## 1.在类或结构体外的全局static"
+        },
+        {
+          "line": 13,
+          "text": "## 2.在类或结构体外、作用域内的局部static"
+        },
+        {
+          "line": 25,
+          "text": "## 3.在类或结构体内"
+        }
+      ],
+      "fenced_code_blocks": 3,
+      "unclosed_code_fence": false,
+      "raw_chinese_characters": 793,
+      "body_chinese_characters": 776,
+      "body_non_whitespace_characters": 1082,
+      "embedded_images": []
+    },
+    {
+      "source_file": "5单例模式和局部静态.md",
+      "sha256": "83fdc3bd656f66a9ef282294d493e6f0dbd4746ec64168933133f2666b120749",
+      "bytes": 6838,
+      "line_count": 141,
+      "headings": [
+        {
+          "line": 7,
+          "text": "### 第一部分：单例（Singleton）到底是什么？（食堂打饭的窗口）"
+        },
+        {
+          "line": 23,
+          "text": "### 第二部分：核心概念铺垫（看懂代码的钥匙）"
+        },
+        {
+          "line": 32,
+          "text": "### 第三部分：逐行详解第一张图（Meyers Singleton，这叫“梅耶斯单例”）"
+        },
+        {
+          "line": 69,
+          "text": "### 第四部分：逐行详解第二张图（经典裸指针单例，这叫“上世纪遗老”）"
+        },
+        {
+          "line": 114,
+          "text": "### 第五部分：为什么你说它们“效果一样”？"
+        },
+        {
+          "line": 135,
+          "text": "### 💎 终极总结（背下来就行）"
+        }
+      ],
+      "fenced_code_blocks": 2,
+      "unclosed_code_fence": false,
+      "raw_chinese_characters": 1503,
+      "body_chinese_characters": 1217,
+      "body_non_whitespace_characters": 1528,
+      "embedded_images": []
+    },
+    {
+      "source_file": "6枚举 构造函数 析构函数.md",
+      "sha256": "5b3f112c519e8b3fa78da022e0605cbbf21340aea62411b618d1e735d50ad465",
+      "bytes": 2456,
+      "line_count": 79,
+      "headings": [
+        {
+          "line": 1,
+          "text": "# 枚举"
+        },
+        {
+          "line": 23,
+          "text": "# 构造函数"
+        },
+        {
+          "line": 71,
+          "text": "# 析构函数"
+        }
+      ],
+      "fenced_code_blocks": 4,
+      "unclosed_code_fence": false,
+      "raw_chinese_characters": 453,
+      "body_chinese_characters": 395,
+      "body_non_whitespace_characters": 505,
+      "embedded_images": []
+    },
+    {
+      "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+      "sha256": "2fa71d54c1e3067fa064ec05be668786cc6926fde5fd3a2a2518d5fb53b5444e",
+      "bytes": 9371,
+      "line_count": 187,
+      "headings": [
+        {
+          "line": 29,
+          "text": "# 继承 多态 虚函数"
+        },
+        {
+          "line": 33,
+          "text": "# 虚析构函数"
+        },
+        {
+          "line": 37,
+          "text": "# 内存回收"
+        },
+        {
+          "line": 39,
+          "text": "##### 1. 核心原因：进程结束，操作系统会回收一切"
+        },
+        {
+          "line": 45,
+          "text": "##### 2. 但在实际开发中，这绝对“有所谓”"
+        },
+        {
+          "line": 49,
+          "text": "##### 3. 你的代码还有一个特殊点：没有析构函数"
+        },
+        {
+          "line": 55,
+          "text": "# 智能指针"
+        },
+        {
+          "line": 68,
+          "text": "# 初始化列表"
+        },
+        {
+          "line": 69,
+          "text": "### 上例中的分析"
+        },
+        {
+          "line": 78,
+          "text": "### 更复杂的例子"
+        },
+        {
+          "line": 81,
+          "text": "### 完整代码示例"
+        },
+        {
+          "line": 126,
+          "text": "### 调用和使用场景"
+        },
+        {
+          "line": 147,
+          "text": "### 🚨 这一大串初始化列表的三个核心要点（面试常考）"
+        },
+        {
+          "line": 149,
+          "text": "#### 1. 顺序陷阱（极度重要）"
+        },
+        {
+          "line": 160,
+          "text": "#### 2. 哪些变量**必须**在初始化列表里初始化？"
+        },
+        {
+          "line": 168,
+          "text": "#### 3. 为什么用初始化列表比在函数体 `{}` 里赋值好？"
+        },
+        {
+          "line": 177,
+          "text": "### 如果你想“偷懒”只初始化几个，其余用默认值"
+        }
+      ],
+      "fenced_code_blocks": 6,
+      "unclosed_code_fence": false,
+      "raw_chinese_characters": 1745,
+      "body_chinese_characters": 1458,
+      "body_non_whitespace_characters": 1728,
+      "embedded_images": []
+    },
+    {
+      "source_file": "8纯虚函数（接口） 可见性.md",
+      "sha256": "8c128e20950f9fe328ce0b4114f7a02b0bafded90f13969299d16f49bf8dee12",
+      "bytes": 3107,
+      "line_count": 78,
+      "headings": [
+        {
+          "line": 1,
+          "text": "# 纯虚函数（接口）"
+        },
+        {
+          "line": 54,
+          "text": "# const"
+        },
+        {
+          "line": 55,
+          "text": "### 1.成员函数末尾的 `const`（`writeClassName() const`）"
+        },
+        {
+          "line": 60,
+          "text": "### 2. 函数参数中的 `const`（`const Printable* obj`）"
+        },
+        {
+          "line": 66,
+          "text": "### 3. 最精妙的地方：两者必须配合使用（这是编译通过的关键！）"
+        },
+        {
+          "line": 75,
+          "text": "# 可见性"
+        }
+      ],
+      "fenced_code_blocks": 1,
+      "unclosed_code_fence": false,
+      "raw_chinese_characters": 520,
+      "body_chinese_characters": 484,
+      "body_non_whitespace_characters": 630,
+      "embedded_images": []
+    },
+    {
+      "source_file": "9数组 字符串.md",
+      "sha256": "dfa5438adb632320869b7d9a5ce6abb57d45cc361ac1242a7560d02e19cc85e3",
+      "bytes": 4901,
+      "line_count": 87,
+      "headings": [
+        {
+          "line": 1,
+          "text": "# 传统数组"
+        },
+        {
+          "line": 54,
+          "text": "# std::array(C++11)"
+        },
+        {
+          "line": 62,
+          "text": "# 附录：为什么堆上数组的开销更大"
+        },
+        {
+          "line": 63,
+          "text": "#### ① 分配与释放的代价（最大的开销）"
+        },
+        {
+          "line": 67,
+          "text": "#### ② 存储指针本身的“额外一跳”（你说的“跳来跳去”其实暗含了这个）"
+        },
+        {
+          "line": 76,
+          "text": "#### ③ 内存局部性（Cache 命中率）"
+        },
+        {
+          "line": 80,
+          "text": "# 字符串"
+        }
+      ],
+      "fenced_code_blocks": 1,
+      "unclosed_code_fence": false,
+      "raw_chinese_characters": 988,
+      "body_chinese_characters": 988,
+      "body_non_whitespace_characters": 1276,
+      "embedded_images": []
+    }
+  ]
+}
