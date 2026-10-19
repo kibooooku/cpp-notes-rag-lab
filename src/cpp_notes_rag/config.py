@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import math
 import os
 import tomllib
 from dataclasses import asdict, dataclass, fields
@@ -14,7 +15,7 @@ class Settings:
     source_dir: Path | None = None
     storage_dir: Path | None = None
     model_name: str = "BAAI/bge-small-zh-v1.5"
-    embedding_revision: str = "main"
+    embedding_revision: str = "7999e1d3359715c523056ef9478215996d62a620"
     top_k: int = 3
     chunk_max_tokens: int = 480
     generation_model: str = "deepseek-flash"
@@ -36,8 +37,16 @@ class Settings:
         self.storage_dir = Path(self.storage_dir or self.root / "storage").resolve()
         if self.top_k != 3:
             raise ValueError("本实验固定 Top-3。修改实验协议后才能改变 top_k。")
-        if self.budget_cny <= 0 or self.budget_cny > 20:
+        if not math.isfinite(self.budget_cny) or self.budget_cny <= 0 or self.budget_cny > 20:
             raise ValueError("项目总预算必须在 0–20 元范围内。")
+        if self.generation_model != "deepseek-flash":
+            raise ValueError("当前预算规则仅审核了 deepseek-flash 的价格，切换模型需先更新计费配置。")
+        for value in (self.input_cny_per_million, self.cached_input_cny_per_million,
+                      self.output_cny_per_million, self.historical_allowance_cny):
+            if not math.isfinite(value) or value < 0:
+                raise ValueError("费用单价与历史预留必须是有限非负数。")
+        if self.max_output_tokens < 1 or self.max_output_tokens > 8192:
+            raise ValueError("max_output_tokens 必须为 1–8192。")
 
     @classmethod
     def load(cls, root: Path | None = None) -> "Settings":

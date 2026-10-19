@@ -1,0 +1,6 @@
+* text=auto eol=lf
+# Preserve supplied originals byte-for-byte, including existing line endings.
+问答素材/** -text
+作业要求/** -text
+data/import_samples/*.txt -text
+*.png binary

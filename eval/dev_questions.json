@@ -1,0 +1,206 @@
+[
+  {
+    "question_id": "D01",
+    "category": "answerable",
+    "question": "笔记中的析构函数名字怎么写？栈上局部对象离开作用域时会发生什么？",
+    "gold_answer": "析构函数名为类名前加 ~；栈上局部对象离开作用域时运行析构函数。",
+    "required_points": [
+      "~类名",
+      "离开作用域调用析构"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "6枚举 构造函数 析构函数.md",
+            "line_start": 71,
+            "line_end": 78
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "D02",
+    "category": "answerable",
+    "question": "笔记给出了哪三种空指针写法？保留 void* 和赋值符号。",
+    "gold_answer": "void* ptr = 0;、void* ptr = NULL;、void* ptr = nullptr;。",
+    "required_points": [
+      "三个值0、NULL、nullptr",
+      "void* 声明符号保留"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "3指针 引用.md",
+            "line_start": 4,
+            "line_end": 9
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "D03",
+    "category": "answerable",
+    "question": "笔记为什么说静态方法不能直接访问非静态变量？",
+    "gold_answer": "因为静态方法没有类实例；非静态变量属于实例。",
+    "required_points": [
+      "静态方法没有类实例"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "4类和结构体 static ODR.md",
+            "line_start": 51,
+            "line_end": 52
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "D04",
+    "category": "unanswerable",
+    "question": "这份笔记如何用 C++20 协程的 co_await 实现异步文件读取？",
+    "gold_answer": "文档中没有相关信息；笔记没有 C++20 协程或异步文件读取实现。",
+    "required_points": [
+      "明确拒答，无实现"
+    ],
+    "required_evidence_groups": [],
+    "forbidden_unsupported_claims": [
+      "无证据编造协程代码"
+    ],
+    "corpus_answerability": false,
+    "missing_information": "全文无协程和异步文件读取内容。",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "D05",
+    "category": "unanswerable",
+    "question": "请给出笔记推荐的固定 8 个 char 自动清零写法，再解释 lambda 的值捕获和引用捕获各何时使用。",
+    "gold_answer": "笔记有固定数组 char buffer[8] = {};，自动清零且无需手动释放；文档中没有 lambda 捕获相关信息，不能据此补完后半问。",
+    "required_points": [
+      "可回答 char buffer[8] = {};",
+      "明确 lambda 捕获缺失"
+    ],
+    "required_evidence_groups": [],
+    "forbidden_unsupported_claims": [
+      "凭模型常识解释lambda捕获"
+    ],
+    "corpus_answerability": false,
+    "missing_information": "包含有据背景，但关键 lambda 子问题全文缺失；开发时检验部分回答与缺口说明。",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "D06",
+    "category": "multi",
+    "question": "按智能指针示例，std::unique_ptr<Entity> p = std::make_unique<Player>(\"John\"); 在离开作用域时如何管理对象？再对照另一篇笔记说明普通栈上局部对象离开作用域的析构行为，以及析构函数名的写法。保留示例代码符号。",
+    "gold_answer": "第7篇用 std::unique_ptr<Entity> p = std::make_unique<Player>(\"John\"); 持有对象，离开作用域时自动释放，避免手动 delete。第6篇说明普通栈上局部对象离开作用域时运行析构函数，析构函数名为类名前加 ~。不把原文的绝对安全扩大为任意前提。",
+    "required_points": [
+      "保留 unique_ptr/make_unique 示例代码符号",
+      "第7篇 unique_ptr 离开作用域自动释放，无需手动 delete",
+      "第6篇普通栈对象离开作用域会运行析构函数",
+      "析构函数名是 ~ 加类名"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+            "line_start": 55,
+            "line_end": 66
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "sources": [
+          {
+            "source_file": "6枚举 构造函数 析构函数.md",
+            "line_start": 71,
+            "line_end": 79
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "绝对安全无任何条件"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  }
+]

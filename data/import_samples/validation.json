@@ -1,0 +1,13 @@
+{
+  "markdown_documents": 9,
+  "txt_imported": true,
+  "same_stem_deduplicated": true,
+  "chunk_identity_preserved": true,
+  "txt_index_chunks": 5,
+  "txt_retrieved": 3,
+  "txt_citation_verified": true,
+  "exported_from": "3指针 引用.md",
+  "exported_file": "data\\import_samples\\3指针 引用.txt",
+  "line_mapping": "same line number as original: exact byte copy",
+  "api_calls": 0
+}

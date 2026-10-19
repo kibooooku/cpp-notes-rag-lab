@@ -2,7 +2,7 @@
 source_dir = "问答素材"
 storage_dir = "storage"
 model_name = "BAAI/bge-small-zh-v1.5"
-embedding_revision = "main"
+embedding_revision = "7999e1d3359715c523056ef9478215996d62a620"
 chunk_max_tokens = 480
 top_k = 3
 generation_model = "deepseek-flash"

@@ -1,0 +1,10 @@
+{
+  "bm25": {
+    "seconds": 0.2281253999681212,
+    "error": null
+  },
+  "vector": {
+    "seconds": 32.1422176999622,
+    "error": null
+  }
+}

@@ -1,0 +1,301 @@
+{
+  "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+  "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+  "automatic_source_overlap_only": true,
+  "questions": [
+    {
+      "question_id": "Q01",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "d2cea64db601cba1b95b136a"
+        ]
+      },
+      "minimum_source_overlap_cover": 1,
+      "example_cover": [
+        "d2cea64db601cba1b95b136a"
+      ],
+      "single_chunk_source_overlap": true,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q02",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "76ad3dd42b4dafa400794bcf"
+        ]
+      },
+      "minimum_source_overlap_cover": 1,
+      "example_cover": [
+        "76ad3dd42b4dafa400794bcf"
+      ],
+      "single_chunk_source_overlap": true,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q03",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "8a60d7684091e3f2303127d6"
+        ]
+      },
+      "minimum_source_overlap_cover": 1,
+      "example_cover": [
+        "8a60d7684091e3f2303127d6"
+      ],
+      "single_chunk_source_overlap": true,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q04",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "0c21e9df938c896ac68d24fa"
+        ]
+      },
+      "minimum_source_overlap_cover": 1,
+      "example_cover": [
+        "0c21e9df938c896ac68d24fa"
+      ],
+      "single_chunk_source_overlap": true,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q05",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "10bcf1b56640c6a7b9d0694e"
+        ],
+        "B": [
+          "b29b977ae5c5e16ad21cca0a"
+        ]
+      },
+      "minimum_source_overlap_cover": 2,
+      "example_cover": [
+        "10bcf1b56640c6a7b9d0694e",
+        "b29b977ae5c5e16ad21cca0a"
+      ],
+      "single_chunk_source_overlap": false,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q06",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "40392e2c995e62add6435a70"
+        ]
+      },
+      "minimum_source_overlap_cover": 1,
+      "example_cover": [
+        "40392e2c995e62add6435a70"
+      ],
+      "single_chunk_source_overlap": true,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q07",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "1d0618bcac24a398f2cb16b2"
+        ]
+      },
+      "minimum_source_overlap_cover": 1,
+      "example_cover": [
+        "1d0618bcac24a398f2cb16b2"
+      ],
+      "single_chunk_source_overlap": true,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q08",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "b856e236250b63de3209a048"
+        ],
+        "B": [
+          "cf510fc0ec3c74a32656f3fb"
+        ]
+      },
+      "minimum_source_overlap_cover": 2,
+      "example_cover": [
+        "b856e236250b63de3209a048",
+        "cf510fc0ec3c74a32656f3fb"
+      ],
+      "single_chunk_source_overlap": false,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q09",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "8219dd45ddac9f6a7b1b793e"
+        ],
+        "B": [
+          "7e51b8e52698d0fd81d23a03"
+        ],
+        "C": [
+          "9943e3cd48beda0e8e28ac6e"
+        ]
+      },
+      "minimum_source_overlap_cover": 3,
+      "example_cover": [
+        "8219dd45ddac9f6a7b1b793e",
+        "7e51b8e52698d0fd81d23a03",
+        "9943e3cd48beda0e8e28ac6e"
+      ],
+      "single_chunk_source_overlap": false,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q10",
+      "category": "answerable",
+      "group_chunk_candidates": {
+        "A": [
+          "a48af37737f0e83efea96c4e"
+        ]
+      },
+      "minimum_source_overlap_cover": 1,
+      "example_cover": [
+        "a48af37737f0e83efea96c4e"
+      ],
+      "single_chunk_source_overlap": true,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q11",
+      "category": "unanswerable",
+      "action": "Re-read full corpus to confirm missing details"
+    },
+    {
+      "question_id": "Q12",
+      "category": "unanswerable",
+      "action": "Re-read full corpus to confirm missing details"
+    },
+    {
+      "question_id": "Q13",
+      "category": "unanswerable",
+      "action": "Re-read full corpus to confirm missing details"
+    },
+    {
+      "question_id": "Q14",
+      "category": "unanswerable",
+      "action": "Re-read full corpus to confirm missing details"
+    },
+    {
+      "question_id": "Q15",
+      "category": "unanswerable",
+      "action": "Re-read full corpus to confirm missing details"
+    },
+    {
+      "question_id": "Q16",
+      "category": "multi",
+      "group_chunk_candidates": {
+        "A": [
+          "0a4c694c887644b2dd420948"
+        ],
+        "B": [
+          "10bcf1b56640c6a7b9d0694e"
+        ],
+        "C": [
+          "b29b977ae5c5e16ad21cca0a"
+        ]
+      },
+      "minimum_source_overlap_cover": 3,
+      "example_cover": [
+        "0a4c694c887644b2dd420948",
+        "10bcf1b56640c6a7b9d0694e",
+        "b29b977ae5c5e16ad21cca0a"
+      ],
+      "single_chunk_source_overlap": false,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q17",
+      "category": "multi",
+      "group_chunk_candidates": {
+        "A": [
+          "8a60d7684091e3f2303127d6"
+        ],
+        "B": [
+          "75d786b912dd202f6f4f502a"
+        ]
+      },
+      "minimum_source_overlap_cover": 2,
+      "example_cover": [
+        "8a60d7684091e3f2303127d6",
+        "75d786b912dd202f6f4f502a"
+      ],
+      "single_chunk_source_overlap": false,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q18",
+      "category": "multi",
+      "group_chunk_candidates": {
+        "A": [
+          "321472ea0d7194238b46dadc"
+        ],
+        "B": [
+          "9610f6a7e802284b15734dce"
+        ],
+        "C": [
+          "e8883c4614db4add42618996"
+        ]
+      },
+      "minimum_source_overlap_cover": 3,
+      "example_cover": [
+        "321472ea0d7194238b46dadc",
+        "9610f6a7e802284b15734dce",
+        "e8883c4614db4add42618996"
+      ],
+      "single_chunk_source_overlap": false,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q19",
+      "category": "multi",
+      "group_chunk_candidates": {
+        "A": [
+          "996241b64812513745641513"
+        ],
+        "B": [
+          "c7b64d6a7c7f6190cf5f7bd6"
+        ]
+      },
+      "minimum_source_overlap_cover": 2,
+      "example_cover": [
+        "996241b64812513745641513",
+        "c7b64d6a7c7f6190cf5f7bd6"
+      ],
+      "single_chunk_source_overlap": false,
+      "requires_manual_semantic_review": true
+    },
+    {
+      "question_id": "Q20",
+      "category": "multi",
+      "group_chunk_candidates": {
+        "A": [
+          "83b355741c460e7c6417ba91"
+        ],
+        "B": [
+          "652375bb426bbcbd19281b62"
+        ]
+      },
+      "minimum_source_overlap_cover": 2,
+      "example_cover": [
+        "83b355741c460e7c6417ba91",
+        "652375bb426bbcbd19281b62"
+      ],
+      "single_chunk_source_overlap": false,
+      "requires_manual_semantic_review": true
+    }
+  ]
+}

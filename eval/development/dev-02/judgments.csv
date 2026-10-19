@@ -1,0 +1,13 @@
+﻿run_id,question_id,method,category,reviewed,reviewer,answer_correct,hallucinated_trap,top3_any_hit,all_groups_covered,citation_supported,notes
+20261019T110551.061183Z,D01,bm25,answerable,,,,,,,,
+20261019T110551.061183Z,D02,bm25,answerable,,,,,,,,
+20261019T110551.061183Z,D03,bm25,answerable,,,,,,,,
+20261019T110551.061183Z,D04,bm25,unanswerable,,,,,,,,
+20261019T110551.061183Z,D05,bm25,unanswerable,,,,,,,,
+20261019T110551.061183Z,D06,bm25,multi,,,,,,,,
+20261019T110551.061183Z,D01,vector,answerable,,,,,,,,
+20261019T110551.061183Z,D02,vector,answerable,,,,,,,,
+20261019T110551.061183Z,D03,vector,answerable,,,,,,,,
+20261019T110551.061183Z,D04,vector,unanswerable,,,,,,,,
+20261019T110551.061183Z,D05,vector,unanswerable,,,,,,,,
+20261019T110551.061183Z,D06,vector,multi,,,,,,,,

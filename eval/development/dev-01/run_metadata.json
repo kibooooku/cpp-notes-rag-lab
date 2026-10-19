@@ -1,0 +1,157 @@
+{
+  "run_id": "20261019T110223.239682Z",
+  "kind": "development",
+  "started_at_utc": "2026-10-19T11:02:23.239682+00:00",
+  "seed": 20261019,
+  "config": {
+    "model_name": "BAAI/bge-small-zh-v1.5",
+    "embedding_revision": "7999e1d3359715c523056ef9478215996d62a620",
+    "top_k": 3,
+    "chunk_max_tokens": 480,
+    "generation_model": "deepseek-flash",
+    "api_base_url": "https://api.deepseek.com",
+    "api_timeout_seconds": 90.0,
+    "max_output_tokens": 1400,
+    "temperature": 0.0,
+    "bm25_min_score": 0.0,
+    "vector_min_score": 0.0,
+    "budget_cny": 20.0,
+    "input_cny_per_million": 2.0,
+    "cached_input_cny_per_million": 0.04,
+    "output_cny_per_million": 8.0,
+    "historical_allowance_cny": 0.01
+  },
+  "config_sha256": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870",
+  "settings_sha256": "970d3d5b6e596faf49d3aca4ce45968cb4e92ab273f79b340474bb868524ed7b",
+  "question_sha256": "f6543ee4d6eb305e5add2a3c40c1ff5ad833930e9b0d0f394f36a85442524618",
+  "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+  "source_files": [
+    {
+      "source_file": "1运作原理 编译链接.md",
+      "sha256": "515916160958db83105d67f66d2eda9657b0ec1f78b0078fcb6907a01fc0b0c1"
+    },
+    {
+      "source_file": "2变量 头文件 调试 条件.md",
+      "sha256": "e06780f04d50213fb51ebf2fe164feb2b29f9b9d7402529638e0cb613ad45aaf"
+    },
+    {
+      "source_file": "3指针 引用.md",
+      "sha256": "d2bc118f016aac1814654bbbba9e6c137f23c29f2503ff0b00cf89911fe59ab7"
+    },
+    {
+      "source_file": "4类和结构体 static ODR.md",
+      "sha256": "947431a5633fc1eeaf951dab60e933b33df786d8b6c7a66bc0afa921b827b276"
+    },
+    {
+      "source_file": "5单例模式和局部静态.md",
+      "sha256": "83fdc3bd656f66a9ef282294d493e6f0dbd4746ec64168933133f2666b120749"
+    },
+    {
+      "source_file": "6枚举 构造函数 析构函数.md",
+      "sha256": "5b3f112c519e8b3fa78da022e0605cbbf21340aea62411b618d1e735d50ad465"
+    },
+    {
+      "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+      "sha256": "2fa71d54c1e3067fa064ec05be668786cc6926fde5fd3a2a2518d5fb53b5444e"
+    },
+    {
+      "source_file": "8纯虚函数（接口） 可见性.md",
+      "sha256": "8c128e20950f9fe328ce0b4114f7a02b0bafded90f13969299d16f49bf8dee12"
+    },
+    {
+      "source_file": "9数组 字符串.md",
+      "sha256": "dfa5438adb632320869b7d9a5ce6abb57d45cc361ac1242a7560d02e19cc85e3"
+    }
+  ],
+  "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+  "cache": "disabled: each question calls service.ask with no history",
+  "automatic_retries": 0,
+  "python_version": "3.12.15",
+  "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+  "index_manifest": {
+    "index_version": 1,
+    "built_at": "2026-10-19T11:00:42.773916+00:00",
+    "documents": [
+      {
+        "document_id": "1cfeb1afc806e25091e59ce5",
+        "source_file": "1运作原理 编译链接.md",
+        "sha256": "515916160958db83105d67f66d2eda9657b0ec1f78b0078fcb6907a01fc0b0c1",
+        "format": "md"
+      },
+      {
+        "document_id": "5834b153c1fd9a711786d9ce",
+        "source_file": "2变量 头文件 调试 条件.md",
+        "sha256": "e06780f04d50213fb51ebf2fe164feb2b29f9b9d7402529638e0cb613ad45aaf",
+        "format": "md"
+      },
+      {
+        "document_id": "fc3869d4f12741e750d51dda",
+        "source_file": "3指针 引用.md",
+        "sha256": "d2bc118f016aac1814654bbbba9e6c137f23c29f2503ff0b00cf89911fe59ab7",
+        "format": "md"
+      },
+      {
+        "document_id": "272b506a6d434355c59d4bb2",
+        "source_file": "4类和结构体 static ODR.md",
+        "sha256": "947431a5633fc1eeaf951dab60e933b33df786d8b6c7a66bc0afa921b827b276",
+        "format": "md"
+      },
+      {
+        "document_id": "2fe805813cb7583628feba46",
+        "source_file": "5单例模式和局部静态.md",
+        "sha256": "83fdc3bd656f66a9ef282294d493e6f0dbd4746ec64168933133f2666b120749",
+        "format": "md"
+      },
+      {
+        "document_id": "f2493e4b736ac4234c548e88",
+        "source_file": "6枚举 构造函数 析构函数.md",
+        "sha256": "5b3f112c519e8b3fa78da022e0605cbbf21340aea62411b618d1e735d50ad465",
+        "format": "md"
+      },
+      {
+        "document_id": "fd301f3831617012d07872f8",
+        "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+        "sha256": "2fa71d54c1e3067fa064ec05be668786cc6926fde5fd3a2a2518d5fb53b5444e",
+        "format": "md"
+      },
+      {
+        "document_id": "1d86bdeb1f22b3d074bf85f5",
+        "source_file": "8纯虚函数（接口） 可见性.md",
+        "sha256": "8c128e20950f9fe328ce0b4114f7a02b0bafded90f13969299d16f49bf8dee12",
+        "format": "md"
+      },
+      {
+        "document_id": "83d501db8f7147ff8e5ed103",
+        "source_file": "9数组 字符串.md",
+        "sha256": "dfa5438adb632320869b7d9a5ce6abb57d45cc361ac1242a7560d02e19cc85e3",
+        "format": "md"
+      }
+    ],
+    "document_count": 9,
+    "chunk_count": 64,
+    "chunks_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "bm25_tokens_hash": "f5135ac368506ded7b40676669cd6423721547d53c8864d2f09448aff26d318b",
+    "chunk_max_tokens": 480,
+    "chunk_size_measure": "embedding_tokenizer",
+    "chunk_token_range": [
+      5,
+      479
+    ],
+    "vector": {
+      "enabled": true,
+      "collection": "cpp_notes_8700d55d68ba814d_b5862ba4",
+      "model_name": "BAAI/bge-small-zh-v1.5",
+      "configured_revision": "7999e1d3359715c523056ef9478215996d62a620",
+      "resolved_revision": "7999e1d3359715c523056ef9478215996d62a620",
+      "dimensions": 512,
+      "metric": "cosine",
+      "query_prefix": "为这个句子生成表示以用于检索相关文章：",
+      "max_tokens": 512
+    },
+    "tokenization_version": "jieba-cpp-v1"
+  },
+  "finished_at_utc": "2026-10-19T11:03:22.183247+00:00",
+  "record_count": 12,
+  "complete": true
+}

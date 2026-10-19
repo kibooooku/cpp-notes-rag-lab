@@ -1,0 +1,710 @@
+[
+  {
+    "run_id": "20261019T110223.239682Z",
+    "sequence": 1,
+    "question_id": "D04",
+    "category": "unanswerable",
+    "question": "这份笔记如何用 C++20 协程的 co_await 实现异步文件读取？",
+    "method": "bm25",
+    "kind": "development",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870",
+    "question_sha256": "f6543ee4d6eb305e5add2a3c40c1ff5ad833930e9b0d0f394f36a85442524618",
+    "answer": {
+      "question": "这份笔记如何用 C++20 协程的 co_await 实现异步文件读取？",
+      "method": "bm25",
+      "status": "refused",
+      "answer": "文档中没有相关信息",
+      "citations": [],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "d2cea64db601cba1b95b136a",
+            "document_id": "1cfeb1afc806e25091e59ce5",
+            "text": "n个.cpp文件 → 编译complie → n个.obj文件 → 链接link → <span style=\"color:rgb(255, 192, 0)\">一个</span>.exe文件\n\n对C++编译器来说，文件不重要，文件只是提供给编译器源代码的方式，java中类名必须和文件名一样、包名必须和文件夹名一样的规定都是java的，C++中没这些规定。Files have no meaning\n\n错误信息：LNK开头为连接错误，C开头为编译错误compile\n\n编译\n- 先预处理再编译：include define if ifdef pragma\n\t- include其实就是复制黏贴，甚至可以只是一个花括号贴过来用\n\n链接",
+            "spans": [
+              {
+                "source_file": "1运作原理 编译链接.md",
+                "heading": "无标题（原文）",
+                "line_start": 1,
+                "line_end": 11
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 12.194444022070853,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "76ad3dd42b4dafa400794bcf",
+            "document_id": "5834b153c1fd9a711786d9ce",
+            "text": "# 头文件\n- 头文件可能有嵌套include链条，所以某程序里可能被include了多次同一个同文件，就可能导致编译错误，因此需要加`#pragma once`（这是新语法糖）或：\n```\n#ifndef XXX  // if not define\n#define XXX\n......\n#endif\n\n//这种写法和#pragma once等价\n```\n- `#include`时会用< >或者“ ”\n\t- “ ”内其实是填路径，只是如果所有cpp同级就不需要加路径了\n\t- iostream当然也能用\" \"包，只是< >不能使用于自定义的文件\n\t- iostream就是没有扩展名的文件（C++标准库都这样），而带.h的库一般是C标准库",
+            "spans": [
+              {
+                "source_file": "2变量 头文件 调试 条件.md",
+                "heading": "头文件",
+                "line_start": 12,
+                "line_end": 25
+              }
+            ],
+            "review_flags": [
+              "M04:资料待核"
+            ]
+          },
+          "score": 11.765927099509495,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "737ba18dd3faeedce8bdc083",
+            "document_id": "83d501db8f7147ff8e5ed103",
+            "text": "#### ② 存储指针本身的“额外一跳”（你说的“跳来跳去”其实暗含了这个）\n\n这是你问题里提到的“跳”，但你没意识到这里的**双层寻址**：\n- **栈数组 `a`**：`a` 在编译时被替换为**栈底的固定偏移量**（如 `[rbp-40]`）。它不占用额外的存储空间，直接就是地址。\n- **堆指针 `ptr`**：`ptr` 本身是一个**局部变量**，存储在栈上（占 8 字节）。它里面存的是堆上的地址。\n**对比读取流程：**\n- 读 `a[0]`：CPU 直接拿栈基址 + 0，读内存（**1次**内存访问）。\n- 读 `ptr[0]`：CPU 先从栈上读取 `ptr` 的值（**第1次**内存访问），拿到堆地址后，再去堆上读取数据（**第2次**内存访问）。\n所以，**堆确实比栈多了一次读取指针变量的内存访问**。虽然这点开销在单次访问中微乎其微，但在高频循环里是客观存在的。",
+            "spans": [
+              {
+                "source_file": "9数组 字符串.md",
+                "heading": "附录：为什么堆上数组的开销更大 / ② 存储指针本身的“额外一跳”（你说的“跳来跳去”其实暗含了这个）",
+                "line_start": 67,
+                "line_end": 75
+              }
+            ],
+            "review_flags": [
+              "M18:资料待核"
+            ]
+          },
+          "score": 11.679462841118374,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 3.5070980000309646,
+      "retrieval_seconds": 1.4831900999997742,
+      "generation_seconds": 2.0238748000119813,
+      "usage": {
+        "prompt_tokens": 1215,
+        "completion_tokens": 17,
+        "total_tokens": 1232,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1215
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"refused\",\"answer\":\"文档中没有相关信息\",\"citations\":[]}",
+      "run_id": "dfc358f936a44cc2b5c6073fcc9eb4d6",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870"
+    },
+    "elapsed_seconds": 3.514236200018786,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": false,
+      "reason": "Corpus-level trap; related background is not answer evidence"
+    }
+  },
+  {
+    "run_id": "20261019T110223.239682Z",
+    "sequence": 2,
+    "question_id": "D05",
+    "category": "unanswerable",
+    "question": "请给出笔记推荐的固定 8 个 char 自动清零写法，再解释 lambda 的值捕获和引用捕获各何时使用。",
+    "method": "bm25",
+    "kind": "development",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870",
+    "question_sha256": "f6543ee4d6eb305e5add2a3c40c1ff5ad833930e9b0d0f394f36a85442524618",
+    "answer": {
+      "question": "请给出笔记推荐的固定 8 个 char 自动清零写法，再解释 lambda 的值捕获和引用捕获各何时使用。",
+      "method": "bm25",
+      "status": "error",
+      "answer": "请求未完成：引用 ID 不在本轮证据内，或引文并非逐字原文。",
+      "citations": [],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "321472ea0d7194238b46dadc",
+            "document_id": "fc3869d4f12741e750d51dda",
+            "text": "- char类型占一个字节，分配8个连续字节，首地址返回给指针buffer\n- 上面这三行代码的潜在问题：\n\t1. **异常安全问题**：如果在 `new` 和 `delete` 之间抛出异常，`delete[]` 不会被执行，导致内存泄漏。\n\t2. **悬空指针风险**：`delete[]` 后，`buffer` 变量仍然保存着原来的地址，如果程序员误用会导致**未定义行为**（程序崩溃或数据损坏）。\n\t3. **需要手动管理**：你必须时刻记得调用 `delete[]`，维护成本高。\n- 现代C++推荐写法：\n\t- **固定大小数组**（8 个 char）：直接用栈数组 `char buffer[8] = {};`，自动初始化为 0，无需手动释放。\n    - **需要动态大小且要清空**：使用 `std::vector<char> buffer(8, 0);`，内存自动管理，自带清零，安全且高效。\n    - **如果确实需要原始指针操作**：使用智能指针 `std::unique_ptr<char[]> buffer = std::make_unique<char[]>(8);` 并手动 `std::fill(buffer.get(), buffer.get() + 8, 0);`，自动释放，无需 `delete`。",
+            "spans": [
+              {
+                "source_file": "3指针 引用.md",
+                "heading": "指针",
+                "line_start": 16,
+                "line_end": 24
+              }
+            ],
+            "review_flags": [
+              "M05:资料待核"
+            ]
+          },
+          "score": 47.228393728156234,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "cd69839a4cba52e831bd8349",
+            "document_id": "2fe805813cb7583628feba46",
+            "text": "### 💎 终极总结（背下来就行）\n\n1. **单例的作用**：让一个类只能有一个对象，并提供全局访问入口。\n2. **第一张图**：现代 C++ 官方推荐写法，**无脑用这个**，因为它安全、简洁、自动，像个智能机器人帮你打理一切。\n3. **第二张图**：是远古时期 C++98 的写法，**永远不要在生产代码里这么写**，因为它手动、危险、容易崩溃，像个随时会炸的手动炸弹。\n\n如果你现在的目的是学会如何写单例，**请直接复制第一张图的代码**，忘掉第二张图的存在。第一张图里的 `static Singleton& Get() { static Singleton instance; return instance; }` 这 3 行代码，就是 C++ 单例模式的最终答案。",
+            "spans": [
+              {
+                "source_file": "5单例模式和局部静态.md",
+                "heading": "💎 终极总结（背下来就行）",
+                "line_start": 135,
+                "line_end": 141
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 20.515118232967275,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "81dcb966274bc4caccdd7aca",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "# 智能指针\n即使在这个简单程序里不写 `delete` 也能运行，但为了养成好习惯，你应该：\n- **手动 `delete`**（并加上虚析构函数确保安全）\n- 或者**使用智能指针**（推荐）：\n```cpp\nint main() {\n    std::unique_ptr<Entity> e = std::make_unique<Entity>();\n    std::unique_ptr<Entity> p = std::make_unique<Player>(\"John\");\n    // 离开作用域时自动释放，绝对安全\n}\n```\n这样既不会泄漏，也避免了手动管理内存的繁琐。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "智能指针",
+                "line_start": 55,
+                "line_end": 66
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 17.489428317392978,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.3865175999817438,
+      "retrieval_seconds": 0.026013399998191744,
+      "generation_seconds": 1.3604896000470035,
+      "usage": {
+        "prompt_tokens": 1240,
+        "completion_tokens": 135,
+        "total_tokens": 1375,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1112
+      },
+      "error": "引用 ID 不在本轮证据内，或引文并非逐字原文。",
+      "raw_response": "{\"status\":\"partial\",\"answer\":\"固定 8 个 char 自动清零的推荐写法：`char buffer[8] = {};`，即直接用栈数组并自动初始化为 0，无需手动释放 [1]。\\n\\n关于 lambda 的值捕获和引用捕获各何时使用：本次提供的证据中没有相关记载，无法据此回答。\",\"citations\":[{\"chunk_id\":\"321472ea0d7194238b46dadc\",\"quote\":\"**固定大小数组**（8 个 char）：直接用栈数组 `char buffer[8] = {};`，自动初始化为 0，无需手动释放。\"}]}",
+      "run_id": "a8d983ffd79b4f7cab8a22d38e6d33ad",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870"
+    },
+    "elapsed_seconds": 1.3932526999851689,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": false,
+      "reason": "Corpus-level trap; related background is not answer evidence"
+    }
+  },
+  {
+    "run_id": "20261019T110223.239682Z",
+    "sequence": 4,
+    "question_id": "D01",
+    "category": "answerable",
+    "question": "笔记中的析构函数名字怎么写？栈上局部对象离开作用域时会发生什么？",
+    "method": "bm25",
+    "kind": "development",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870",
+    "question_sha256": "f6543ee4d6eb305e5add2a3c40c1ff5ad833930e9b0d0f394f36a85442524618",
+    "answer": {
+      "question": "笔记中的析构函数名字怎么写？栈上局部对象离开作用域时会发生什么？",
+      "method": "bm25",
+      "status": "supported",
+      "answer": "析构函数的写法是：与类同名，并在前面加一个 `~` [1]。对于栈分配对象（直接定义的对象），离开作用域时会调用析构函数 [1]；因此把栈对象封装到函数里，出这个函数时它就会被释放 [1]。",
+      "citations": [
+        {
+          "chunk_id": "4fe619ae785572ff94e7e972",
+          "source_file": "6枚举 构造函数 析构函数.md",
+          "heading": "析构函数",
+          "line_start": 74,
+          "line_end": 78,
+          "quote": "- 析构函数会在销毁对象时运行（很少手动调用），两种情形：\n\t- 堆分配对象，new出来的，delete时会调用析构函数\n\t- 栈分配对象，直接定义的，出作用域时会调用析构函数\n\t\t- 所以对于栈分配对象，直接写在main函数里会到程序结束才释放，更好的做法是封装到函数里，出这个函数时就会被释放了\n- 析构函数的写法：类同名并在前面加个`~`",
+          "review_flags": []
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "4fe619ae785572ff94e7e972",
+            "document_id": "f2493e4b736ac4234c548e88",
+            "text": "# 析构函数\n- 如果一个类没有写析构函数，系统会给一个默认的\n- 析构函数的内容通常是删除变量、清理使用过的内存\n- 析构函数会在销毁对象时运行（很少手动调用），两种情形：\n\t- 堆分配对象，new出来的，delete时会调用析构函数\n\t- 栈分配对象，直接定义的，出作用域时会调用析构函数\n\t\t- 所以对于栈分配对象，直接写在main函数里会到程序结束才释放，更好的做法是封装到函数里，出这个函数时就会被释放了\n- 析构函数的写法：类同名并在前面加个`~`\n- ",
+            "spans": [
+              {
+                "source_file": "6枚举 构造函数 析构函数.md",
+                "heading": "析构函数",
+                "line_start": 71,
+                "line_end": 79
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 51.542617741778436,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "81dcb966274bc4caccdd7aca",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "# 智能指针\n即使在这个简单程序里不写 `delete` 也能运行，但为了养成好习惯，你应该：\n- **手动 `delete`**（并加上虚析构函数确保安全）\n- 或者**使用智能指针**（推荐）：\n```cpp\nint main() {\n    std::unique_ptr<Entity> e = std::make_unique<Entity>();\n    std::unique_ptr<Entity> p = std::make_unique<Player>(\"John\");\n    // 离开作用域时自动释放，绝对安全\n}\n```\n这样既不会泄漏，也避免了手动管理内存的繁琐。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "智能指针",
+                "line_start": 55,
+                "line_end": 66
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 39.11499340208267,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "2edce95113db1a33411f9c02",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "# 虚析构函数\n- `Entity` 里加上**虚析构函数**：否则，未来如果你写了 `delete p;`（基类指针指向子类），子类的析构函数不会被调用（虽然你这代码里子类没有额外资源，但这是好习惯）。\n\n---",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "虚析构函数",
+                "line_start": 33,
+                "line_end": 36
+              }
+            ],
+            "review_flags": [
+              "M13:资料待核"
+            ]
+          },
+          "score": 30.18448233627476,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.8200952999759465,
+      "retrieval_seconds": 0.02412630000617355,
+      "generation_seconds": 1.791652999992948,
+      "usage": {
+        "prompt_tokens": 970,
+        "completion_tokens": 204,
+        "total_tokens": 1174,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 842
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"supported\",\"answer\":\"析构函数的写法是：与类同名，并在前面加一个 `~` [1]。对于栈分配对象（直接定义的对象），离开作用域时会调用析构函数 [1]；因此把栈对象封装到函数里，出这个函数时它就会被释放 [1]。\",\"citations\":[{\"chunk_id\":\"4fe619ae785572ff94e7e972\",\"quote\":\"- 析构函数会在销毁对象时运行（很少手动调用），两种情形：\\n\\t- 堆分配对象，new出来的，delete时会调用析构函数\\n\\t- 栈分配对象，直接定义的，出作用域时会调用析构函数\\n\\t\\t- 所以对于栈分配对象，直接写在main函数里会到程序结束才释放，更好的做法是封装到函数里，出这个函数时就会被释放了\\n- 析构函数的写法：类同名并在前面加个`~`\"}]}",
+      "run_id": "29bb38dd6ff64cb3b139a244b0b13f2e",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870"
+    },
+    "elapsed_seconds": 1.8256628999952227,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261019T110223.239682Z",
+    "sequence": 5,
+    "question_id": "D06",
+    "category": "multi",
+    "question": "按智能指针示例，std::unique_ptr<Entity> p = std::make_unique<Player>(\"John\"); 在离开作用域时如何管理对象？再对照另一篇笔记说明普通栈上局部对象离开作用域的析构行为，以及析构函数名的写法。保留示例代码符号。",
+    "method": "bm25",
+    "kind": "development",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870",
+    "question_sha256": "f6543ee4d6eb305e5add2a3c40c1ff5ad833930e9b0d0f394f36a85442524618",
+    "answer": {
+      "question": "按智能指针示例，std::unique_ptr<Entity> p = std::make_unique<Player>(\"John\"); 在离开作用域时如何管理对象？再对照另一篇笔记说明普通栈上局部对象离开作用域的析构行为，以及析构函数名的写法。保留示例代码符号。",
+      "method": "bm25",
+      "status": "supported",
+      "answer": "按智能指针示例，`std::unique_ptr<Entity> p = std::make_unique<Player>(\"John\");` 在离开作用域时会自动释放，示例注释写明“离开作用域时自动释放，绝对安全”，因此无需手动 `delete` [1]。\n\n另一篇笔记说明：栈分配对象（直接定义的）在出作用域时会调用析构函数；对于栈分配对象，直接写在 main 函数里会到程序结束才释放，更好的做法是封装到函数里，出这个函数时就会被释放 [2]。\n\n析构函数的写法是：类同名并在前面加个 `~` [2]。",
+      "citations": [
+        {
+          "chunk_id": "81dcb966274bc4caccdd7aca",
+          "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+          "heading": "智能指针",
+          "line_start": 62,
+          "line_end": 63,
+          "quote": "    std::unique_ptr<Entity> p = std::make_unique<Player>(\"John\");\n    // 离开作用域时自动释放，绝对安全",
+          "review_flags": []
+        },
+        {
+          "chunk_id": "4fe619ae785572ff94e7e972",
+          "source_file": "6枚举 构造函数 析构函数.md",
+          "heading": "析构函数",
+          "line_start": 74,
+          "line_end": 78,
+          "quote": "- 析构函数会在销毁对象时运行（很少手动调用），两种情形：\n\t- 堆分配对象，new出来的，delete时会调用析构函数\n\t- 栈分配对象，直接定义的，出作用域时会调用析构函数\n\t\t- 所以对于栈分配对象，直接写在main函数里会到程序结束才释放，更好的做法是封装到函数里，出这个函数时就会被释放了\n- 析构函数的写法：类同名并在前面加个`~`",
+          "review_flags": []
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "81dcb966274bc4caccdd7aca",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "# 智能指针\n即使在这个简单程序里不写 `delete` 也能运行，但为了养成好习惯，你应该：\n- **手动 `delete`**（并加上虚析构函数确保安全）\n- 或者**使用智能指针**（推荐）：\n```cpp\nint main() {\n    std::unique_ptr<Entity> e = std::make_unique<Entity>();\n    std::unique_ptr<Entity> p = std::make_unique<Player>(\"John\");\n    // 离开作用域时自动释放，绝对安全\n}\n```\n这样既不会泄漏，也避免了手动管理内存的繁琐。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "智能指针",
+                "line_start": 55,
+                "line_end": 66
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 133.01009115854436,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "4fe619ae785572ff94e7e972",
+            "document_id": "f2493e4b736ac4234c548e88",
+            "text": "# 析构函数\n- 如果一个类没有写析构函数，系统会给一个默认的\n- 析构函数的内容通常是删除变量、清理使用过的内存\n- 析构函数会在销毁对象时运行（很少手动调用），两种情形：\n\t- 堆分配对象，new出来的，delete时会调用析构函数\n\t- 栈分配对象，直接定义的，出作用域时会调用析构函数\n\t\t- 所以对于栈分配对象，直接写在main函数里会到程序结束才释放，更好的做法是封装到函数里，出这个函数时就会被释放了\n- 析构函数的写法：类同名并在前面加个`~`\n- ",
+            "spans": [
+              {
+                "source_file": "6枚举 构造函数 析构函数.md",
+                "heading": "析构函数",
+                "line_start": 71,
+                "line_end": 79
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 75.89855845842706,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "2edce95113db1a33411f9c02",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "# 虚析构函数\n- `Entity` 里加上**虚析构函数**：否则，未来如果你写了 `delete p;`（基类指针指向子类），子类的析构函数不会被调用（虽然你这代码里子类没有额外资源，但这是好习惯）。\n\n---",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "虚析构函数",
+                "line_start": 33,
+                "line_end": 36
+              }
+            ],
+            "review_flags": [
+              "M13:资料待核"
+            ]
+          },
+          "score": 55.241734022111665,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 2.1735575000056997,
+      "retrieval_seconds": 0.03050350002013147,
+      "generation_seconds": 2.1342673000181094,
+      "usage": {
+        "prompt_tokens": 1017,
+        "completion_tokens": 342,
+        "total_tokens": 1359,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 377
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"supported\",\"answer\":\"按智能指针示例，`std::unique_ptr<Entity> p = std::make_unique<Player>(\\\"John\\\");` 在离开作用域时会自动释放，示例注释写明“离开作用域时自动释放，绝对安全”，因此无需手动 `delete` [1]。\\n\\n另一篇笔记说明：栈分配对象（直接定义的）在出作用域时会调用析构函数；对于栈分配对象，直接写在 main 函数里会到程序结束才释放，更好的做法是封装到函数里，出这个函数时就会被释放 [2]。\\n\\n析构函数的写法是：类同名并在前面加个 `~` [2]。\",\"citations\":[{\"chunk_id\":\"81dcb966274bc4caccdd7aca\",\"quote\":\"    std::unique_ptr<Entity> p = std::make_unique<Player>(\\\"John\\\");\\n    // 离开作用域时自动释放，绝对安全\"},{\"chunk_id\":\"4fe619ae785572ff94e7e972\",\"quote\":\"- 析构函数会在销毁对象时运行（很少手动调用），两种情形：\\n\\t- 堆分配对象，new出来的，delete时会调用析构函数\\n\\t- 栈分配对象，直接定义的，出作用域时会调用析构函数\\n\\t\\t- 所以对于栈分配对象，直接写在main函数里会到程序结束才释放，更好的做法是封装到函数里，出这个函数时就会被释放了\\n- 析构函数的写法：类同名并在前面加个`~`\"}]}",
+      "run_id": "1400a698febc4faca33e328995fcdade",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870"
+    },
+    "elapsed_seconds": 2.1800264999619685,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A",
+        "B"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261019T110223.239682Z",
+    "sequence": 6,
+    "question_id": "D02",
+    "category": "answerable",
+    "question": "笔记给出了哪三种空指针写法？保留 void* 和赋值符号。",
+    "method": "bm25",
+    "kind": "development",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870",
+    "question_sha256": "f6543ee4d6eb305e5add2a3c40c1ff5ad833930e9b0d0f394f36a85442524618",
+    "answer": {
+      "question": "笔记给出了哪三种空指针写法？保留 void* 和赋值符号。",
+      "method": "bm25",
+      "status": "supported",
+      "answer": "笔记给出的三种空指针写法如下（保留 `void*` 和赋值符号）：\n\n```C++\nvoid* ptr = 0;\nvoid* ptr = NULL;\nvoid* ptr = nullptr;\n```\n\n[1]",
+      "citations": [
+        {
+          "chunk_id": "d4351b2a6fb0f222c3ec5f00",
+          "source_file": "3指针 引用.md",
+          "heading": "指针",
+          "line_start": 6,
+          "line_end": 8,
+          "quote": "void* ptr = 0;\nvoid* ptr = NULL;\nvoid* ptr = nullptr;",
+          "review_flags": [
+            "M05:资料待核"
+          ]
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "bfbb85c32d7490d674432094",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "#### 3. 为什么用初始化列表比在函数体 `{}` 里赋值好？\n\n对比这两种写法：\n\n- **初始化列表**：`m_name(name)` → 直接调用 **拷贝构造**（1次构造）。\n- **函数体赋值**：先执行 `m_name` 的**默认构造**（生成空字符串），再执行 `m_name = name` 的**赋值操作**（2次调用）。  \n    对于 `std::string` 这种类，两次调用意味着多了一次内存分配和释放的消耗。**C++ 核心准则：能用初始化列表，绝不在函数体里赋值。**\n---",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 🚨 这一大串初始化列表的三个核心要点（面试常考） / 3. 为什么用初始化列表比在函数体 `{}` 里赋值好？",
+                "line_start": 168,
+                "line_end": 175
+              }
+            ],
+            "review_flags": [
+              "M15:资料待核"
+            ]
+          },
+          "score": 18.03795537575807,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "10bcf1b56640c6a7b9d0694e",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "- <span style=\"color:rgb(255, 192, 0)\">相当于在Entity命名空间中创建了两个变量，他们实际上不属于类</span>\n- 带 `::` 作用域限定符的变量定义**必须**出现在全局作用域（或命名空间作用域）中，不允许出现在函数体 `{}` 内部。\n\t- <span style=\"color:rgb(255, 77, 77)\"><b>C++ 的单一定义规则（ODR，One Definition Rule）</b></span>\n\t\t- **一句话核心概括：** 在整个程序（所有 `.cpp` 文件加起来）中，**任何变量、函数、类、枚举、模板等实体，只能有且仅有一个“定义”（Definition）。可以有无数次“声明”（Declaration），但定义必须唯一。**\n\t- // C++17起有了 inline，在结构体static前加上inline，这就是定义，不需要再在 cpp 里写 int Entity::x;\n\t\t- 在 C++17 之前（也就是你下面这段代码的写法），类的静态成员必须在头文件（`.h`）里**声明**，再在源文件（`.cpp`）里**定义**。\n\t\t- 加上 `inline static int x = 0;` 后：\n\t\t\t- **放宽了 ODR 限制**：`inline` 告诉编译器：“这个变量可以有多个相同的定义（分散在不同的 `.cpp` 编译单元里），没事，你们各自编译，最后链接的时候**只保留一份副本**就行了。”",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 3.在类或结构体内",
+                "line_start": 40,
+                "line_end": 47
+              }
+            ],
+            "review_flags": [
+              "M06:资料待核",
+              "M07:资料待核",
+              "M08:资料待核"
+            ]
+          },
+          "score": 16.328789574517824,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "d4351b2a6fb0f222c3ec5f00",
+            "document_id": "fc3869d4f12741e750d51dda",
+            "text": "# 指针\n- 指针是表示内存地址的整数，对所有类型指针都是如此\n- 指针在64位机里占8字节，32位机里占4字节\n- 空指针定义：\n```C++\nvoid* ptr = 0;\nvoid* ptr = NULL;\nvoid* ptr = nullptr;\n```\n\n```C++\nchar* buffer = new char[8];\nmemset(buffer, 0, 8);\ndelete[] buffer;\n```",
+            "spans": [
+              {
+                "source_file": "3指针 引用.md",
+                "heading": "指针",
+                "line_start": 1,
+                "line_end": 15
+              }
+            ],
+            "review_flags": [
+              "M05:资料待核"
+            ]
+          },
+          "score": 15.039715109042826,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.142771199985873,
+      "retrieval_seconds": 0.02643339999485761,
+      "generation_seconds": 1.1122925000381656,
+      "usage": {
+        "prompt_tokens": 1291,
+        "completion_tokens": 114,
+        "total_tokens": 1405,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1163
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"supported\",\"answer\":\"笔记给出的三种空指针写法如下（保留 `void*` 和赋值符号）：\\n\\n```C++\\nvoid* ptr = 0;\\nvoid* ptr = NULL;\\nvoid* ptr = nullptr;\\n```\\n\\n[1]\",\"citations\":[{\"chunk_id\":\"d4351b2a6fb0f222c3ec5f00\",\"quote\":\"void* ptr = 0;\\nvoid* ptr = NULL;\\nvoid* ptr = nullptr;\"}]}",
+      "run_id": "54d2ac26a6fa4565b8eba748597852aa",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870"
+    },
+    "elapsed_seconds": 1.14847999997437,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261019T110223.239682Z",
+    "sequence": 7,
+    "question_id": "D03",
+    "category": "answerable",
+    "question": "笔记为什么说静态方法不能直接访问非静态变量？",
+    "method": "bm25",
+    "kind": "development",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870",
+    "question_sha256": "f6543ee4d6eb305e5add2a3c40c1ff5ad833930e9b0d0f394f36a85442524618",
+    "answer": {
+      "question": "笔记为什么说静态方法不能直接访问非静态变量？",
+      "method": "bm25",
+      "status": "partial",
+      "answer": "笔记给出的理由是：静态方法没有类实例，因此不能直接访问非静态变量 [1]。\n\n不过，文档只写了这一句结论，没有进一步解释“非静态变量属于具体实例、静态方法没有 this 指针”等机制细节，也没有给出相关代码示例。",
+      "citations": [
+        {
+          "chunk_id": "b29b977ae5c5e16ad21cca0a",
+          "source_file": "4类和结构体 static ODR.md",
+          "heading": "static的三种用法 / 3.在类或结构体内",
+          "line_start": 51,
+          "line_end": 52,
+          "quote": "- 静态方法不能访问非静态变量\n\t- 因为静态方法没有类实例",
+          "review_flags": [
+            "M08:资料待核"
+          ]
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "b29b977ae5c5e16ad21cca0a",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "\t\t\t- **内存唯一性**：虽然 `main.cpp` 和 `test.cpp` 编译时都看到了这份定义，但经过链接器的合并后，最终生成的程序中，`Entity::x` 在内存里依然**只有一个全局唯一的地址**。\n\t- 该部分总结：\n\t\t- 在 C++17 之前，类内的 `static int x;` 永远只是<span style=\"color:rgb(255, 77, 77)\"><b>声明</b></span>。即使你写成 `static int x = 5;`（直接初始化），在没有 `inline` 的情况下，它依然只是声明加了一个默认初始化器，**依然不算定义**，必须在类外补 `int Entity::x;`。只有加上 `inline`（C++17 起），编译器才把这一行视为<span style=\"color:rgb(255, 77, 77)\"><b>定义</b></span>，从而允许你省略类外定义。\n- 静态方法不能访问非静态变量\n\t- 因为静态方法没有类实例",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 3.在类或结构体内",
+                "line_start": 48,
+                "line_end": 52
+              }
+            ],
+            "review_flags": [
+              "M08:资料待核"
+            ]
+          },
+          "score": 48.4511742017232,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "1d0618bcac24a398f2cb16b2",
+            "document_id": "f2493e4b736ac4234c548e88",
+            "text": "# 构造函数\n- 构造函数不写返回类型\n- 初始化变量\n\t- 在java中所有变量都会初始化为0\n\t- 在C++中所有变量都要通过构造函数初始化，否则是随机的值\n- 构造函数的签名不同时，可以有多个构造函数（重载）\n- 特殊构造函数（相对复杂）\n\t- 复制构造函数\n\t- 移动构造函数\n- 禁用构造函数：\n\t- 例：有静态方法，想仅用`Log::Write()`调用，而不是创建实例后调用，就可以禁用构造函数，两种方法：delete或放入private里\n↓ 这段代码就是静态方法的两种调用\n```cpp\nclass Log {\npublic:\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\nint main() {\n    Log::Write();\n    \n    Log entity;\n    entity.Write();\n}\n```\n↓ 要想禁用构造函数可以这么写，Log entity时就报错了。\n方法一：\n```cpp\nclass Log {\nprivate:\n\tLog() {}\npublic:\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```\n方法二：\n```cpp\nclass Log {\npublic:\n\tLog() = delete;\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```",
+            "spans": [
+              {
+                "source_file": "6枚举 构造函数 析构函数.md",
+                "heading": "构造函数",
+                "line_start": 23,
+                "line_end": 70
+              }
+            ],
+            "review_flags": [
+              "M12:资料待核"
+            ]
+          },
+          "score": 20.98963484800895,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "adef80c3b34df97503b18f22",
+            "document_id": "2fe805813cb7583628feba46",
+            "text": "### 第四部分：逐行详解第二张图（经典裸指针单例，这叫“上世纪遗老”）\n\n这张图在你的提问里少了一行初始化指针的代码（在 `main` 里脑补的）。我们先把它的全部代码补齐，然后逐行分析：\n\n```cpp\n#include <iostream>\nclass Singleton\n{\nprivate:\n    // 1. 这里定义了一个静态的指针，指向 Singleton 类型\n    //    这个指针是类共有的，目前它是一个空指针（下面初始化为 nullptr）\n    static Singleton* s_Instance;\n\npublic:\n    // 2. 静态函数，返回引用\n    static Singleton& Get() \n    { \n        // 3. 这里直接解引用指针（*s_Instance）返回\n        //    注意：如果 s_Instance 是空指针（nullptr），这里会直接导致程序崩溃！\n        return *s_Instance; \n    }\n\n    void Hello() {}\n};\n\n// 4. 这里是类外定义静态成员变量，并初始化为空指针\n//    记住：类里面只是声明，这一行才是真正给 s_Instance 分配内存\nSingleton* Singleton::s_Instance = nullptr;\n\nint main()\n{\n    // 5. 获取对象并调用函数\n    Singleton::Get().Hello();\n}\n```\n\n**为什么我说这张图是个“坑货”？**",
+            "spans": [
+              {
+                "source_file": "5单例模式和局部静态.md",
+                "heading": "第四部分：逐行详解第二张图（经典裸指针单例，这叫“上世纪遗老”）",
+                "line_start": 69,
+                "line_end": 105
+              }
+            ],
+            "review_flags": [
+              "M11:资料待核"
+            ]
+          },
+          "score": 17.653934081625472,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.4827619999996386,
+      "retrieval_seconds": 0.023895999998785555,
+      "generation_seconds": 1.4545759999891743,
+      "usage": {
+        "prompt_tokens": 1548,
+        "completion_tokens": 116,
+        "total_tokens": 1664,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1420
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"partial\",\"answer\":\"笔记给出的理由是：静态方法没有类实例，因此不能直接访问非静态变量 [1]。\\n\\n不过，文档只写了这一句结论，没有进一步解释“非静态变量属于具体实例、静态方法没有 this 指针”等机制细节，也没有给出相关代码示例。\",\"citations\":[{\"chunk_id\":\"b29b977ae5c5e16ad21cca0a\",\"quote\":\"- 静态方法不能访问非静态变量\\n\\t- 因为静态方法没有类实例\"}]}",
+      "run_id": "ddb6e2a6702f4cafb6906a3acec13692",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "93b9e25a28ef2461a7a1280b16787654ce398a62a1d495c1570ce020ed84e870"
+    },
+    "elapsed_seconds": 1.4887769999913871,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  }
+]

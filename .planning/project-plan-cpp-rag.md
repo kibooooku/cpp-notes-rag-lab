@@ -1,6 +1,6 @@
 # C++ 个人笔记问答助手：完整项目方案
 
-日期：2026-10-19（Asia/Shanghai）。状态：已完整阅读 9 篇笔记、完成资料盘点与文档更新；问答应用、索引和正式评测尚未实现。
+日期：2026-10-19（Asia/Shanghai）。状态：已建立公共仓库与本地 Git 连接，完成问答、页面、双检索和评测代码；运行验证持续记录于 `docs/implementation-review.md`。正式金标准及人工评分尚未审核，未宣告正式实验完成。
 
 需求依据为 `作业要求/作业要求.png`。截图标明 10 月 21 日截止，具体时刻以课程平台为准；被遮挡文字不推测为额外要求。
 
@@ -23,7 +23,7 @@
 | 评测分工 | AI 起草金标准与规则，用户审核并最终核对判分 |
 | 实验量 | 首轮 20 题 × 2 方法，共 40 条正式结果；有余量再复测 |
 | 人工时间 | 3–4 小时，优先资料疑点、金标准审核、判分和录屏 |
-| 本轮范围 | 清理无关文件并重写规划与相关文档，不冒称已完成应用 |
+| 本轮范围 | 建立公共仓库并实施已确认方案；收费开发验证与未批准的正式实验分开 |
 
 首版不做公网部署、模型训练、联网搜索、混合检索、重排序或代码执行服务。计数、解析、切片、检索和引用校验用确定性程序，模型只承担证据回答。
 
@@ -104,7 +104,7 @@ flowchart TD
 
 | 部件 | 选择与理由 | 限制 |
 |---|---|---|
-| 环境 | Python 3.12 候选，应用单独 `.venv` | 尚未安装问答依赖，跑通后锁实际版本 |
+| 环境 | Python 3.12，应用单独 `.venv` | 实际依赖锁定在 requirements.lock.txt |
 | Markdown | markdown-it-py 块解析和源行映射 | 区分正文、代码、HTML、附件，不全局正则清洗 |
 | TXT | UTF-8 / UTF-8-BOM，段落与行号 | 无标题时使用文件名及行范围 |
 | BM25 | jieba、C++ 词项补充、rank_bm25 | 在独立开发集验证分词策略 |
@@ -189,15 +189,15 @@ flowchart TD
 
 ## 10. 成本、环境与凭证
 
-本会话此前 DeepSeek 最小测试 HTTP 200、回复 OK，共 10 token，模型列表包含 deepseek-flash / deepseek-v4-pro；这只证明当时可调用。本轮盘点与文档更新没有新增付费调用。后续模型通过配置管理。
+本会话此前 DeepSeek 最小测试 HTTP 200、回复 OK，共 10 token，模型列表包含 deepseek-flash / deepseek-v4-pro。实施阶段另完成两轮独立开发检查共24次真实请求；累计费用上界0.0798048元（含历史0.01元预留），结果与初版错误见 `docs/development-validation.md`，不冒充正式20题成绩。模型通过配置管理。
 
 凭证优先环境变量，其次现有 secrets 文件。不得写进报告、日志或示例配置。所有调用含重试和演示纳入 20 元上限，按真实 usage 和当日官方价格核算，确认账户币种，不能把美元单价直接当人民币。每次调用前检查累计及本次最大 token 成本，接近上限优先取消可选复测。
 
-应用依赖尚未安装，跑通后锁版本。记录 Python、依赖、模型版本、原件哈希、切分和题库/提示词版本及种子。embedding 初次下载需要网络、计算在本机；DeepSeek 回答仍需联网。
+应用依赖已安装并以实际验证后的锁文件复现。记录 Python、依赖、模型版本、原件哈希、切分和题库/提示词版本及种子。embedding 初次下载需要网络、计算在本机；DeepSeek 回答仍需联网。
 
 ## 11. 文件设计与组件
 
-当前存在规划/审查文档、原始材料、附件映射、盘点脚本和清单；以下应用、索引、正式题库和交付物为后续实施文件。
+当前已存在原件、规划、代码、20题候选和评测工具。下图为组件与交付设计；是否实际运行及输出哪些文件，以 README 和实施审核记录为准，报告、视频和正式结果不预填。
 
 ```text
 qianyan1/
@@ -226,17 +226,19 @@ qianyan1/
   requirements.lock.txt
   start.ps1
   config/
-    default.yaml
+    default.toml
   data/
     attachment_map.json
     corpus_inventory.json
     manifest.json
     corrections.json
-    chunks.jsonl
+    # 实际 chunks.json 与 manifest.json 存于被忽略的 storage/
     import_samples/
       note_sample.txt
   storage/
-    bm25.pkl
+    bm25_tokens.json
+    chunks.json
+    manifest.json
     chroma/
   src/
     cpp_notes_rag/
@@ -249,6 +251,7 @@ qianyan1/
       indexing.py
       retrieval.py
       generation.py
+      service.py
       citations.py
       cost_tracker.py
       cli.py
@@ -259,8 +262,8 @@ qianyan1/
     run_eval.py
     summarize_eval.py
   eval/
-    dev_questions.jsonl
-    questions.jsonl
+    dev_questions.json
+    questions.json
     scoring_rubric.md
     run_log.jsonl
     results_bm25.json

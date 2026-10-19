@@ -1,0 +1,816 @@
+[
+  {
+    "question_id": "Q01",
+    "category": "answerable",
+    "question": "按笔记，一个包含多个 .cpp 的项目怎样生成 .exe？笔记中两类错误前缀分别表示什么？",
+    "gold_answer": "笔记描述各 .cpp 先经过预处理、编译得到各自 .obj，再链接为一个 .exe；在笔记所用工具环境中，LNK 开头是链接错误、C 开头是编译错误。",
+    "required_points": [
+      "各 .cpp 分别编译为 .obj，随后链接为一个 .exe",
+      "编译前先预处理",
+      "LNK/C 的解释限于笔记所用环境"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "1运作原理 编译链接.md",
+            "line_start": 1,
+            "line_end": 8
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "把 LNK/C 当成所有编译器通用规范"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q02",
+    "category": "answerable",
+    "question": "为防止同一头文件被嵌套重复包含，笔记给出了哪两种办法？写出基本结构。",
+    "gold_answer": "使用 #pragma once，或使用 #ifndef XXX / #define XXX / 头文件正文 / #endif 的包含保护。",
+    "required_points": [
+      "#pragma once",
+      "完整 #ifndef/#define/#endif 保护基本结构"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "2变量 头文件 调试 条件.md",
+            "line_start": 12,
+            "line_end": 21
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q03",
+    "category": "answerable",
+    "question": "在笔记的两个例子中，ref = b 和 ptr = &b 分别改变了什么？",
+    "gold_answer": "int& ref = a 后执行 ref = b，ref 仍绑定 a，a 的值变为 b 的值 10；int* ptr = &a 后执行 ptr = &b，ptr 改为指向 b。",
+    "required_points": [
+      "引用不改绑，a 最终为10",
+      "指针改指向b；保留 &"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "3指针 引用.md",
+            "line_start": 25,
+            "line_end": 43
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "把 ref = b 说成绑定 b",
+      "丢掉 ptr = &b 的 &"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q04",
+    "category": "answerable",
+    "question": "Function() 中的 static int i = 0; i++; 为什么多次调用会递增，而不会每次都从 1 开始？",
+    "gold_answer": "函数内局部 static 的可见范围仍在局部，但生命周期跨越多次调用，初始化只执行一次；后续调用递增同一个 i。",
+    "required_points": [
+      "局部可见",
+      "初始化一次，变量持续存在",
+      "每次调用递增同一个i"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "4类和结构体 static ODR.md",
+            "line_start": 13,
+            "line_end": 24
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q05",
+    "category": "answerable",
+    "question": "按笔记，C++17 起怎样在类内定义共享静态成员并省去类外定义？",
+    "gold_answer": "C++17 起可在类内使用 inline static int x = 0;，这就是定义，无须另写 int Entity::x;；笔记说明多个编译单元可有相同定义，但最终是同一份共享存储。",
+    "required_points": [
+      "C++17 起",
+      "inline static int x = 0;",
+      "省去类外定义并保持同一份共享存储"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "4类和结构体 static ODR.md",
+            "line_start": 44,
+            "line_end": 47
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "sources": [
+          {
+            "source_file": "4类和结构体 static ODR.md",
+            "line_start": 48,
+            "line_end": 48
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "无条件推广到 C++17 之前",
+      "采用 L50 泛化句宣称 static int x = 5 合法"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q06",
+    "category": "answerable",
+    "question": "Singleton::Get() 中的局部静态 instance 何时创建、何时清理？首次初始化的并发保证从哪个标准开始？",
+    "gold_answer": "第一次执行到 static Singleton instance 声明时初始化；程序退出时自动清理。C++11 起对首次局部静态初始化提供并发保证；这不能推出对象后续所有操作线程安全，也不能证明示例已禁止外部构造或复制。",
+    "required_points": [
+      "首次执行到声明时初始化",
+      "程序退出时自动清理",
+      "C++11 起，仅首次初始化的并发保证"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "5单例模式和局部静态.md",
+            "line_start": 63,
+            "line_end": 65
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "整个单例所有操作绝对线程安全",
+      "示例已完整禁止复制和外部构造"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q07",
+    "category": "answerable",
+    "question": "Log 只需使用静态 Write() 时，笔记给出了哪两种阻止外部直接构造的方式？",
+    "gold_answer": "将构造函数 Log() 放到 private 中，或声明 Log() = delete;，均阻止示例中的外部 Log entity;，静态 Log::Write() 仍可使用。",
+    "required_points": [
+      "private 构造函数",
+      "Log() = delete;",
+      "静态 Log::Write() 仍可用"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "6枚举 构造函数 析构函数.md",
+            "line_start": 32,
+            "line_end": 70
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "把 = delete 当作 delete p 释放内存"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q08",
+    "category": "answerable",
+    "question": "初始化列表写的顺序与成员声明顺序不同时，实际初始化遵循哪一个？笔记列举了哪三类必须用初始化列表处理的成员？",
+    "gold_answer": "实际遵循成员在类中的声明顺序。笔记列举 const 成员、引用成员和没有默认构造函数的类类型成员需要在初始化列表处理，不能以函数体中的赋值代替。",
+    "required_points": [
+      "遵循成员声明顺序",
+      "const 成员",
+      "引用成员",
+      "没有默认构造函数的类类型成员（保留条件）"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+            "line_start": 151,
+            "line_end": 153
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "sources": [
+          {
+            "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+            "line_start": 163,
+            "line_end": 165
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "任何列表乱序必然造成未定义行为",
+      "所有类类型成员都没有默认构造函数"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q09",
+    "category": "answerable",
+    "question": "log(const Printable* obj) 为什么要配合 writeClassName() const？两处 const 各约束什么？",
+    "gold_answer": "const Printable* 限制通过 obj 修改所指向对象，约束的是所指对象而非指针本身；成员函数末尾 const 表示常量成员函数（原文注明 mutable 例外）。通过指向常量的指针调用成员函数时，所调用的函数需要为 const 成员函数。",
+    "required_points": [
+      "const Printable* 是指向常量对象的指针",
+      "末尾 const 约束成员函数修改对象",
+      "常量对象指针需调用 const 成员函数"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "8纯虚函数（接口） 可见性.md",
+            "line_start": 57,
+            "line_end": 58
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "sources": [
+          {
+            "source_file": "8纯虚函数（接口） 可见性.md",
+            "line_start": 62,
+            "line_end": 64
+          }
+        ]
+      },
+      {
+        "group_id": "C",
+        "sources": [
+          {
+            "source_file": "8纯虚函数（接口） 可见性.md",
+            "line_start": 68,
+            "line_end": 71
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "混同 const Printable* 与 Printable* const",
+      "声称 obj 本身不可改值"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q10",
+    "category": "answerable",
+    "question": "在 C++ 语境下，笔记怎样解释字面量 \"hello\" 的类型与 const char* 的关系？为什么 std::string 的字符可以修改？",
+    "gold_answer": "笔记写 \"hello\" 为含结尾空字符的 const char[6]，在常见表达式中退化为首元素指针 const char*；修改字面量属于未定义行为。std::string 保存一份可写副本，修改其字符不会改动原只读字面量。需审核原笔记混用 C/C++ 的标题措辞。",
+    "required_points": [
+      "C++ 语境：const char[6] 含结尾空字符",
+      "常见表达式中退化为 const char*",
+      "字面量不可改；std::string 修改可写副本"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "9数组 字符串.md",
+            "line_start": 80,
+            "line_end": 87
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "将 C++ 字面量类型无条件推广到 C",
+      "猜测 SSO 阈值"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q11",
+    "category": "unanswerable",
+    "question": "enum class 与传统 enum 在枚举值的名字作用域、隐式整数转换方面分别有什么具体差别？",
+    "gold_answer": "文档中没有相关信息。笔记只提到更推荐 enum class，未给出名字作用域和隐式整数转换的具体对比。",
+    "required_points": [
+      "明确笔记没有所问两项对比",
+      "不能凭模型知识补完对比"
+    ],
+    "required_evidence_groups": [],
+    "forbidden_unsupported_claims": [
+      "给出无笔记依据的 enum class/enum 作用域与转换结论"
+    ],
+    "corpus_answerability": false,
+    "missing_information": "F6 L4 只提及 enum class，L5–22 传统枚举示例不支持两项比较。",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q12",
+    "category": "unanswerable",
+    "question": "std::move 本身做了什么？请按笔记给出一个移动构造函数的实现。",
+    "gold_answer": "文档中没有相关信息。笔记只列出了移动构造函数的名称，没有 std::move 的机制说明或移动构造实现。",
+    "required_points": [
+      "明确缺少机制和实现",
+      "仅允许指出移动构造名称出现过"
+    ],
+    "required_evidence_groups": [],
+    "forbidden_unsupported_claims": [
+      "由模型常识讲解 std::move 或编写移动构造实现"
+    ],
+    "corpus_answerability": false,
+    "missing_information": "F6 L29–31 仅列特殊构造名称；全文无 std::move 解释和实现。",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q13",
+    "category": "unanswerable",
+    "question": "std::shared_ptr 的引用计数如何变化？如何用 std::weak_ptr 打破循环引用？",
+    "gold_answer": "文档中没有相关信息。现有自动内存管理片段展示的是 unique_ptr，不包含 shared_ptr 引用计数或 weak_ptr 循环引用的说明。",
+    "required_points": [
+      "明确共享所有权和循环引用内容缺失",
+      "不把 unique_ptr 当成 shared_ptr 证据"
+    ],
+    "required_evidence_groups": [],
+    "forbidden_unsupported_claims": [
+      "补出 shared_ptr 引用计数和 weak_ptr 用法"
+    ],
+    "corpus_answerability": false,
+    "missing_information": "F3 L21–24、F7 L55–66 只涉及 unique_ptr。",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q14",
+    "category": "unanswerable",
+    "question": "这份笔记所用 std::string 的短字符串优化阈值到底是多少个字符？",
+    "gold_answer": "文档中没有相关信息。笔记没有 SSO 阈值，也没有足以确定阈值的标准库实现和构建配置，不能给出字符数。",
+    "required_points": [
+      "明确无法从笔记确定阈值",
+      "不编造标准库前提和数值"
+    ],
+    "required_evidence_groups": [],
+    "forbidden_unsupported_claims": [
+      "猜测15、22或其他具体阈值",
+      "声称存在统一阈值"
+    ],
+    "corpus_answerability": false,
+    "missing_information": "F9 L85–87 只讲可写副本，无 SSO 或实现配置。",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q15",
+    "category": "unanswerable",
+    "question": "std::sort 的平均及最坏时间复杂度是多少？它采用什么排序策略？",
+    "gold_answer": "文档中没有相关信息。数组与容器章节没有说明 std::sort 的复杂度或排序策略。",
+    "required_points": [
+      "明确所问复杂度和策略未覆盖",
+      "不借数组相关背景补全"
+    ],
+    "required_evidence_groups": [],
+    "forbidden_unsupported_claims": [
+      "无证据提供复杂度和排序算法策略"
+    ],
+    "corpus_answerability": false,
+    "missing_information": "全文未介绍 std::sort、排序策略或所问复杂度。",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q16",
+    "category": "multi",
+    "question": "普通函数直接定义在头文件并被两个 .cpp 包含时，笔记说会出什么问题、给出什么修法？另外，C++17 的类内静态数据成员如何用 inline 省去类外定义，并保持同一份共享存储？",
+    "gold_answer": "头文件中的普通函数定义被两个 .cpp 包含，笔记解释会产生重复定义和链接错误；可在头文件只声明、在源文件定义，或按笔记方案使用 static/inline。另一个规则是 C++17 起的 inline static int x = 0;，允许类内定义并省去类外定义，保持同一份共享存储。两类实体须区分，不量化机器码大小。",
+    "required_points": [
+      "普通函数头文件重复定义→链接错误",
+      "只声明并源文件定义，或笔记给出的 static/inline 修法",
+      "C++17 inline static 数据成员省类外定义且共享唯一存储"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "1运作原理 编译链接.md",
+            "line_start": 17,
+            "line_end": 19
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "sources": [
+          {
+            "source_file": "4类和结构体 static ODR.md",
+            "line_start": 44,
+            "line_end": 47
+          }
+        ]
+      },
+      {
+        "group_id": "C",
+        "sources": [
+          {
+            "source_file": "4类和结构体 static ODR.md",
+            "line_start": 48,
+            "line_end": 48
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "把 static 与 inline 的链接语义混同",
+      "保证固定机器码份数/代码体积"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q17",
+    "category": "multi",
+    "question": "int& ref = a; ref = b; 为什么不会重新绑定？联系 GameCharacter 的 m_nicknameRef，为什么它要在初始化列表中绑定？",
+    "gold_answer": "ref 是 a 的别名，ref = b 执行对 a 的赋值，示例中 a 变为 10，ref 仍绑定 a。GameCharacter 的引用成员在创建时必须绑定外部对象，代码通过 m_nicknameRef(nickname) 绑定；不能先留空再在函数体中用赋值来重新绑定。",
+    "required_points": [
+      "具体 ref 仍绑定 a，a 变为10",
+      "引用成员创建时须初始化绑定",
+      "具体 m_nicknameRef(nickname) 写法"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "3指针 引用.md",
+            "line_start": 27,
+            "line_end": 36
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "sources": [
+          {
+            "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+            "line_start": 98,
+            "line_end": 108
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "用 ref = b 重新绑定",
+      "忽略具体成员/示例，仅讲抽象引用概念"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q18",
+    "category": "multi",
+    "question": "笔记中 new char[8]、memset、delete[] 的三类维护风险是什么？若换成 std::vector，如何获得长度；为什么原生数组作为函数参数时不能靠 sizeof 推回长度？",
+    "gold_answer": "三类风险为 new 和 delete[] 之间异常造成未释放、删除后保留旧地址导致悬空指针，以及需手动释放的维护负担。std::vector 可用 v.size() 取得长度；原生数组作函数参数会退化为指针，因此不能用该参数的 sizeof 还原原数组元素数。",
+    "required_points": [
+      "异常泄漏、悬空指针、手动管理三项",
+      "v.size()",
+      "函数参数退化为指针导致 sizeof 不能推回原长度"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "3指针 引用.md",
+            "line_start": 16,
+            "line_end": 20
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "sources": [
+          {
+            "source_file": "9数组 字符串.md",
+            "line_start": 17,
+            "line_end": 21
+          }
+        ]
+      },
+      {
+        "group_id": "C",
+        "sources": [
+          {
+            "source_file": "9数组 字符串.md",
+            "line_start": 60,
+            "line_end": 61
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "所有语境中的数组 sizeof 都不可靠",
+      "补入容量增长/迭代器失效机制"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q19",
+    "category": "multi",
+    "question": "两份多态示例都用 Entity* p = new Player(\"John\")：第 7 篇的 getName() 与第 8 篇的 log(p) 分别按代码返回或打印什么？它们对应的普通虚函数与纯虚接口声明分别是什么？",
+    "gold_answer": "第7篇 Player::getName() override 返回 m_name，即 John；Entity 的普通虚 getName() 有实现。第8篇 Player::writeClassName() const override 返回 Player，所以 log(p) 打印 Player；Printable 的接口为 virtual std::string writeClassName() const = 0;。需逐一保留函数名、const、override 和 = 0。",
+    "required_points": [
+      "第7篇 John 对应 getName()/m_name",
+      "第8篇 Player 对应 log/writeClassName",
+      "普通 virtual 有实现；纯虚接口含 const 和 = 0"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+            "line_start": 3,
+            "line_end": 25
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "sources": [
+          {
+            "source_file": "8纯虚函数（接口） 可见性.md",
+            "line_start": 11,
+            "line_end": 45
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [
+      "将两个输出都说成 John 或 Player",
+      "将纯虚接口 = 0 丢掉"
+    ],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  },
+  {
+    "question_id": "Q20",
+    "category": "multi",
+    "question": "把没有显式访问标记的 class 换成 struct，成员默认权限怎样变化？如果成员显式标为 private 或 protected，笔记分别允许谁访问？",
+    "gold_answer": "笔记中 class 成员默认 private，struct 成员默认 public。显式 private 的成员供该类及友元使用；显式 protected 的成员供该类及子类使用。须区分默认规则和显式权限规则。",
+    "required_points": [
+      "class 默认private、struct 默认public",
+      "private 该类及友元",
+      "protected 该类及子类；不把默认规则替代显式规则"
+    ],
+    "required_evidence_groups": [
+      {
+        "group_id": "A",
+        "sources": [
+          {
+            "source_file": "4类和结构体 static ODR.md",
+            "line_start": 1,
+            "line_end": 7
+          }
+        ]
+      },
+      {
+        "group_id": "B",
+        "sources": [
+          {
+            "source_file": "8纯虚函数（接口） 可见性.md",
+            "line_start": 75,
+            "line_end": 78
+          }
+        ]
+      }
+    ],
+    "forbidden_unsupported_claims": [],
+    "corpus_answerability": true,
+    "missing_information": "",
+    "reviewed": false,
+    "reviewer": null,
+    "review_notes": "候选金标准；须用户核对原文、技术疑点和最终切片后批准。",
+    "source_snapshot": null,
+    "evidence_audit": {
+      "reviewed": false,
+      "reviewer": null,
+      "chunks_sha256": null,
+      "single_chunk_insufficient": null
+    }
+  }
+]
