@@ -4,3 +4,5 @@
 作业要求/** -text
 data/import_samples/*.txt -text
 *.png binary
+*.bat text eol=crlf
+*.ps1 text eol=crlf
