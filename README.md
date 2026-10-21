@@ -8,9 +8,9 @@
 
 ## 当前进度
 
-已实现 Markdown / TXT 导入、代码与原行映射、统一切片、双检索、DeepSeek JSON 回答、程序提取并校验原文引用、累计预算账本、Streamlit 与 CLI、评测与人工判分工具。实测为 9 篇、64 片段、60 项自动测试通过；修复后 12 条真实开发结果无系统错误，未当作全部答对。详见 [开发验证记录](docs/development-validation.md) 和 [实施审核](docs/implementation-review.md)。
+已实现 Markdown / TXT 导入、代码与原行映射、统一切片、双检索、DeepSeek JSON 回答、程序提取并校验原文引用、累计预算账本、Streamlit 与 CLI、评测与人工判分工具。实测为 9 篇、64 片段、73 项自动测试通过；修复后 12 条真实开发结果无系统错误，未当作全部答对。详见 [开发验证记录](docs/development-validation.md) 和 [实施审核](docs/implementation-review.md)。
 
-正式 20 题是 **待用户审核的候选金标准**，尚未产出正式 40 条结果或成绩；报告 PDF 和真机视频需在实验与人工核对完成后制作。未把开发检查当正式实验。
+2026-10-21 用户已确认新版 20 题，首轮正式评测已保存 BM25、向量检索各 20 条记录，其中 BM25 Q01 有一条响应格式错误，原样保留。查看 [结果与核对说明](eval/formal/formal-01/README.md)、[逐题阅读版](eval/formal/formal-01/review-details.md) 和 [Excel 评分表](outputs/formal-20261021/评分表.xlsx)。人工判分为 0/40，尚无正式正确率；报告 PDF 和真机视频需在人工核对完成后制作。
 
 ## 本机启动
 
@@ -92,7 +92,7 @@ $env:PYTHONUTF8 = '1'
 
 ## 评测流程
 
-正式集为 `eval/questions.json`：10 有答案、5 无答案、5 跨片段，全部初始 `reviewed=false`。2026-10-21 已改为概念与机制题，接受语义等价的解释，不要求复现笔记示例中的名称、数值或输出。先阅读 [20 题审核单](eval/review-sheet.md)，使用 [判分指南](docs/scoring-guide.md) 核对标准答案与必要证据。脚本不会替用户批准。
+正式集为 `eval/questions.json`：10 有答案、5 无答案、5 跨片段。2026-10-21 改为概念与机制题，并按用户在对话中的确认冻结；接受语义等价的解释，不要求复现笔记示例中的名称、数值或输出。[20 题审核单](eval/review-sheet.md) 记录题库批准，[判分指南](docs/scoring-guide.md) 说明必要证据与结果判分。题库批准和 40 条实际结果的人工评分是两个步骤。
 
 ```powershell
 # 独立开发集：两方法共 12 条，用于调试，不报正式成绩

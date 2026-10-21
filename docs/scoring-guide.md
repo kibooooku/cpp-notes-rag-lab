@@ -1,6 +1,6 @@
 # 评测审核与判分说明
 
-`eval/questions.json` 是 20 题候选金标准：Q01–Q10 有答案、Q11–Q15 无答案、Q16–Q20 跨片段。当前全部 `reviewed: false`，没有正式成绩。`eval/dev_questions.json` 是独立开发集，只调试分词、提示词、部分回答和引用，不代替正式题库，不计入课程指标。题库、金标准及结果都不能进入知识库。
+`eval/questions.json` 是 20 题金标准：Q01–Q10 有答案、Q11–Q15 无答案、Q16–Q20 跨片段。2026-10-21 根据用户在对话中的明确确认记录批准并冻结，首轮两方法各 20 条见 [正式结果](../eval/formal/formal-01/README.md)。当前实际结果人工评分为 0/40，正确率等人工指标仍为空。`eval/dev_questions.json` 是独立开发集，不代替正式题库，不计入课程指标。题库、金标准及结果都不能进入知识库。
 
 ## 运行前审核
 
@@ -57,6 +57,16 @@ python scripts/run_eval.py --output eval/runs/formal-01 --seed 20261019
 `automatic_source_overlap` 仅便于人工定位候选证据，不是评分。引用存在只能证明引用位置真实；是否支持答案仍须读上下文。成本由服务的项目累计账本控制，开发、正式运行、失败调用和演示共同受 20 元预算限制。
 
 ## 人工判分
+
+本轮可填写 [Excel 评分表](../outputs/formal-20261021/评分表.xlsx)，对照 [逐题阅读版](../eval/formal/formal-01/review-details.md) 查看完整原文和实际引用。主表第 6 行是机器字段名，人工字段支持空白或 true/false；不适用字段留空。填写 reviewer，完成该条所有适用判断后再将 reviewed 设为 true。`review-priorities.json` 是 AI 整理的待核提示，不是已确认分数。
+
+导回 CSV 时运行：
+
+```powershell
+python scripts/import_review_scores.py "outputs/formal-20261021/评分表.xlsx" --run-dir eval/formal/formal-01
+```
+
+导入器校验本轮 40 个稳定 ID、类别及必填评分，生成新的 `judgments_from_workbook.csv`，不覆盖原始模板。核对导入后，用其内容更新该目录 `judgments.csv`，再执行 `python scripts/summarize_eval.py eval/formal/formal-01`。也可直接填写原始 CSV。下文规则同样适用。
 
 用支持 UTF-8 CSV 的编辑器打开 `judgments.csv`。逐条阅读原始结果、金标准和 Top-3 实际文本，最终由用户核对。判完填写实际 `reviewer`，再将 `reviewed` 设为 `true`。空白表示未评，不能拿来当 `false`；布尔字段只填 `true`/`false`（兼容 `1`/`0`、`yes`/`no`）。不要修改 run_id、question_id、method 或 category。
 

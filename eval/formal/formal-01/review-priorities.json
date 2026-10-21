@@ -1,0 +1,204 @@
+{
+  "run_dir": "eval/runs/formal-01",
+  "run_id": "20261021T062813.667648Z",
+  "review_status": "pending_user_scoring",
+  "purpose": "只读审阅正式原始结果后的优先核对提示。观察不是用户人工评分，不填写正确性、幻觉、检索命中或覆盖的布尔分数，也不计算人工指标比率。",
+  "technical_integrity": {
+    "metadata_state": "complete，record_count 为 40",
+    "expected_records": "BM25 和向量检索各 20 条，均为唯一的 Q01—Q20，无缺漏或重复",
+    "run_log": "40 行与结果数组逐项一致；sequence 完整覆盖 1—40",
+    "existing_citations": "所有已有引用 ID 属于相应本轮 hits；引文逐字匹配检索片段及源文件对应行。这里仅检查真实性，不代表实质结论得到支持。",
+    "runtime_error_records": [
+      {"question_id": "Q01", "method": "bm25", "error": "回答正文或引用缺失。"}
+    ],
+    "truncation_check": "原始记录未出现截断错误；现有 raw_response 均可解析为 JSON。Q01 BM25 缺少 citations 字段，是响应结构问题。",
+    "prose_marker_check": "移除行内和代码块内容后，只发现 Q20 vector 的 [3] 超出其实际两条引用的编号范围。"
+  },
+  "raw_status_counts": {
+    "bm25": {"supported": 5, "partial": 6, "uncertain": 4, "refused": 4, "error": 1},
+    "vector": {"supported": 3, "partial": 8, "uncertain": 4, "refused": 5, "error": 0}
+  },
+  "observations": [
+    {
+      "question_id": "Q01", "method": "bm25", "priority": "high", "type": "system_response_schema_error",
+      "reason": "原始模型 JSON 有 status 和 answer，却完全省略 citations 字段；正文虽然写了 [1]、[2]，仍未提供可解析的引用数组，校验因此拒绝。不是网络失败或资料无答案，也不能把原始草答补进正式结果替代错误。三条检索 hits 仍保留，检索项须独立核对。",
+      "quoted_answer": "请求未完成：回答正文或引用缺失。",
+      "relevant_chunk_ids": ["d2cea64db601cba1b95b136a", "0a4c694c887644b2dd420948", "10bcf1b56640c6a7b9d0694e"]
+    },
+    {
+      "question_id": "Q01", "method": "vector", "priority": "medium", "type": "partial_label_vs_requested_scope",
+      "reason": "回答已经给出预处理在编译前、源文件到目标文件、再链接可执行程序的主链条，却因未记载符号解析、重定位等题目没有要求的内部细节标为 partial。用户应按冻结后的必要要点核对，不能仅因状态 partial 自动判为不完整。",
+      "quoted_answer": "编译阶段先预处理再编译，预处理涉及 include、define、if、ifdef、pragma，其中 include 相当于复制黏贴 [1]。",
+      "relevant_chunk_ids": ["d2cea64db601cba1b95b136a"]
+    },
+    {
+      "question_id": "Q03", "method": "vector", "priority": "medium", "type": "uncertainty_scope_review",
+      "reason": "三项核心概念均有正文解释，但模型把邻近的引用存储表述疑点扩展为整段不确定。应核对其对引用赋值与改绑的解释是否清楚，不以 uncertain 标签替代内容判断；不需要用户回忆示例数值。",
+      "quoted_answer": "对引用赋值（如 `ref = b`）改变的是被引用对象的值，引用对象不变；而指针可以改变指向的对象",
+      "relevant_chunk_ids": ["8a60d7684091e3f2303127d6"]
+    },
+    {
+      "question_id": "Q04", "method": "bm25", "priority": "medium", "type": "source_generalization_with_caveat",
+      "reason": "回答解释了局部可见和跨调用保留状态，但复用了原笔记的“生命周期拉到永久”。虽随后声明待核，仍需检查是否让读者误解为永不销毁；也不应因没有展开线程安全等题外内容扣分。",
+      "quoted_answer": "其生命周期被拉到永久，相当于定义时的赋值只执行一次，因此多次调用该函数时变量值会保留并递增",
+      "relevant_chunk_ids": ["0c21e9df938c896ac68d24fa"]
+    },
+    {
+      "question_id": "Q04", "method": "vector", "priority": "medium", "type": "source_generalization_with_caveat",
+      "reason": "与 BM25 相同，复用了“生命周期拉到永久”并整体加待核说明。需区分题目要求的跨调用存在和绝对永不销毁，依据必要要点核对，不因额外代码示例或缺少线程安全细节决定分数。",
+      "quoted_answer": "其生命周期被拉到永久，相当于定义时的赋值只会赋值一次，因此多次调用该函数时变量值会保留并递增",
+      "relevant_chunk_ids": ["0c21e9df938c896ac68d24fa"]
+    },
+    {
+      "question_id": "Q05", "method": "bm25", "priority": "medium", "type": "uncertainty_scope_review",
+      "reason": "已经陈述 C++17、类内 inline 定义、省类外定义及同一存储，却因相邻待核项整体降为 uncertain。需检查有效规则是否得到清楚表达，与原笔记中被排除的过宽规则分开，不把状态直接当作完整性分数。",
+      "quoted_answer": "允许多个编译单元存在相同定义，链接时只保留一份副本，且 `Entity::x` 在内存中只有一个全局唯一地址",
+      "relevant_chunk_ids": ["10bcf1b56640c6a7b9d0694e", "b29b977ae5c5e16ad21cca0a"]
+    },
+    {
+      "question_id": "Q05", "method": "vector", "priority": "high", "type": "excluded_source_claim_repeated",
+      "reason": "在陈述合法的 inline 规则前，照搬了原笔记 L50 中已列为禁用的普通 static int 类内初始化泛化。该句不能因引用真实或整体标为 uncertain 就免于内容核对；应分开检查有效规则与错误泛化。",
+      "quoted_answer": "即使写成 `static int x = 5;`，在没有 `inline` 时也只是声明加默认初始化器，仍不算定义，必须在类外补 `int Entity::x;`。",
+      "relevant_chunk_ids": ["b29b977ae5c5e16ad21cca0a", "10bcf1b56640c6a7b9d0694e"]
+    },
+    {
+      "question_id": "Q06", "method": "bm25", "priority": "medium", "type": "over_conservative_missing_detail",
+      "reason": "已给出首次调用创建、退出清理、C++11 首次并发初始化的事实，却把题目理解成要求初始化完成状态判定等更细过程，并声称这部分没写。需按“只覆盖首次初始化、不扩展到所有操作”的必要要点核对，而非要求标准条款或机制实现。",
+      "quoted_answer": "笔记只把这一保证表述为针对“第一次调用 `Get()`”时的对象创建，并未进一步说明它具体对应初始化过程中的哪一步",
+      "relevant_chunk_ids": ["40392e2c995e62add6435a70", "5767d3d1abb0cf1f080c1f5b"]
+    },
+    {
+      "question_id": "Q06", "method": "vector", "priority": "high", "type": "retrieval_missing_required_concepts",
+      "reason": "Top-3 只有静态概念铺垫、裸指针单例代码和类静态成员摘要，没有含自动销毁及 C++11 初次并发初始化的原文。回答明确遗漏这两项；这是全文有答案但该轮证据不足，不应改成全文无答案。",
+      "quoted_answer": "本次提供的证据没有记载函数内静态局部对象的自动清理（析构）机制，也没有记载 C++11 起并发初始化保证具体针对哪一步",
+      "relevant_chunk_ids": ["66e65aeb38c6dc4f2752089c", "adef80c3b34df97503b18f22", "b29b977ae5c5e16ad21cca0a"]
+    },
+    {
+      "question_id": "Q08", "method": "bm25", "priority": "high", "type": "missing_initialization_order_and_scope",
+      "reason": "Top-3 没有讲成员声明顺序的片段，回答也明确不能回答该必要项。另有“const/引用必须初始化列表，不能函数体赋值”的笼统表述，需按题库限定场景审查，避免扩大为忽略默认成员初始化等形式的完整规则。",
+      "quoted_answer": "关于“成员真正的初始化顺序由什么决定”，本次提供的文档没有记载，无法据此回答。",
+      "relevant_chunk_ids": ["cf510fc0ec3c74a32656f3fb", "d00a724e245385145510b171", "549e8842ab25488f7d3e1f82"]
+    },
+    {
+      "question_id": "Q08", "method": "vector", "priority": "high", "type": "missing_initialization_order_and_cost_generalization",
+      "reason": "没有检索到成员声明顺序依据，回答明确缺少该项。同时复用了对 string 构造赋值成本的固定额外分配释放说法，冻结评分已排除把这种泛化当性能保证，需一起核对。",
+      "quoted_answer": "对 `std::string` 这类类会多一次内存分配和释放的消耗 [1]。",
+      "relevant_chunk_ids": ["cf510fc0ec3c74a32656f3fb", "bfbb85c32d7490d674432094", "83b355741c460e7c6417ba91"]
+    },
+    {
+      "question_id": "Q09", "method": "bm25", "priority": "medium", "type": "uncertainty_scope_review",
+      "reason": "三项 const 证据均在 Top-3，回答分别给出所指对象约束、成员函数约束及配合要求，却整体对编译约束声明待核。应逐项审核实际内容，尤其看是否清楚区分指向常量的指针与指针自身为常量，不凭 uncertain 标签代判。",
+      "quoted_answer": "通过指向常量的指针（或引用）只能调用该类型的常量成员函数",
+      "relevant_chunk_ids": ["7e51b8e52698d0fd81d23a03", "8219dd45ddac9f6a7b1b793e", "9943e3cd48beda0e8e28ac6e"]
+    },
+    {
+      "question_id": "Q09", "method": "vector", "priority": "medium", "type": "uncertainty_scope_review",
+      "reason": "三项必要证据均检索并引用，正文也明确对象内容与指针自身的区别。待核提醒可能来自同片段的术语问题，需判断提醒是否影响题目所需结论，不按状态统一判错。",
+      "quoted_answer": "修饰的是指针指向的内容而非指针本身",
+      "relevant_chunk_ids": ["7e51b8e52698d0fd81d23a03", "8219dd45ddac9f6a7b1b793e", "9943e3cd48beda0e8e28ac6e"]
+    },
+    {
+      "question_id": "Q10", "method": "bm25", "priority": "high", "type": "language_and_type_scope_confusion",
+      "reason": "题目问 C++，回答先照搬原笔记“在 C 中，字符串字面量本质为 const char*”的写法，再补数组退化解释。需核对是否混淆字面量数组类型与退化后的指针、并把 C++ const 结论推广到 C；整体待核提醒不能替代技术准确性判断。",
+      "quoted_answer": "在 C 中，字符串字面量本质上是 `const char*` 定义的字符数组",
+      "relevant_chunk_ids": ["a48af37737f0e83efea96c4e"]
+    },
+    {
+      "question_id": "Q10", "method": "vector", "priority": "medium", "type": "partial_label_vs_requested_scope",
+      "reason": "已有数组、退化、字面量不可改和 string 副本可改的核心解释，尾段却以未说明全部隐式转换和标准版本差异为缺口。用户应按冻结要点审核，不能把题外完整标准规则加入要求。还需核对物理只读区域与语言不可修改语义的表述边界。",
+      "quoted_answer": "文档未记载：普通字符串字面量与 `const char*` 之间在类型转换层面的完整关系细节",
+      "relevant_chunk_ids": ["a48af37737f0e83efea96c4e"]
+    },
+    {
+      "question_id": "Q11", "method": "bm25", "priority": "medium", "type": "trap_background_only_partial",
+      "reason": "这是陷阱题，但模型用 partial 复述 enum class 的背景提及并明确没有作用域、转换差别。需核对是否确实没有补出被问的缺失结论；不能仅因非 refused 状态或出现传统 enum 示例就判陷阱幻觉。",
+      "quoted_answer": "但没有记载 enum class 与 enum 在枚举值名字作用域、隐式类型转换方面的具体区别。",
+      "relevant_chunk_ids": ["73fe357e8bc09e9e0ce59320"]
+    },
+    {
+      "question_id": "Q16", "method": "bm25", "priority": "high", "type": "fixed_machine_code_claim_and_equivalent_evidence_review",
+      "reason": "回答复述“两个相同机器码”“只保留一份机器码”等已排除的固定实现份数说法。另需公平审核共享存储：虽未命中明确唯一地址的片段，已检索片段中“inline static 链接保留一份副本”可能构成等价语义证据，不能仅按固定来源行范围缺 C 组就扣覆盖。",
+      "quoted_answer": "坏处是代码体积会膨胀，在 .exe 文件中会存在两个相同的机器码",
+      "relevant_chunk_ids": ["0a4c694c887644b2dd420948", "120803ae88ae81dcd8a86a9b", "10bcf1b56640c6a7b9d0694e"]
+    },
+    {
+      "question_id": "Q16", "method": "vector", "priority": "high", "type": "missing_inline_static_evidence_and_fixed_code_claim",
+      "reason": "Top-3 没有类内 inline static 的定义及共享状态片段，回答明确无法比较该半题；同时复述固定机器码数量的原文概括。需分别核对跨片段缺失和不应照搬的资料断言。",
+      "quoted_answer": "关于 C++17 起类内 inline static 数据成员在跨编译单元存储上的含义，本次提供的证据没有记载，无法比较。",
+      "relevant_chunk_ids": ["0c21e9df938c896ac68d24fa", "0a4c694c887644b2dd420948", "b3b79873dba06a8e5d627247"]
+    },
+    {
+      "question_id": "Q17", "method": "bm25", "priority": "high", "type": "substantive_claim_without_retrieved_assignment_evidence",
+      "reason": "模型标 supported 并解释已有引用赋值会改变被引用对象的值，但 Top-3 全是 F7 的引用成员初始化片段，未检索到 F3 对已有引用赋值的说明。现有引文支持不能改绑和初次绑定要求，不直接展示该赋值语义；用户需检查有无凭常识或问题措辞补足。另需限定初始化列表说法，不能扩大为所有初始化形式。",
+      "quoted_answer": "对已绑定的引用再赋值只是给被引用的对象赋值，并不会让它改绑到另一个对象。",
+      "relevant_chunk_ids": ["cf510fc0ec3c74a32656f3fb", "75d786b912dd202f6f4f502a", "d00a724e245385145510b171"]
+    },
+    {
+      "question_id": "Q17", "method": "vector", "priority": "medium", "type": "initialization_scope_overgeneralization_review",
+      "reason": "已有引用赋值与引用成员初次绑定两组均被检索。需核对“绝对不能在构造函数体里赋值、必须初始化列表”的语境是否明确限于补做初次绑定，不能误导为绑定完成后不能给对象赋值，也不能否定默认成员初始化等合法形式。",
+      "quoted_answer": "引用成员必须在初始化列表中完成绑定，绝对不能在构造函数体 `{}` 里赋值",
+      "relevant_chunk_ids": ["8a60d7684091e3f2303127d6", "cf510fc0ec3c74a32656f3fb"]
+    },
+    {
+      "question_id": "Q18", "method": "bm25", "priority": "medium", "type": "complete_evidence_with_literalism_caveat",
+      "reason": "三组必要证据均进入 Top-3，回答分别解释风险、自动管理、长度和退化，却因原文没有一段专门写“为什么是两个问题”而标为 partial。需核对是否可由已有事实完成概念联系，不能额外要求原文逐字复现问题措辞；也需检查 sizeof 的限定语是否清楚。",
+      "quoted_answer": "没有明确论述“资源管理与长度管理为何是两个不同问题”的专门说明",
+      "relevant_chunk_ids": ["321472ea0d7194238b46dadc", "9610f6a7e802284b15734dce", "e8883c4614db4add42618996"]
+    },
+    {
+      "question_id": "Q18", "method": "vector", "priority": "high", "type": "retrieval_missing_manual_memory_risks",
+      "reason": "Top-3 没有 F3 异常泄漏、悬空、自动管理的核心风险片段；回答主要给手动释放、退化和 size，没有完整说明三种风险及 vector 的自动内存管理。不要将仅有裸指针单例代码或一般堆分配背景当成风险组充分证据。",
+      "quoted_answer": "上述内容只能分别佐证资源管理（手动释放）和长度管理（退化、需自行维护）各自的依据。",
+      "relevant_chunk_ids": ["e8883c4614db4add42618996", "9610f6a7e802284b15734dce", "adef80c3b34df97503b18f22"]
+    },
+    {
+      "question_id": "Q19", "method": "bm25", "priority": "medium", "type": "literalism_over_refusal_review",
+      "reason": "默认静态绑定与 virtual、纯虚接口、抽象限制等必要证据均被检索并复述。尾段却因原文没有逐字写“是否自动”而宣称问题未明确记载，又提虚表等题外实现细节。需审核是否已在概念上答到必需事实，不因谨慎标签直接扣完整性。",
+      "quoted_answer": "仅有继承关系并使用基类指针是否“自动”获得运行时多态（文档只说明默认静态绑定、需 virtual 才能动态绑定，未直接以该措辞回答）",
+      "relevant_chunk_ids": ["23a79cc0548ed57299d9c17b", "c7b64d6a7c7f6190cf5f7bd6"]
+    },
+    {
+      "question_id": "Q19", "method": "vector", "priority": "medium", "type": "partial_label_despite_core_explanation",
+      "reason": "正文已经明确否定“继承加基类指针自动多态”，并说明 virtual、纯虚、不能实例化但可用指针引用。尾段因未展开具体版本选择和更多抽象类限制而标 partial；这些扩展不应自动成为新增必要要点，需用户按已冻结范围核对。",
+      "quoted_answer": "仅有继承关系并使用基类指针，并不能自动获得运行时多态。",
+      "relevant_chunk_ids": ["23a79cc0548ed57299d9c17b", "c7b64d6a7c7f6190cf5f7bd6"]
+    },
+    {
+      "question_id": "Q20", "method": "bm25", "priority": "high", "type": "retrieval_missing_explicit_visibility_rules",
+      "reason": "只检索并引用 class/struct 默认权限，没有 private 友元和 protected 子类范围片段，回答明确缺失该半题。属于有答案但本轮未取得必要证据，不应记成全文资料缺失。",
+      "quoted_answer": "关于显式 private、protected 分别允许的访问范围，以及它们与默认规则应如何区分，本次提供的证据中没有相关记载。",
+      "relevant_chunk_ids": ["83b355741c460e7c6417ba91", "b29b977ae5c5e16ad21cca0a", "9943e3cd48beda0e8e28ac6e"]
+    },
+    {
+      "question_id": "Q20", "method": "vector", "priority": "high", "type": "unresolved_prose_citation_marker_and_scope_review",
+      "reason": "正文显式可见性句使用 [3]，但实际 citations 数组只有两项：第一项是默认权限，第二项是可见性。原文片段真实，却出现正文编号与引用列表不一致，需用户优先核对引用准确性。两组必要事实已写出，尾段还要求题目未问的显式 public 范围，不能据 partial 标签自动否定核心内容。",
+      "quoted_answer": "private 仅该类及其友元 friend 可用，protected 在该类及其子类中可用 [3]",
+      "relevant_chunk_ids": ["83b355741c460e7c6417ba91", "652375bb426bbcbd19281b62"]
+    }
+  ],
+  "other_records_reviewed": [
+    {"question_id": "Q02", "method": "bm25", "status": "supported"},
+    {"question_id": "Q02", "method": "vector", "status": "supported"},
+    {"question_id": "Q03", "method": "bm25", "status": "supported"},
+    {"question_id": "Q07", "method": "bm25", "status": "supported"},
+    {"question_id": "Q07", "method": "vector", "status": "supported"},
+    {"question_id": "Q12", "method": "bm25", "status": "refused"},
+    {"question_id": "Q13", "method": "bm25", "status": "refused"},
+    {"question_id": "Q14", "method": "bm25", "status": "refused"},
+    {"question_id": "Q15", "method": "bm25", "status": "refused"},
+    {"question_id": "Q11", "method": "vector", "status": "refused"},
+    {"question_id": "Q12", "method": "vector", "status": "refused"},
+    {"question_id": "Q13", "method": "vector", "status": "refused"},
+    {"question_id": "Q14", "method": "vector", "status": "refused"},
+    {"question_id": "Q15", "method": "vector", "status": "refused"}
+  ],
+  "other_records_note": "上列其余记录已阅读，未另列优先异常；并不表示人工评分通过。九条纯 refused 记录均为约定拒答文本且无引用，仍须用户按陷阱金标准最终核对。",
+  "scoring_cautions": [
+    "这些提示不替代用户逐项填写 judgments.csv。高优先级表示需要先看，不等于已经人工判错。",
+    "系统错误保留原始记录；不重新请求、不补写引用、不用重测替代本轮。已有 hits 的检索命中与覆盖应独立审核。",
+    "supported、partial、uncertain、refused 是模型或服务状态，不是人工正确性标签。尤其不要将所有 partial 自动判为缺必需事实。",
+    "来源范围重叠和引用逐字真实性不是语义支持。等价证据可经人工接纳，不能只认固定 chunk ID；也不能用相邻相关词替代缺失必要事实。",
+    "原文中的技术疑点、版本前提和符号区别须逐句检查；真实引用不能让错误泛化自动成为正确知识。",
+    "人工分母未核对完整时保留评分空白及正式率 null，不用本观察文档自动生成正确率、幻觉率或覆盖率。"
+  ]
+}

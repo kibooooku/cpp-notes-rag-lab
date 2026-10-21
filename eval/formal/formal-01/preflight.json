@@ -1,0 +1,68 @@
+{
+  "output_directory_new": true,
+  "api_key_present": true,
+  "source_snapshot": {
+    "sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "files": [
+      {
+        "source_file": "1运作原理 编译链接.md",
+        "sha256": "515916160958db83105d67f66d2eda9657b0ec1f78b0078fcb6907a01fc0b0c1"
+      },
+      {
+        "source_file": "2变量 头文件 调试 条件.md",
+        "sha256": "e06780f04d50213fb51ebf2fe164feb2b29f9b9d7402529638e0cb613ad45aaf"
+      },
+      {
+        "source_file": "3指针 引用.md",
+        "sha256": "d2bc118f016aac1814654bbbba9e6c137f23c29f2503ff0b00cf89911fe59ab7"
+      },
+      {
+        "source_file": "4类和结构体 static ODR.md",
+        "sha256": "947431a5633fc1eeaf951dab60e933b33df786d8b6c7a66bc0afa921b827b276"
+      },
+      {
+        "source_file": "5单例模式和局部静态.md",
+        "sha256": "83fdc3bd656f66a9ef282294d493e6f0dbd4746ec64168933133f2666b120749"
+      },
+      {
+        "source_file": "6枚举 构造函数 析构函数.md",
+        "sha256": "5b3f112c519e8b3fa78da022e0605cbbf21340aea62411b618d1e735d50ad465"
+      },
+      {
+        "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+        "sha256": "2fa71d54c1e3067fa064ec05be668786cc6926fde5fd3a2a2518d5fb53b5444e"
+      },
+      {
+        "source_file": "8纯虚函数（接口） 可见性.md",
+        "sha256": "8c128e20950f9fe328ce0b4114f7a02b0bafded90f13969299d16f49bf8dee12"
+      },
+      {
+        "source_file": "9数组 字符串.md",
+        "sha256": "dfa5438adb632320869b7d9a5ce6abb57d45cc361ac1242a7560d02e19cc85e3"
+      }
+    ]
+  },
+  "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+  "config_file_sha256": "9f4e648e7db917e5d2147a7fea0bec543f35e27b51a3b397de309e34c3e98e9e",
+  "budget_before": {
+    "limit_cny": 20.0,
+    "upper_estimate_cny": 0.0798048,
+    "requests": 24,
+    "unsettled_requests": 0,
+    "historical_allowance_cny": 0.01,
+    "note": "按官方高峰价的费用上界；含历史预留与用量未知请求，不代表实际扣款。"
+  },
+  "preflight_local_warmups": {
+    "bm25": {
+      "seconds": 0.26966499991249293,
+      "error": null
+    },
+    "vector": {
+      "seconds": 86.23192739998922,
+      "error": null
+    }
+  },
+  "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+  "chunk_count": 64,
+  "no_generation_calls": true
+}

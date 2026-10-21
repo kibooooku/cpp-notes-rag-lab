@@ -1,0 +1,3 @@
+﻿method,raw_records,reviewed_records,accuracy,trap_hallucination,top3_any_hit,multi_complete_coverage,mean_complete_latency_seconds,latency_sample_count,errors
+bm25,20,0,,,,,1.8141230158078925,19,1
+vector,20,0,,,,,1.7054926649958362,20,0

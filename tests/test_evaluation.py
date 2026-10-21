@@ -73,12 +73,16 @@ class EvaluationTests(unittest.TestCase):
     def test_exact_draft_composition_and_formal_gate(self):
         self.assertEqual(len(self.questions), 20)
         self.assertEqual({c: sum(q["category"] == c for q in self.questions) for c in ("answerable", "unanswerable", "multi")}, {"answerable": 10, "unanswerable": 5, "multi": 5})
-        self.assertTrue(all(not q["reviewed"] for q in self.questions))
+        draft = copy.deepcopy(self.questions)
+        for q in draft:
+            q.update(reviewed=False, reviewer=None)
+        path = self.root / "unapproved.json"
+        write_json(path, draft)
         with self.assertRaisesRegex(EvaluationError, "await user review"):
-            load_questions(ROOT / "eval/questions.json", formal=True, snapshot={"sha256": "corpus"}, chunks_sha256="chunks")
+            load_questions(path, formal=True, snapshot={"sha256": "corpus"}, chunks_sha256="chunks")
         service = FakeService()
         with self.assertRaises(EvaluationError):
-            run_experiment(service, FakeSettings(), self.questions, self.root / "bad", {"corpus_sha256": "corpus", "chunks_sha256": "chunks"})
+            run_experiment(service, FakeSettings(), draft, self.root / "bad", {"corpus_sha256": "corpus", "chunks_sha256": "chunks"})
         self.assertEqual(service.calls, [])
 
     def test_snapshots_and_chunk_approval_cannot_be_reused_after_change(self):
@@ -97,6 +101,8 @@ class EvaluationTests(unittest.TestCase):
 
     def test_review_sheet_preserves_scoring_boundaries_and_portable_hash(self):
         questions = copy.deepcopy(self.questions)
+        for q in questions:
+            q.update(reviewed=False, reviewer=None)
         questions[0]["scoring_notes"] = "允许等价解释；不要求示例中的固定数值。"
         path = self.root / "questions.json"
         sheet = self.root / "review.md"

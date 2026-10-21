@@ -1,0 +1,23 @@
+{
+  "run_id": "20261021T062813.667648Z",
+  "files": {
+    "chunks.snapshot.json": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config.snapshot.toml": "9f4e648e7db917e5d2147a7fea0bec543f35e27b51a3b397de309e34c3e98e9e",
+    "cost_report.json": "ae93efde411d3d3de589e24744091ad0684d7363b909dd457caccac596d0fc1a",
+    "judgments.csv": "828942c28cec928e149947504dc5df0470ecc863e2e71192293806408d838e56",
+    "preflight.json": "a9f433b562d293d115c2961bdbccc1957d157cdd4e3a4ad224fe489fb529bb09",
+    "questions.snapshot.json": "3b23f1d6eb6d7b9a0298f9a13f18531c042751f67354630736d30a4b6d3b909b",
+    "README.md": "6d5db162df63fca81eecd7c4d5a98e73fd726207366c1f9b23a5f2b1dc7f74f3",
+    "results_bm25.json": "ebdde5e95e2f0c4af749bb776a5d8d7fae39ea9dd186cbc3cc6b849b543a4226",
+    "results_vector.json": "add61a00642fa7b2cc841c50780da126cc26ff2f02f46b4f3db12ca3b244167e",
+    "review-details.md": "b931ee9f0299587663e4048c1575aeeb6dd263bdef0a2bc4ea671be0f698741d",
+    "review-priorities.json": "9c37ec87052bf68622cdd54ccd760db9fdc20aaddc75dc6d865ae6757be63369",
+    "run_log.jsonl": "e25fbd3b3a84a153e796729e8b0c75ae4c3d5a5a6af6d00ac4ca58b05fc9a01d",
+    "run_metadata.json": "1cf24e875fa5824fc14432d9dff2de372c0baad43fb80c8e38347303c8bbe933",
+    "summary.csv": "b4e6c6016a7e7754bef5fef7d8bf314de80e70e37948c39abcc17722c4b9f9c9",
+    "summary.json": "413474f50ed47a973b29a1bf81d9cc6cae28b7f67a04f520820336f2ae9d14fc",
+    "system_prompt.snapshot.txt": "ce81b3f6767490a0915a003cc30f6c53b330499b875faf1752090212c95388e5",
+    "warmup.json": "960c12340a6d2ec3e30f87a9f7975f879c9635d4da4ff238d62c48b69bf42f79"
+  },
+  "note": "首轮交付时文件哈希；人工评分修改后须保留原始结果，不将改后评分误认为原始模板。"
+}

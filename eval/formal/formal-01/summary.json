@@ -1,0 +1,70 @@
+[
+  {
+    "method": "bm25",
+    "raw_records": 20,
+    "reviewed_records": 0,
+    "answer_accuracy": {
+      "numerator_reviewed": 0,
+      "reviewed_denominator": 0,
+      "required_denominator": 20,
+      "rate": null
+    },
+    "trap_hallucination_rate": {
+      "numerator_reviewed": 0,
+      "reviewed_denominator": 0,
+      "required_denominator": 5,
+      "rate": null
+    },
+    "top3_any_hit": {
+      "numerator_reviewed": 0,
+      "reviewed_denominator": 0,
+      "required_denominator": 15,
+      "rate": null
+    },
+    "multi_complete_coverage": {
+      "numerator_reviewed": 0,
+      "reviewed_denominator": 0,
+      "required_denominator": 5,
+      "rate": null
+    },
+    "first_complete_answer_latency_seconds": 1.8141230158078925,
+    "latency_sample_count": 19,
+    "api_or_runtime_errors": 1,
+    "latency_definition": "Prewarmed question submission through full answer and citations; failures excluded and separately counted",
+    "formal_metrics_complete": false
+  },
+  {
+    "method": "vector",
+    "raw_records": 20,
+    "reviewed_records": 0,
+    "answer_accuracy": {
+      "numerator_reviewed": 0,
+      "reviewed_denominator": 0,
+      "required_denominator": 20,
+      "rate": null
+    },
+    "trap_hallucination_rate": {
+      "numerator_reviewed": 0,
+      "reviewed_denominator": 0,
+      "required_denominator": 5,
+      "rate": null
+    },
+    "top3_any_hit": {
+      "numerator_reviewed": 0,
+      "reviewed_denominator": 0,
+      "required_denominator": 15,
+      "rate": null
+    },
+    "multi_complete_coverage": {
+      "numerator_reviewed": 0,
+      "reviewed_denominator": 0,
+      "required_denominator": 5,
+      "rate": null
+    },
+    "first_complete_answer_latency_seconds": 1.7054926649958362,
+    "latency_sample_count": 20,
+    "api_or_runtime_errors": 0,
+    "latency_definition": "Prewarmed question submission through full answer and citations; failures excluded and separately counted",
+    "formal_metrics_complete": false
+  }
+]

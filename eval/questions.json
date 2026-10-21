@@ -27,17 +27,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。保留编译链主题，移除对特定错误前缀的背诵；不要求出现 .obj/.exe 等平台特定扩展名，只要产物关系清楚即可。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "接受对三个阶段及其产物关系的等价解释；不要求特定文件扩展名、工具链错误前缀或源文件数量。"
+    "scoring_notes": "接受对三个阶段及其产物关系的等价解释；不要求特定文件扩展名、工具链错误前缀或源文件数量。",
+    "reviewed_content_sha256": "1794d18a9b54388b972e527b3aaad6893864e261567fe91e5d00497f1d3f70a3"
   },
   {
     "question_id": "Q02",
@@ -67,17 +69,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。保护宏名称可任意，不要求复现原宏名或写出整段代码；只说两种方法的名字而没有解释保护宏的作用，不算完整说明。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需说明两种防重复包含方式及保护宏的作用；不要求固定宏名或完整代码。"
+    "scoring_notes": "需说明两种防重复包含方式及保护宏的作用；不要求固定宏名或完整代码。",
+    "reviewed_content_sha256": "f8c1cd29cc833139365612f65ab3252a982aab17fa26706f1d3a02297438a1b0"
   },
   {
     "question_id": "Q03",
@@ -108,17 +112,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。不要求任何特定变量、数值、代码或运算结果；不涉及 const 指针和不可赋值对象。M05 中关于引用存储空间、指针是整数等待核表述不参与本题评分。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "只评绑定、赋值与指向变化的语义。无需原例变量名、具体数值、最终运算结果或代码；完整自然语言解释可以答对。"
+    "scoring_notes": "只评绑定、赋值与指向变化的语义。无需原例变量名、具体数值、最终运算结果或代码；完整自然语言解释可以答对。",
+    "reviewed_content_sha256": "4a3581be9650a9fcfb02753925eb50840e21770318c795c10f60b55766427824"
   },
   {
     "question_id": "Q04",
@@ -149,17 +155,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。不要求计数器、自增操作、初值或输出序列。M06 的“永久”只按跨多次调用理解，不扩大为永不销毁。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需区分局部可见性与跨调用生命周期，解释初始化后状态保留；不要求计数器、初值、递增操作或输出序列。"
+    "scoring_notes": "需区分局部可见性与跨调用生命周期，解释初始化后状态保留；不要求计数器、初值、递增操作或输出序列。",
+    "reviewed_content_sha256": "8c6402408d7ac70f1486c206541412b87f0c47d2f77721fbff5eb926ee3a2596"
   },
   {
     "question_id": "Q05",
@@ -205,17 +213,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。inline/static 和 C++17 是语义条件；不要求固定类型、成员名、初始化值或完整声明。M08 的 L50 泛化句不作为依据。 L50 仅接受末句关于 inline（C++17 起）完成定义并省去类外定义的同义信息；该行前半泛化不得作为规则。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "C++17、inline 静态数据成员与共享存储是实质条件；类型、成员名、初始值和完整声明不是得分条件。接受其他真正支持这些事实的等价来源，不接纳普通 static 初始化的泛化。"
+    "scoring_notes": "C++17、inline 静态数据成员与共享存储是实质条件；类型、成员名、初始值和完整声明不是得分条件。接受其他真正支持这些事实的等价来源，不接纳普通 static 初始化的泛化。",
+    "reviewed_content_sha256": "17bc89f745a158155de016270fadc3e3deb7d5bc65d50249e81e9daa66cb9027"
   },
   {
     "question_id": "Q06",
@@ -246,17 +256,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。不要求特定类、访问函数或对象名称。M09/M10 仍需复核：本题只评局部静态对象的初始化和生命周期，不评原单例示例是否完整。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需说明首次初始化、退出清理和 C++11 起的初始化并发保证；不要求特定单例名称，也不要求补充笔记未覆盖的完整单例实现。"
+    "scoring_notes": "需说明首次初始化、退出清理和 C++11 起的初始化并发保证；不要求特定单例名称，也不要求补充笔记未覆盖的完整单例实现。",
+    "reviewed_content_sha256": "f6d0a2c0f7334050d7ea67c3e9e5a275bdfa8a764ee01637636c77c9a49050fb"
   },
   {
     "question_id": "Q07",
@@ -287,17 +299,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。不要求任何类名、静态方法名或完整代码。限定默认构造函数，避免无依据断言所有其他构造方式也被禁止。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需区分 private 访问限制、删除默认构造函数与静态方法调用；可用文字解释，不要求特定类名、函数名或完整声明。"
+    "scoring_notes": "需区分 private 访问限制、删除默认构造函数与静态方法调用；可用文字解释，不要求特定类名、函数名或完整声明。",
+    "reviewed_content_sha256": "327a14281f094ebed523e8c8093afe49b875e759e4cca18b89eb7fe2f1920985"
   },
   {
     "question_id": "Q08",
@@ -339,17 +353,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。保留初始化机制与声明顺序主题，撤去“三类成员绝对必须写初始化列表”的考点，避免遗漏笔记未介绍的 C++11 默认成员初始化选项。M15 的性能与代码完整性疑点不参与评分；不要求判断某段省略代码是否能编译。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "在题目限定的类类型成员构造场景下解释直接构造与默认构造后赋值，并说明声明顺序；不要求特定成员、固定性能收益或判断省略代码能否编译。"
+    "scoring_notes": "在题目限定的类类型成员构造场景下解释直接构造与默认构造后赋值，并说明声明顺序；不要求特定成员、固定性能收益或判断省略代码能否编译。",
+    "reviewed_content_sha256": "b10b83b557b78f5499dff8fe1a4f92d5df6a9eb3afb52b68f8bccfd1e1127413"
   },
   {
     "question_id": "Q09",
@@ -400,17 +416,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。不要求任何类名或成员函数名，也不要求写出声明；若使用 const、* 等符号，应保持语义正确。M16 的术语与 mutable 限定仍需用户复核，不要求展开笔记之外的深层 const 规则。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需正确区分所指对象与指针本身，并说明 const 成员函数的配合；不要求固定函数名、完整声明或展开 mutable 细节，不接受把浅层 const 绝对化。"
+    "scoring_notes": "需正确区分所指对象与指针本身，并说明 const 成员函数的配合；不要求固定函数名、完整声明或展开 mutable 细节，不接受把浅层 const 绝对化。",
+    "reviewed_content_sha256": "7791cf162ecfe7e54d19acce1a84a7d0ac8ff40364e752b1e444cafcc8f8bd6c"
   },
   {
     "question_id": "Q10",
@@ -442,17 +460,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "待用户审核；按概念与机制是否正确、完整且有原文支持判分，接受语义等价表述和不同命名，不要求另举例、逐字复述或复现示例。不要求具体字符串、数组长度、字符位置或修改后的结果。M19 中的 C/C++ 标题混用及存储位置泛化仍待核，本题限定 C++ 普通字符串字面量，不考实现细节。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需说明常量字符数组、常见表达式中的指针退化和可写副本；不要求任何字面量、数组长度、字符位置或修改结果。"
+    "scoring_notes": "需说明常量字符数组、常见表达式中的指针退化和可写副本；不要求任何字面量、数组长度、字符位置或修改结果。",
+    "reviewed_content_sha256": "d6cd453b8efec9cb58d266378c179cc3afd84d8bcd441c56552b42d35b9dc79c"
   },
   {
     "question_id": "Q11",
@@ -470,17 +490,19 @@
     ],
     "corpus_answerability": false,
     "missing_information": "完整阅读当前九篇笔记后，仅在《6枚举 构造函数 析构函数.md》L4 见到 enum class 的推荐与以后介绍的提示；L5–22 是传统枚举示例。全文未给出所问的名字作用域与隐式类型转换比较。",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念型陷阱候选，待用户审核；只读核查了原始九篇笔记及当前题库，未作外部技术裁决。出现名词或推荐语不等于已有机制证据。评分不要求固定例子、变量名、数值或逐字复述背景；正式冻结前以最终生效语料再查答案缺口。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "明确资料不足且不补出缺失比较即可；不强制逐字使用固定拒答句，也不强制复述笔记中的推荐语。"
+    "scoring_notes": "明确资料不足且不补出缺失比较即可；不强制逐字使用固定拒答句，也不强制复述笔记中的推荐语。",
+    "reviewed_content_sha256": "6a6ab49654543ce34dd8c69df5348399c9fd5053c3958d98e08b8bd56b596631"
   },
   {
     "question_id": "Q12",
@@ -498,17 +520,19 @@
     ],
     "corpus_answerability": false,
     "missing_information": "《6枚举 构造函数 析构函数.md》L29–31 只将复制构造函数、移动构造函数列为特殊构造函数。全文没有 std::move 的机制说明、移动语义解释或两者关系的说明。",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念型陷阱候选，待用户审核；未作外部技术裁决，不提供文档外的教材答案。只出现移动构造名称不构成机制证据。移除了实现代码任务；无固定示例或参数评分要求，正式冻结前复查最终语料。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "明确资料缺少所问机制且不补出 std::move 或移动构造原理即可；无需复述已出现的术语或提供实现。"
+    "scoring_notes": "明确资料缺少所问机制且不补出 std::move 或移动构造原理即可；无需复述已出现的术语或提供实现。",
+    "reviewed_content_sha256": "fae1c6895a385790c9cf81cbc516b538a9050af5f9212602439388b415242640"
   },
   {
     "question_id": "Q13",
@@ -526,17 +550,19 @@
     ],
     "corpus_answerability": false,
     "missing_information": "《3指针 引用.md》L21–24 和《7多态 虚函数 初始化列表 智能指针.md》L55–66 只提供 unique_ptr 等自动管理内存的示例。全文没有 shared_ptr、weak_ptr 的所有权机制，也没有循环引用的说明。",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念型陷阱候选，待用户审核；未作外部技术裁决。相关大类名称不代表所问机制已经有证据；背景说明不是答对所必需，简洁拒答可以通过。正式冻结前复查全部生效资料。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "明确资料不足且不编造共享所有权、弱引用或循环引用结论即可；unique_ptr 背景不是得分必需项。"
+    "scoring_notes": "明确资料不足且不编造共享所有权、弱引用或循环引用结论即可；unique_ptr 背景不是得分必需项。",
+    "reviewed_content_sha256": "3eca57b70cb55ee3cf1ee28540e36d1c7a31f39876deee7765f29444a7ababac"
   },
   {
     "question_id": "Q14",
@@ -554,17 +580,19 @@
     ],
     "corpus_answerability": false,
     "missing_information": "《9数组 字符串.md》L80–87 讨论字面量、指针退化和 std::string 的可写副本；L86 虽提到堆或栈，但未说明短字符串优化、SSO 机制或启用条件。完整九篇均未提供所问机制。",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念型陷阱候选，待用户审核；已删除精确阈值数值问题。问题只问机制与启用条件，评分不要求猜测任何数值；出现 std::string 或存储位置背景不等于有 SSO 机制证据。未作外部技术裁决，正式冻结前复查最终语料。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "明确资料没有 SSO 机制及条件且不臆造即可；无需任何阈值、实现版本或存储细节，简洁拒答可以答对。"
+    "scoring_notes": "明确资料没有 SSO 机制及条件且不臆造即可；无需任何阈值、实现版本或存储细节，简洁拒答可以答对。",
+    "reviewed_content_sha256": "49751b8a41ed60165b8260d324dc06394ce00c3b604cc68762fbbcbf9ce84b84"
   },
   {
     "question_id": "Q15",
@@ -582,17 +610,19 @@
     ],
     "corpus_answerability": false,
     "missing_information": "《9数组 字符串.md》L1–61 涉及数组和容器的存储、长度及使用，L62–79 是堆栈开销讨论；这些内容没有介绍 std::sort。完整九篇没有排序策略或所问时间复杂度的说明。",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念型陷阱候选，待用户审核；未作外部技术裁决，不填入文档外的排序教材答案。相关容器名出现不构成算法机制证据；无示例输出或固定数值评分要求，正式冻结前复查最终语料。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": false,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "明确资料没有排序机制及复杂度且不补出外部知识即可；无需算法名、复杂度公式或示例。"
+    "scoring_notes": "明确资料没有排序机制及复杂度且不补出外部知识即可；无需算法名、复杂度公式或示例。",
+    "reviewed_content_sha256": "55ce9b2e2973f951bb61c846dc7b5cca127019093fd5a765a425efc678cb9d4b"
   },
   {
     "question_id": "Q16",
@@ -649,17 +679,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念化修订候选，尚未由用户批准。推荐使用 F1 L17—20、F4 L44—47、L48 三个清晰证据片段；B 组同时接纳 F4 L50 末半重复的合法 C++17 信息，因此两个切片也可能充分，不能把三片段当作唯一可接受组合。L50 只允许其最后关于 inline（C++17 起）可完成定义并省类外定义的句子，不接纳前半普通 static int 初始化泛化。任何单个现有切片都不能同时支持普通函数重复定义与类内 inline static 的完整对比。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": true,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "至少给出一种笔记支持的重复定义处理方式，并完整区分文件作用域 static 与 C++17 类内 inline static 的语义及共享存储。不要求固定成员名、初始化值或机器码份数；推荐三片证据，也接受两个语义充分的等价片段。"
+    "scoring_notes": "至少给出一种笔记支持的重复定义处理方式，并完整区分文件作用域 static 与 C++17 类内 inline static 的语义及共享存储。不要求固定成员名、初始化值或机器码份数；推荐三片证据，也接受两个语义充分的等价片段。",
+    "reviewed_content_sha256": "44f8996ed546558a9f0525748ecb955873f0864b71133a3470a1e61578cf46ba"
   },
   {
     "question_id": "Q17",
@@ -711,17 +743,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念化修订候选，尚未由用户批准。初始化列表结论仅限笔记给出的构造方式，不否定 C++11 起可用的默认成员初始化等其他合法形式；这里排除的是先不绑定、再在构造函数体靠赋值完成初次绑定。A 的赋值语义由 F3 的文字与代码共同支持；F7 的初始化片段虽说明不能改绑，但没有独立展示已有引用赋值改变被引用对象值的语义。B 有文字与完整成员代码等替代来源，不能只接受一个固定切片。按当前存储最少需要两个语义充分的切片。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": true,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需同时解释已有引用赋值的效果与引用成员构造时的绑定，接受文字及等价代码证据。不要求原例类名、成员名或数值；初始化列表按笔记给出的构造方式说明，不否定默认成员初始化等其他合法形式。"
+    "scoring_notes": "需同时解释已有引用赋值的效果与引用成员构造时的绑定，接受文字及等价代码证据。不要求原例类名、成员名或数值；初始化列表按笔记给出的构造方式说明，不否定默认成员初始化等其他合法形式。",
+    "reviewed_content_sha256": "06c013fb1502a36c342856931a74b4ac770354a05c961c3e741bd944e3ca28c2"
   },
   {
     "question_id": "Q18",
@@ -773,17 +807,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念化修订候选，尚未由用户批准。实际三个片段分别提供异常/悬空与自动管理、函数参数退化、vector.size()；其中任一片段都缺少另一个必需概念。当前最少充分证据为三个切片，适配 Top-3，不改切分。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": true,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需区分资源管理与长度管理，覆盖手动管理风险、vector 自动管理与 size、数组参数退化；不要求原例元素类型、长度、变量名或操作顺序。"
+    "scoring_notes": "需区分资源管理与长度管理，覆盖手动管理风险、vector 自动管理与 size、数组参数退化；不要求原例元素类型、长度、变量名或操作顺序。",
+    "reviewed_content_sha256": "a69688fe8218d6baa489a9bfd8f10a2a4b2643e85437cdd46dbd8b416c4de4e8"
   },
   {
     "question_id": "Q19",
@@ -826,17 +862,19 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念化修订候选，尚未由用户批准。F8 的整段代码与正文已足以支持虚/纯虚的很多正向例子，因此题目特意保留真正需要 F7 的必需事实：仅继承加基类指针不足、普通成员函数默认静态绑定。F8 没有这个反向规则，F7 的相关切片则没有抽象类不能实例化的规则。当前为两个真实切片，不能仅凭示例中出现 virtual 就认定已证明无 virtual 时的默认绑定。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": true,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需覆盖默认静态绑定与 virtual、纯虚抽象类的实例化限制及基类指针/引用的使用。不要求任何特定类名、函数名、构造参数或输出，也不强制讨论 override 或虚表实现。"
+    "scoring_notes": "需覆盖默认静态绑定与 virtual、纯虚抽象类的实例化限制及基类指针/引用的使用。不要求任何特定类名、函数名、构造参数或输出，也不强制讨论 override 或虚表实现。",
+    "reviewed_content_sha256": "107d2d2164c877aeefd1be61ba45b09db32c7ec5d1b19aab2daa74524f8da254"
   },
   {
     "question_id": "Q20",
@@ -878,16 +916,18 @@
     ],
     "corpus_answerability": true,
     "missing_information": "",
-    "reviewed": false,
-    "reviewer": null,
-    "review_notes": "概念化修订候选，尚未由用户批准。实际默认权限片段只给 class/struct 的默认值；显式可见性片段才给出 private 的友元范围与 protected 的子类范围。不能因为完整代码中出现 public/private 标记，就把代码片段当成已解释默认权限和全部访问范围。当前最少需要两个切片。",
-    "source_snapshot": null,
+    "reviewed": true,
+    "reviewer": "项目用户（当前对话确认）",
+    "review_notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。",
+    "source_snapshot": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
     "evidence_audit": {
-      "reviewed": false,
-      "reviewer": null,
-      "chunks_sha256": null,
-      "single_chunk_insufficient": null
+      "reviewed": true,
+      "reviewer": "项目用户（当前对话确认）",
+      "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+      "single_chunk_insufficient": true,
+      "notes": "2026-10-21 用户在当前对话确认：新版题目可以，开始跑 BM25 和向量检索各 20 题的正式评测。依据本轮明确确认及已提供的新版审核单、证据结构说明记录题库批准；正式结果的人工判分另行待审。"
     },
-    "scoring_notes": "需区分默认权限和显式访问标记；不要求具体类或成员名，不要求穷尽笔记未讲的友元、继承方式等访问控制细节。"
+    "scoring_notes": "需区分默认权限和显式访问标记；不要求具体类或成员名，不要求穷尽笔记未讲的友元、继承方式等访问控制细节。",
+    "reviewed_content_sha256": "de1bedc406ca49196b8f3814bdb9aff07cb3ba62e5952100647ba7a6c6c3f769"
   }
 ]

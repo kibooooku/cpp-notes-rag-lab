@@ -3,6 +3,9 @@
 问答素材/** -text
 作业要求/** -text
 data/import_samples/*.txt -text
+# Formal results and their recorded byte hashes must survive checkout unchanged.
+eval/formal/** -text
 *.png binary
+*.xlsx binary
 *.bat text eol=crlf
 *.ps1 text eol=crlf

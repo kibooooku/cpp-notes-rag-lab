@@ -1,0 +1,2564 @@
+[
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 3,
+    "question_id": "Q05",
+    "category": "answerable",
+    "question": "C++17 起，inline 如何改变类内静态数据成员的定义方式？多个编译单元看到相同定义时，这个成员是否仍表示同一份共享状态？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "C++17 起，inline 如何改变类内静态数据成员的定义方式？多个编译单元看到相同定义时，这个成员是否仍表示同一份共享状态？",
+      "method": "bm25",
+      "status": "uncertain",
+      "answer": "根据资料：C++17 起，在类内静态数据成员前加 `inline`（如 `inline static int x = 0;`）即视为定义，不再需要在 .cpp 中另写 `int Entity::x;`；`inline` 放宽了 ODR 限制，允许多个编译单元存在相同定义，链接时只保留一份副本，且 `Entity::x` 在内存中只有一个全局唯一地址 [1][2]。但相关证据带有“资料待核”标记（M02、M06、M07、M08），上述关于 ODR 放宽与内存唯一性的表述属于待核范围，不能据此扩展为语言层面的绝对保证。",
+      "citations": [
+        {
+          "chunk_id": "10bcf1b56640c6a7b9d0694e",
+          "source_file": "4类和结构体 static ODR.md",
+          "heading": "static的三种用法 / 3.在类或结构体内",
+          "line_start": 40,
+          "line_end": 47,
+          "quote": "- <span style=\"color:rgb(255, 192, 0)\">相当于在Entity命名空间中创建了两个变量，他们实际上不属于类</span>\n- 带 `::` 作用域限定符的变量定义**必须**出现在全局作用域（或命名空间作用域）中，不允许出现在函数体 `{}` 内部。\n\t- <span style=\"color:rgb(255, 77, 77)\"><b>C++ 的单一定义规则（ODR，One Definition Rule）</b></span>\n\t\t- **一句话核心概括：** 在整个程序（所有 `.cpp` 文件加起来）中，**任何变量、函数、类、枚举、模板等实体，只能有且仅有一个“定义”（Definition）。可以有无数次“声明”（Declaration），但定义必须唯一。**\n\t- // C++17起有了 inline，在结构体static前加上inline，这就是定义，不需要再在 cpp 里写 int Entity::x;\n\t\t- 在 C++17 之前（也就是你下面这段代码的写法），类的静态成员必须在头文件（`.h`）里**声明**，再在源文件（`.cpp`）里**定义**。\n\t\t- 加上 `inline static int x = 0;` 后：\n\t\t\t- **放宽了 ODR 限制**：`inline` 告诉编译器：“这个变量可以有多个相同的定义（分散在不同的 `.cpp` 编译单元里），没事，你们各自编译，最后链接的时候**只保留一份副本**就行了。”",
+          "review_flags": [
+            "M06:资料待核",
+            "M07:资料待核",
+            "M08:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "b29b977ae5c5e16ad21cca0a",
+          "source_file": "4类和结构体 static ODR.md",
+          "heading": "static的三种用法 / 3.在类或结构体内",
+          "line_start": 48,
+          "line_end": 52,
+          "quote": "\t\t\t- **内存唯一性**：虽然 `main.cpp` 和 `test.cpp` 编译时都看到了这份定义，但经过链接器的合并后，最终生成的程序中，`Entity::x` 在内存里依然**只有一个全局唯一的地址**。\n\t- 该部分总结：\n\t\t- 在 C++17 之前，类内的 `static int x;` 永远只是<span style=\"color:rgb(255, 77, 77)\"><b>声明</b></span>。即使你写成 `static int x = 5;`（直接初始化），在没有 `inline` 的情况下，它依然只是声明加了一个默认初始化器，**依然不算定义**，必须在类外补 `int Entity::x;`。只有加上 `inline`（C++17 起），编译器才把这一行视为<span style=\"color:rgb(255, 77, 77)\"><b>定义</b></span>，从而允许你省略类外定义。\n- 静态方法不能访问非静态变量\n\t- 因为静态方法没有类实例",
+          "review_flags": [
+            "M08:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "120803ae88ae81dcd8a86a9b",
+            "document_id": "1cfeb1afc806e25091e59ce5",
+            "text": "\t\t\t- inline的含义：允许多个编译单元中存在<span style=\"color:rgb(255, 192, 0)\">相同</span>的函数定义。好处：最后.exe中只会保留一份机器码。",
+            "spans": [
+              {
+                "source_file": "1运作原理 编译链接.md",
+                "heading": "无标题（原文）",
+                "line_start": 21,
+                "line_end": 21
+              }
+            ],
+            "review_flags": [
+              "M02:资料待核"
+            ]
+          },
+          "score": 66.4410089425987,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "10bcf1b56640c6a7b9d0694e",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "- <span style=\"color:rgb(255, 192, 0)\">相当于在Entity命名空间中创建了两个变量，他们实际上不属于类</span>\n- 带 `::` 作用域限定符的变量定义**必须**出现在全局作用域（或命名空间作用域）中，不允许出现在函数体 `{}` 内部。\n\t- <span style=\"color:rgb(255, 77, 77)\"><b>C++ 的单一定义规则（ODR，One Definition Rule）</b></span>\n\t\t- **一句话核心概括：** 在整个程序（所有 `.cpp` 文件加起来）中，**任何变量、函数、类、枚举、模板等实体，只能有且仅有一个“定义”（Definition）。可以有无数次“声明”（Declaration），但定义必须唯一。**\n\t- // C++17起有了 inline，在结构体static前加上inline，这就是定义，不需要再在 cpp 里写 int Entity::x;\n\t\t- 在 C++17 之前（也就是你下面这段代码的写法），类的静态成员必须在头文件（`.h`）里**声明**，再在源文件（`.cpp`）里**定义**。\n\t\t- 加上 `inline static int x = 0;` 后：\n\t\t\t- **放宽了 ODR 限制**：`inline` 告诉编译器：“这个变量可以有多个相同的定义（分散在不同的 `.cpp` 编译单元里），没事，你们各自编译，最后链接的时候**只保留一份副本**就行了。”",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 3.在类或结构体内",
+                "line_start": 40,
+                "line_end": 47
+              }
+            ],
+            "review_flags": [
+              "M06:资料待核",
+              "M07:资料待核",
+              "M08:资料待核"
+            ]
+          },
+          "score": 61.44376325550753,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "b29b977ae5c5e16ad21cca0a",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "\t\t\t- **内存唯一性**：虽然 `main.cpp` 和 `test.cpp` 编译时都看到了这份定义，但经过链接器的合并后，最终生成的程序中，`Entity::x` 在内存里依然**只有一个全局唯一的地址**。\n\t- 该部分总结：\n\t\t- 在 C++17 之前，类内的 `static int x;` 永远只是<span style=\"color:rgb(255, 77, 77)\"><b>声明</b></span>。即使你写成 `static int x = 5;`（直接初始化），在没有 `inline` 的情况下，它依然只是声明加了一个默认初始化器，**依然不算定义**，必须在类外补 `int Entity::x;`。只有加上 `inline`（C++17 起），编译器才把这一行视为<span style=\"color:rgb(255, 77, 77)\"><b>定义</b></span>，从而允许你省略类外定义。\n- 静态方法不能访问非静态变量\n\t- 因为静态方法没有类实例",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 3.在类或结构体内",
+                "line_start": 48,
+                "line_end": 52
+              }
+            ],
+            "review_flags": [
+              "M08:资料待核"
+            ]
+          },
+          "score": 40.77964796950904,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 2.964719400042668,
+      "retrieval_seconds": 1.2932542000198737,
+      "generation_seconds": 1.6645306999562308,
+      "usage": {
+        "prompt_tokens": 1316,
+        "completion_tokens": 205,
+        "total_tokens": 1521,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1188
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"uncertain\",\"answer\":\"根据资料：C++17 起，在类内静态数据成员前加 `inline`（如 `inline static int x = 0;`）即视为定义，不再需要在 .cpp 中另写 `int Entity::x;`；`inline` 放宽了 ODR 限制，允许多个编译单元存在相同定义，链接时只保留一份副本，且 `Entity::x` 在内存中只有一个全局唯一地址 [1][2]。但相关证据带有“资料待核”标记（M02、M06、M07、M08），上述关于 ODR 放宽与内存唯一性的表述属于待核范围，不能据此扩展为语言层面的绝对保证。\",\"citations\":[{\"chunk_id\":\"10bcf1b56640c6a7b9d0694e\"},{\"chunk_id\":\"b29b977ae5c5e16ad21cca0a\"}]}",
+      "run_id": "400efec8e3b84e7895b30ea298700b36",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 2.970095100114122,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A",
+        "B"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 5,
+    "question_id": "Q04",
+    "category": "answerable",
+    "question": "函数内局部 static 的可见范围和生命周期有什么特点？它为什么能在多次调用之间保留状态？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "函数内局部 static 的可见范围和生命周期有什么特点？它为什么能在多次调用之间保留状态？",
+      "method": "bm25",
+      "status": "uncertain",
+      "answer": "文档记载：函数内等作用域中的局部 static，作用域外无法访问；其生命周期被拉到永久，相当于定义时的赋值只执行一次，因此多次调用该函数时变量值会保留并递增，而不是每次重新输出 1 [1]。\n\n但需注意：该条证据带有“资料待核”标记，上述“生命周期拉到永久”“只赋值一次”等表述属于待核范围，不能据此扩展为语言层面的绝对保证。文档未记载局部 static 的初始化时机、线程安全等细节。",
+      "citations": [
+        {
+          "chunk_id": "0c21e9df938c896ac68d24fa",
+          "source_file": "4类和结构体 static ODR.md",
+          "heading": "static的三种用法 / 2.在类或结构体外、作用域内的局部static",
+          "line_start": 13,
+          "line_end": 24,
+          "quote": "## 2.在类或结构体外、作用域内的局部static\n- 作用域内：如函数内、if for语句内等\n- 作用1：作用域外无法访问\n- 作用2：把变量的生命周期拉到永久，相当于定义时的赋值只会赋值一次（下例中，多次访问该函数，i的值递增而不是重复输出1）\n\t- 参见“5单例模式和局部静态”来进一步理解这个用法\n```cpp\nvoid Function() {\n\tstatic int i = 0;\n\ti++;\n\tstd::cout << i << std::endl;\n}\n```",
+          "review_flags": [
+            "M06:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "0c21e9df938c896ac68d24fa",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "## 2.在类或结构体外、作用域内的局部static\n- 作用域内：如函数内、if for语句内等\n- 作用1：作用域外无法访问\n- 作用2：把变量的生命周期拉到永久，相当于定义时的赋值只会赋值一次（下例中，多次访问该函数，i的值递增而不是重复输出1）\n\t- 参见“5单例模式和局部静态”来进一步理解这个用法\n```cpp\nvoid Function() {\n\tstatic int i = 0;\n\ti++;\n\tstd::cout << i << std::endl;\n}\n```",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 2.在类或结构体外、作用域内的局部static",
+                "line_start": 13,
+                "line_end": 24
+              }
+            ],
+            "review_flags": [
+              "M06:资料待核"
+            ]
+          },
+          "score": 44.58151231940982,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "83b355741c460e7c6417ba91",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "- 类和结构体除了可见性，其实没有本质区别\n\t- 可见性不同\n\t\t- 结构体struct的有成员默认为public\n\t\t- 类class所有成员<span style=\"color:rgb(255, 192, 0)\">默认为private</span>\n\t- 其实结构体里也可以定义函数，也有构造函数\n\t- struct之所以保留只是为了兼容C的代码\n\t- C++代码风格来说，一般struct只作为多个变量的集中存放（但实际上当类用也可以），不参与继承等操作（虽然实际上也可以）",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "无标题（原文）",
+                "line_start": 1,
+                "line_end": 7
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 21.446683063749845,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "9610f6a7e802284b15734dce",
+            "document_id": "83d501db8f7147ff8e5ed103",
+            "text": "# 传统数组\n- 数组的本质是连续的数据块，索引的本质是指针操作去访问\n- 栈和堆上创建数组的区别\n\t- 栈上 `int a[10]`\n\t\t- 数组名a指向数组首地址\n\t\t- 离开作用域会自动释放\n\t- 堆上 `int *ptr = new int[10]`\n\t\t- 指针ptr的内存空间包含指向数组的地址\n\t\t- 生命周期可以无限长，需要手动释放\n\t\t- 删除操作：`delete[] ptr`\n\t- 堆上数组“开销大”指的是**额外的内存占用**和**分配时的系统调用**，主要有以下三个层面：\n\t    1. **分配慢**（系统调用 vs 一条 CPU 指令）。\n\t    2. **多读一次**（先读指针变量，再读目标数据）。\n\t    3. **缓存差**（栈连续紧凑，堆可能天南海北）。\n\t    - （详细解释见本页面最下面的附录）\n- 数组一定不能越界（有时甚至不会报错，难以排查）\n- 数组大小需要自己维护\n\t- 没有办法像那种把数组作为实例的语言，直接用a.size获得数组大小\n\t- c++中，数组大小需要自己维护，`sizeof(a) / sizeof(int)`也是不可靠的！\n\t- 原因：当数组作为函数参数进行传递时，会自动退化decay为指向首元素的指针\n\t- 维护数组大小的实际方法可见下例，定义xxxSize",
+            "spans": [
+              {
+                "source_file": "9数组 字符串.md",
+                "heading": "传统数组",
+                "line_start": 1,
+                "line_end": 21
+              }
+            ],
+            "review_flags": [
+              "M17:资料待核"
+            ]
+          },
+          "score": 17.205950053845747,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.6785761000355706,
+      "retrieval_seconds": 0.024075299967080355,
+      "generation_seconds": 1.6508884000359103,
+      "usage": {
+        "prompt_tokens": 1235,
+        "completion_tokens": 147,
+        "total_tokens": 1382,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1107
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"uncertain\",\"answer\":\"文档记载：函数内等作用域中的局部 static，作用域外无法访问；其生命周期被拉到永久，相当于定义时的赋值只执行一次，因此多次调用该函数时变量值会保留并递增，而不是每次重新输出 1 [1]。\\n\\n但需注意：该条证据带有“资料待核”标记，上述“生命周期拉到永久”“只赋值一次”等表述属于待核范围，不能据此扩展为语言层面的绝对保证。文档未记载局部 static 的初始化时机、线程安全等细节。\",\"citations\":[{\"chunk_id\":\"0c21e9df938c896ac68d24fa\"}]}",
+      "run_id": "6cc3961788244a508983ee61964235f2",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.684268100070767,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 6,
+    "question_id": "Q14",
+    "category": "unanswerable",
+    "question": "std::string 的短字符串优化（SSO）是什么，它在什么情况下会起作用？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "std::string 的短字符串优化（SSO）是什么，它在什么情况下会起作用？",
+      "method": "bm25",
+      "status": "refused",
+      "answer": "文档中没有相关信息",
+      "citations": [],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "36efb9bae86c64dd9d2fc1d1",
+            "document_id": "5834b153c1fd9a711786d9ce",
+            "text": "# 调试\n- 断点+读取内存（F9或点侧边栏，打在可执行语句处）\n\t- release mode和debug mode\n\t\t- 在debug模式下会执行所有语句，调试时使用这个模式\n\t\t- 在release模式下会有自动的优化，调试时打断点的语句可能就不执行了\n\t- F10 11 12：step in进入函数，step over下一句，step out出函数\n\t- 指着的语句是即将执行的（还没执行）\n\t- autos locals窗口会自动显示一些变量，watch窗口可自行输入变量名来观察变量\n\t- F5 continue，继续运行，直到下一个断点\n\t- 转汇编调试（记得关掉各种优化，否则很多语句会被优化掉）",
+            "spans": [
+              {
+                "source_file": "2变量 头文件 调试 条件.md",
+                "heading": "调试",
+                "line_start": 26,
+                "line_end": 35
+              }
+            ],
+            "review_flags": [
+              "M04:资料待核"
+            ]
+          },
+          "score": 24.511439255405,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "a48af37737f0e83efea96c4e",
+            "document_id": "83d501db8f7147ff8e5ed103",
+            "text": "# 字符串\n- 本质（C中）：const char* 定义的字符数组\n\t- 原因：字符串存储在内存的**只读区域**，对其的修改属于**未定义行为**，所以要用const\n\t- 在底层，`\"hello\"` 的类型是 **`const char[6]`**（一个长度为 6 的常量字符数组）。\n    - 只不过在大多数表达式中（比如赋值给指针时），数组名会**退化**（Decay）为指向首元素的指针，所以成了 `const char*`。\n- C++：std::string（需要`#include<string>`）\n\t- `std::string` 的构造函数会将只读的 `\"hello\"` **深拷贝**一份，存放到**堆（Heap）**或栈上的可写内存中。\n\t- 之后你修改 `s[0]`，改的是这份拷贝，而不是原始的只读字面量。",
+            "spans": [
+              {
+                "source_file": "9数组 字符串.md",
+                "heading": "字符串",
+                "line_start": 80,
+                "line_end": 87
+              }
+            ],
+            "review_flags": [
+              "M19:资料待核"
+            ]
+          },
+          "score": 20.217961622894265,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "b29b977ae5c5e16ad21cca0a",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "\t\t\t- **内存唯一性**：虽然 `main.cpp` 和 `test.cpp` 编译时都看到了这份定义，但经过链接器的合并后，最终生成的程序中，`Entity::x` 在内存里依然**只有一个全局唯一的地址**。\n\t- 该部分总结：\n\t\t- 在 C++17 之前，类内的 `static int x;` 永远只是<span style=\"color:rgb(255, 77, 77)\"><b>声明</b></span>。即使你写成 `static int x = 5;`（直接初始化），在没有 `inline` 的情况下，它依然只是声明加了一个默认初始化器，**依然不算定义**，必须在类外补 `int Entity::x;`。只有加上 `inline`（C++17 起），编译器才把这一行视为<span style=\"color:rgb(255, 77, 77)\"><b>定义</b></span>，从而允许你省略类外定义。\n- 静态方法不能访问非静态变量\n\t- 因为静态方法没有类实例",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 3.在类或结构体内",
+                "line_start": 48,
+                "line_end": 52
+              }
+            ],
+            "review_flags": [
+              "M08:资料待核"
+            ]
+          },
+          "score": 17.043533209234035,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 0.7212325000436977,
+      "retrieval_seconds": 0.024696000036783516,
+      "generation_seconds": 0.6965189001057297,
+      "usage": {
+        "prompt_tokens": 1262,
+        "completion_tokens": 17,
+        "total_tokens": 1279,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1134
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"refused\",\"answer\":\"文档中没有相关信息\",\"citations\":[]}",
+      "run_id": "190cf12eaba144558968ab134c80b7a4",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 0.7269673000555485,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": false,
+      "reason": "Corpus-level trap; related background is not answer evidence"
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 11,
+    "question_id": "Q09",
+    "category": "answerable",
+    "question": "指向常量对象的指针与 const 成员函数分别限制什么？通过这种指针调用所指对象的非静态成员函数时，有什么配合要求？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "指向常量对象的指针与 const 成员函数分别限制什么？通过这种指针调用所指对象的非静态成员函数时，有什么配合要求？",
+      "method": "bm25",
+      "status": "uncertain",
+      "answer": "证据分别说明了两点：`const Printable* obj` 是指向常量对象的指针，表示函数承诺不通过该指针修改所指对象 [1]；成员函数末尾的 `const` 表示常量成员函数，承诺不修改当前对象的成员变量（`mutable` 成员除外）[2]。关于配合要求，证据指出：通过指向常量的指针（或引用）只能调用该类型的常量成员函数；若参数写成 `const Printable* obj` 而成员函数未加末尾 `const`，编译会报错 [3]。但该配合关系所在片段带有“资料待核”标记，因此上述编译约束的表述需按待核范围理解，不能扩展为更一般的语言保证。",
+      "citations": [
+        {
+          "chunk_id": "7e51b8e52698d0fd81d23a03",
+          "source_file": "8纯虚函数（接口） 可见性.md",
+          "heading": "const / 2. 函数参数中的 `const`（`const Printable* obj`）",
+          "line_start": 60,
+          "line_end": 64,
+          "quote": "### 2. 函数参数中的 `const`（`const Printable* obj`）\n\n这是**指向常量对象的指针**。\n**核心含义**：`log` 函数承诺不会通过指针 `obj` 来修改它所指向的对象。\n**注意细节**：这里修饰的是指针指向的内容（即 `Printable` 对象），而不是指针本身（指针本身是拷贝进来的，无论如何修改它都不影响外部）。",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "8219dd45ddac9f6a7b1b793e",
+          "source_file": "8纯虚函数（接口） 可见性.md",
+          "heading": "const / 1.成员函数末尾的 `const`（`writeClassName() const`）",
+          "line_start": 55,
+          "line_end": 58,
+          "quote": "### 1.成员函数末尾的 `const`（`writeClassName() const`）\n\n这是**常量成员函数**，它紧跟在函数参数列表的右括号 `)` 后面。\n**核心含义**：这个函数**承诺**不会修改当前对象的任何成员变量（除非成员变量被声明为 `mutable`）。",
+          "review_flags": [
+            "M16:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "9943e3cd48beda0e8e28ac6e",
+          "source_file": "8纯虚函数（接口） 可见性.md",
+          "heading": "const / 3. 最精妙的地方：两者必须配合使用（这是编译通过的关键！）",
+          "line_start": 66,
+          "line_end": 73,
+          "quote": "### 3. 最精妙的地方：两者必须配合使用（这是编译通过的关键！）\n\n如果你的参数写了 `const Printable* obj`，但成员函数没写末尾的 `const`（比如写成 `virtual std::string writeClassName();`），那么编译会**直接报错**！\n**原因（权限控制链）**：\n- 在 `log` 函数内部，`obj` 被视作“指向常量的指针”。\n- C++ 规定：**通过指向常量的指针（或引用），只能调用该类型的常量成员函数**。\n- 因为“常量指针”意味着你不能修改对象，而调用一个非 `const` 的成员函数，相当于向编译器承诺“这个函数可能会修改对象”，这就违背了 `const` 指针的约束。\n**简单记法**：你不能用一个“不能修改对象”的钥匙（`const` 指针），去开启一个“允许修改对象”的门（非 `const` 成员函数）。必须用“只读钥匙”配“只读门锁”。",
+          "review_flags": [
+            "M16:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "9943e3cd48beda0e8e28ac6e",
+            "document_id": "1d86bdeb1f22b3d074bf85f5",
+            "text": "### 3. 最精妙的地方：两者必须配合使用（这是编译通过的关键！）\n\n如果你的参数写了 `const Printable* obj`，但成员函数没写末尾的 `const`（比如写成 `virtual std::string writeClassName();`），那么编译会**直接报错**！\n**原因（权限控制链）**：\n- 在 `log` 函数内部，`obj` 被视作“指向常量的指针”。\n- C++ 规定：**通过指向常量的指针（或引用），只能调用该类型的常量成员函数**。\n- 因为“常量指针”意味着你不能修改对象，而调用一个非 `const` 的成员函数，相当于向编译器承诺“这个函数可能会修改对象”，这就违背了 `const` 指针的约束。\n**简单记法**：你不能用一个“不能修改对象”的钥匙（`const` 指针），去开启一个“允许修改对象”的门（非 `const` 成员函数）。必须用“只读钥匙”配“只读门锁”。",
+            "spans": [
+              {
+                "source_file": "8纯虚函数（接口） 可见性.md",
+                "heading": "const / 3. 最精妙的地方：两者必须配合使用（这是编译通过的关键！）",
+                "line_start": 66,
+                "line_end": 74
+              }
+            ],
+            "review_flags": [
+              "M16:资料待核"
+            ]
+          },
+          "score": 91.15163407727462,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "7e51b8e52698d0fd81d23a03",
+            "document_id": "1d86bdeb1f22b3d074bf85f5",
+            "text": "### 2. 函数参数中的 `const`（`const Printable* obj`）\n\n这是**指向常量对象的指针**。\n**核心含义**：`log` 函数承诺不会通过指针 `obj` 来修改它所指向的对象。\n**注意细节**：这里修饰的是指针指向的内容（即 `Printable` 对象），而不是指针本身（指针本身是拷贝进来的，无论如何修改它都不影响外部）。",
+            "spans": [
+              {
+                "source_file": "8纯虚函数（接口） 可见性.md",
+                "heading": "const / 2. 函数参数中的 `const`（`const Printable* obj`）",
+                "line_start": 60,
+                "line_end": 64
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 69.47581069276059,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "8219dd45ddac9f6a7b1b793e",
+            "document_id": "1d86bdeb1f22b3d074bf85f5",
+            "text": "### 1.成员函数末尾的 `const`（`writeClassName() const`）\n\n这是**常量成员函数**，它紧跟在函数参数列表的右括号 `)` 后面。\n**核心含义**：这个函数**承诺**不会修改当前对象的任何成员变量（除非成员变量被声明为 `mutable`）。",
+            "spans": [
+              {
+                "source_file": "8纯虚函数（接口） 可见性.md",
+                "heading": "const / 1.成员函数末尾的 `const`（`writeClassName() const`）",
+                "line_start": 55,
+                "line_end": 58
+              }
+            ],
+            "review_flags": [
+              "M16:资料待核"
+            ]
+          },
+          "score": 56.20902373002142,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.8951582999434322,
+      "retrieval_seconds": 0.0248468000208959,
+      "generation_seconds": 1.8601100000087172,
+      "usage": {
+        "prompt_tokens": 1108,
+        "completion_tokens": 230,
+        "total_tokens": 1338,
+        "prompt_tokens_details": {
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 212
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"uncertain\",\"answer\":\"证据分别说明了两点：`const Printable* obj` 是指向常量对象的指针，表示函数承诺不通过该指针修改所指对象 [1]；成员函数末尾的 `const` 表示常量成员函数，承诺不修改当前对象的成员变量（`mutable` 成员除外）[2]。关于配合要求，证据指出：通过指向常量的指针（或引用）只能调用该类型的常量成员函数；若参数写成 `const Printable* obj` 而成员函数未加末尾 `const`，编译会报错 [3]。但该配合关系所在片段带有“资料待核”标记，因此上述编译约束的表述需按待核范围理解，不能扩展为更一般的语言保证。\",\"citations\":[{\"chunk_id\":\"7e51b8e52698d0fd81d23a03\"},{\"chunk_id\":\"8219dd45ddac9f6a7b1b793e\"},{\"chunk_id\":\"9943e3cd48beda0e8e28ac6e\"}]}",
+      "run_id": "26a606b0c1ed4e5189cb9255cea81888",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.9005123999668285,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 12,
+    "question_id": "Q12",
+    "category": "unanswerable",
+    "question": "std::move 在移动语义中起什么作用，它与移动构造是什么关系？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "std::move 在移动语义中起什么作用，它与移动构造是什么关系？",
+      "method": "bm25",
+      "status": "refused",
+      "answer": "文档中没有相关信息",
+      "citations": [],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "1d0618bcac24a398f2cb16b2",
+            "document_id": "f2493e4b736ac4234c548e88",
+            "text": "# 构造函数\n- 构造函数不写返回类型\n- 初始化变量\n\t- 在java中所有变量都会初始化为0\n\t- 在C++中所有变量都要通过构造函数初始化，否则是随机的值\n- 构造函数的签名不同时，可以有多个构造函数（重载）\n- 特殊构造函数（相对复杂）\n\t- 复制构造函数\n\t- 移动构造函数\n- 禁用构造函数：\n\t- 例：有静态方法，想仅用`Log::Write()`调用，而不是创建实例后调用，就可以禁用构造函数，两种方法：delete或放入private里\n↓ 这段代码就是静态方法的两种调用\n```cpp\nclass Log {\npublic:\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\nint main() {\n    Log::Write();\n    \n    Log entity;\n    entity.Write();\n}\n```\n↓ 要想禁用构造函数可以这么写，Log entity时就报错了。\n方法一：\n```cpp\nclass Log {\nprivate:\n\tLog() {}\npublic:\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```\n方法二：\n```cpp\nclass Log {\npublic:\n\tLog() = delete;\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```",
+            "spans": [
+              {
+                "source_file": "6枚举 构造函数 析构函数.md",
+                "heading": "构造函数",
+                "line_start": 23,
+                "line_end": 70
+              }
+            ],
+            "review_flags": [
+              "M12:资料待核"
+            ]
+          },
+          "score": 28.17282163737196,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "27942b04bfb6c332c427c3d3",
+            "document_id": "83d501db8f7147ff8e5ed103",
+            "text": "#### ① 分配与释放的代价（最大的开销）\n\n- **栈（`int a[10]`）**：分配时，编译器只是把栈顶指针（`esp`/`rsp`）向下移动 40 个字节（10 * 4），**一条 CPU 指令**搞定，纳秒级。\n- **堆（`new int[10]`）**：需要调用操作系统的堆管理器，遍历空闲链表、处理内存碎片、加锁（多线程环境），甚至可能触发系统调用（`brk` 或 `mmap`）。**开销是栈分配的成百上千倍。**",
+            "spans": [
+              {
+                "source_file": "9数组 字符串.md",
+                "heading": "附录：为什么堆上数组的开销更大 / ① 分配与释放的代价（最大的开销）",
+                "line_start": 63,
+                "line_end": 66
+              }
+            ],
+            "review_flags": [
+              "M18:资料待核"
+            ]
+          },
+          "score": 18.663966086484656,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "0c21e9df938c896ac68d24fa",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "## 2.在类或结构体外、作用域内的局部static\n- 作用域内：如函数内、if for语句内等\n- 作用1：作用域外无法访问\n- 作用2：把变量的生命周期拉到永久，相当于定义时的赋值只会赋值一次（下例中，多次访问该函数，i的值递增而不是重复输出1）\n\t- 参见“5单例模式和局部静态”来进一步理解这个用法\n```cpp\nvoid Function() {\n\tstatic int i = 0;\n\ti++;\n\tstd::cout << i << std::endl;\n}\n```",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 2.在类或结构体外、作用域内的局部static",
+                "line_start": 13,
+                "line_end": 24
+              }
+            ],
+            "review_flags": [
+              "M06:资料待核"
+            ]
+          },
+          "score": 10.836684990553417,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.0230658000800759,
+      "retrieval_seconds": 0.02299030008725822,
+      "generation_seconds": 1.0000550000695512,
+      "usage": {
+        "prompt_tokens": 1272,
+        "completion_tokens": 17,
+        "total_tokens": 1289,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1144
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"refused\",\"answer\":\"文档中没有相关信息\",\"citations\":[]}",
+      "run_id": "7f21ce293e6e4461a6329fe9e9536b2e",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.0286513000028208,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": false,
+      "reason": "Corpus-level trap; related background is not answer evidence"
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 13,
+    "question_id": "Q06",
+    "category": "answerable",
+    "question": "笔记介绍的函数内静态局部对象如何实现按需初始化和自动清理？C++11 起的并发初始化保证针对哪一步？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "笔记介绍的函数内静态局部对象如何实现按需初始化和自动清理？C++11 起的并发初始化保证针对哪一步？",
+      "method": "bm25",
+      "status": "partial",
+      "answer": "笔记记载：函数内静态局部对象在第一次调用 `Singleton::Get()` 时才被创建（懒汉式/按需初始化），程序结束退出时由 C++ 运行时自动清理，不需要写 `delete` [1]。关于并发初始化，笔记称 C++11 起若多个线程同时第一次调用 `Get()`，编译器会保证它们排队、不会造出两个对象 [1]；对比表也写作“C++11 标准保证” [2]。但笔记只把这一保证表述为针对“第一次调用 `Get()`”时的对象创建，并未进一步说明它具体对应初始化过程中的哪一步（例如是否仅覆盖初始化完成状态的判定），也未给出标准条款或代码细节；这部分文档未记载。此外，相关证据带有待核标记（M10、M11、M06），上述“绝对安全”等表述属于资料说法，不应扩展为超出所载范围的保证。",
+      "citations": [
+        {
+          "chunk_id": "40392e2c995e62add6435a70",
+          "source_file": "5单例模式和局部静态.md",
+          "heading": "第三部分：逐行详解第一张图（Meyers Singleton，这叫“梅耶斯单例”）",
+          "line_start": 63,
+          "line_end": 67,
+          "quote": "1. **自动初始化**：你不用管它什么时候创建，只有当你第一次调用 `Singleton::Get()` 时，那个 `instance` 才被造出来。这叫**懒汉式**（Lazy Initialization）。\n2. **自动销毁**：程序结束退出时，这个 `instance` 会被 C++ 运行时自动清理掉。你不需要写 `delete`。\n3. **线程安全（C++11起）**：如果多个线程同时第一次调用 `Get()`，编译器会保证它们排队，绝对不会造出两个对象。这是 C++ 语法规定的铁律。\n\n---",
+          "review_flags": [
+            "M10:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "5767d3d1abb0cf1f080c1f5b",
+          "source_file": "5单例模式和局部静态.md",
+          "heading": "第五部分：为什么你说它们“效果一样”？",
+          "line_start": 114,
+          "line_end": 133,
+          "quote": "### 第五部分：为什么你说它们“效果一样”？\n\n从外部调用者（`main` 函数）的角度看，它们确实效果一样：\n\n- 第一张图：`Singleton::Get().Hello();`\n- 第二张图（在你补上 `new` 之后）：`Singleton::Get().Hello();`\n\n写出来的调用代码一模一样，都能打出 `Hello`。\n\n但是，**底层实现的差距天壤之别**：\n\n| 对比项 | 第一张图（Meyers单例） | 第二张图（裸指针单例） |\n| :--- | :--- | :--- |\n| **初始化时机** | 自动（第一次调用 `Get` 时） | 手动（程序员必须提前 `new`） |\n| **空指针风险** | 无（对象肯定存在） | 致命风险（忘 `new` 就崩溃） |\n| **内存清理** | 自动（程序退出时清理） | 手动（你忘了写 `delete` 就会泄漏） |\n| **线程安全** | 绝对安全（C++11 标准保证） | 极不安全（需要加锁） |\n| **代码量** | 极其简洁 | 啰嗦，还得额外定义全局指针 |\n\n---",
+          "review_flags": [
+            "M10:资料待核",
+            "M11:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "40392e2c995e62add6435a70",
+            "document_id": "2fe805813cb7583628feba46",
+            "text": "1. **自动初始化**：你不用管它什么时候创建，只有当你第一次调用 `Singleton::Get()` 时，那个 `instance` 才被造出来。这叫**懒汉式**（Lazy Initialization）。\n2. **自动销毁**：程序结束退出时，这个 `instance` 会被 C++ 运行时自动清理掉。你不需要写 `delete`。\n3. **线程安全（C++11起）**：如果多个线程同时第一次调用 `Get()`，编译器会保证它们排队，绝对不会造出两个对象。这是 C++ 语法规定的铁律。\n\n---",
+            "spans": [
+              {
+                "source_file": "5单例模式和局部静态.md",
+                "heading": "第三部分：逐行详解第一张图（Meyers Singleton，这叫“梅耶斯单例”）",
+                "line_start": 63,
+                "line_end": 67
+              }
+            ],
+            "review_flags": [
+              "M10:资料待核"
+            ]
+          },
+          "score": 39.88161579347504,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "5767d3d1abb0cf1f080c1f5b",
+            "document_id": "2fe805813cb7583628feba46",
+            "text": "### 第五部分：为什么你说它们“效果一样”？\n\n从外部调用者（`main` 函数）的角度看，它们确实效果一样：\n\n- 第一张图：`Singleton::Get().Hello();`\n- 第二张图（在你补上 `new` 之后）：`Singleton::Get().Hello();`\n\n写出来的调用代码一模一样，都能打出 `Hello`。\n\n但是，**底层实现的差距天壤之别**：\n\n| 对比项 | 第一张图（Meyers单例） | 第二张图（裸指针单例） |\n| :--- | :--- | :--- |\n| **初始化时机** | 自动（第一次调用 `Get` 时） | 手动（程序员必须提前 `new`） |\n| **空指针风险** | 无（对象肯定存在） | 致命风险（忘 `new` 就崩溃） |\n| **内存清理** | 自动（程序退出时清理） | 手动（你忘了写 `delete` 就会泄漏） |\n| **线程安全** | 绝对安全（C++11 标准保证） | 极不安全（需要加锁） |\n| **代码量** | 极其简洁 | 啰嗦，还得额外定义全局指针 |\n\n---",
+            "spans": [
+              {
+                "source_file": "5单例模式和局部静态.md",
+                "heading": "第五部分：为什么你说它们“效果一样”？",
+                "line_start": 114,
+                "line_end": 133
+              }
+            ],
+            "review_flags": [
+              "M10:资料待核",
+              "M11:资料待核"
+            ]
+          },
+          "score": 37.782931314642916,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "0c21e9df938c896ac68d24fa",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "## 2.在类或结构体外、作用域内的局部static\n- 作用域内：如函数内、if for语句内等\n- 作用1：作用域外无法访问\n- 作用2：把变量的生命周期拉到永久，相当于定义时的赋值只会赋值一次（下例中，多次访问该函数，i的值递增而不是重复输出1）\n\t- 参见“5单例模式和局部静态”来进一步理解这个用法\n```cpp\nvoid Function() {\n\tstatic int i = 0;\n\ti++;\n\tstd::cout << i << std::endl;\n}\n```",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 2.在类或结构体外、作用域内的局部static",
+                "line_start": 13,
+                "line_end": 24
+              }
+            ],
+            "review_flags": [
+              "M06:资料待核"
+            ]
+          },
+          "score": 32.54702091090241,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 2.1743668999988586,
+      "retrieval_seconds": 0.02421810000669211,
+      "generation_seconds": 2.1435882999794558,
+      "usage": {
+        "prompt_tokens": 1245,
+        "completion_tokens": 246,
+        "total_tokens": 1491,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 989
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"partial\",\"answer\":\"笔记记载：函数内静态局部对象在第一次调用 `Singleton::Get()` 时才被创建（懒汉式/按需初始化），程序结束退出时由 C++ 运行时自动清理，不需要写 `delete` [1]。关于并发初始化，笔记称 C++11 起若多个线程同时第一次调用 `Get()`，编译器会保证它们排队、不会造出两个对象 [1]；对比表也写作“C++11 标准保证” [2]。但笔记只把这一保证表述为针对“第一次调用 `Get()`”时的对象创建，并未进一步说明它具体对应初始化过程中的哪一步（例如是否仅覆盖初始化完成状态的判定），也未给出标准条款或代码细节；这部分文档未记载。此外，相关证据带有待核标记（M10、M11、M06），上述“绝对安全”等表述属于资料说法，不应扩展为超出所载范围的保证。\",\"citations\":[{\"chunk_id\":\"40392e2c995e62add6435a70\"},{\"chunk_id\":\"5767d3d1abb0cf1f080c1f5b\"}]}",
+      "run_id": "656572e183df492a99fcac072d4d8e67",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 2.1795914999675006,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 15,
+    "question_id": "Q03",
+    "category": "answerable",
+    "question": "引用完成绑定后还能否重新绑定？对引用赋值，与让一个可修改的指针保存另一个对象的地址，在含义上有什么不同？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "引用完成绑定后还能否重新绑定？对引用赋值，与让一个可修改的指针保存另一个对象的地址，在含义上有什么不同？",
+      "method": "bm25",
+      "status": "supported",
+      "answer": "不能。引用在绑定对象后不能更改绑定对象，而指针可以改变指向的对象 [1]。对引用赋值（如 `ref = b;`）并不会让引用改绑到 b，而是把 b 的值赋给引用所绑定的原对象 a，因此 a 变为 10，ref 的引用对象没有改变 [1]。相比之下，让可修改的指针保存另一个对象的地址（如 `ptr = &b;`）会改变指针的指向，本例中 ptr 最终指向 b 的地址 [1]。引用成员同样必须在出生时绑定好，绑定后不能改绑 [2][3]。",
+      "citations": [
+        {
+          "chunk_id": "8a60d7684091e3f2303127d6",
+          "source_file": "3指针 引用.md",
+          "heading": "引用",
+          "line_start": 25,
+          "line_end": 65,
+          "quote": "# 引用\n- 引用是指针的扩展，是指针的语法糖\n- 引用必须进行“引用”，没有自己的存储空间，只是对其它变量对引用，<span style=\"color:rgb(255, 192, 0)\">相当于别名</span>\n\t- 所以定义引用变量时必须直接赋值，没法不引用而存在\n- <span style=\"color:rgb(255, 192, 0)\">引用变量在绑定对象后不能更改对象，而指针可以</span>\n\t- 下面这段代码中，试图让ref的引用对象更改为b，但实际上ref是a的别名，所以a的值变为了b的值即10，而ref的引用对象没有改变\n```C++\n    int a = 5;\n    int b = 10;\n    int& ref = a;\n    ref = b;\n```\n- 指针可以改变指向的对象，本例中ptr最终指向对象为b的地址\n```C++\n    int a = 5;\n    int b = 10;\n    int* ptr = &a;\n    ptr = &b;\n```\n\n- 例子：函数实现自增\n```C++\nvoid increment(int& x) {\n    x++;\n}\nint main() {\n    int a = 5;\n    increment(a);\n}\n```\n或者【因为引用正是指针的语法糖，引用可以让指针更简洁】\n```C++\nvoid increment(int* x) {\n    (*x)++;\n}\nint main() {\n    int a = 5;\n    int* ptr = &a;\n    increment(ptr);\n}\n```",
+          "review_flags": [
+            "M05:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "cf510fc0ec3c74a32656f3fb",
+          "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+          "heading": "初始化列表 / 🚨 这一大串初始化列表的三个核心要点（面试常考） / 2. 哪些变量**必须**在初始化列表里初始化？",
+          "line_start": 160,
+          "line_end": 166,
+          "quote": "#### 2. 哪些变量**必须**在初始化列表里初始化？\n\n下面的情况，**绝对不能在函数体 `{}` 里赋值**，只能在初始化列表里写：\n- **`const` 成员**（如 `m_maxHealth`）：因为常量定义时必须赋值，不能先定义再赋值。\n- **引用成员**（如 `m_nicknameRef`）：引用绑定后不能改绑，必须出生时就绑定好。\n- **没有默认构造函数的类类型成员**：如果 `m_name` 是一个没有 `默认构造函数`（即无参构造）的类，那么在函数体 `{}` 里 `m_name = name` 会报错，必须用初始化列表直接构造。\n    ",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "75d786b912dd202f6f4f502a",
+          "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+          "heading": "初始化列表 / 完整代码示例",
+          "line_start": 83,
+          "line_end": 122,
+          "quote": "```cpp\n#include <iostream>\n#include <string>\nclass GameCharacter {\nprivate:\n    // 1. 基本类型\n    int m_health;\n    float m_speed;\n    \n    // 2. 类类型（string）\n    std::string m_name;\n    \n    // 3. 常量（必须初始化，且之后不能改）\n    const int m_maxHealth;\n    \n    // 4. 引用（必须初始化，且之后不能换绑）\n    std::string& m_nicknameRef;\npublic:\n    // ★ 构造函数：初始化列表用冒号开头，多个初始化用逗号隔开\n    GameCharacter(const std::string& name, int health, float speed, \n                  int maxHealth, std::string& nickname)\n        : m_name(name),          // 初始化字符串\n          m_health(health),      // 初始化整数\n          m_speed(speed),        // 初始化浮点数\n          m_maxHealth(maxHealth),// ★ 初始化常量（这里赋值，之后不能再改）\n          m_nicknameRef(nickname) // ★ 初始化引用（绑定到外部变量）\n    {\n        // 函数体里面不需要再写任何赋值代码了\n        // 如果这里写 m_health = health，就是二次赋值，效率低且对常量/引用不合法\n    }\n    // 打印函数，方便查看效果\n    void printInfo() const {\n        std::cout << \"Name: \" << m_name \n                  << \", Health: \" << m_health \n                  << \", Speed: \" << m_speed\n                  << \", MaxHealth: \" << m_maxHealth\n                  << \", Nickname: \" << m_nicknameRef << std::endl;\n    }\n};\n```",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "8a60d7684091e3f2303127d6",
+            "document_id": "fc3869d4f12741e750d51dda",
+            "text": "# 引用\n- 引用是指针的扩展，是指针的语法糖\n- 引用必须进行“引用”，没有自己的存储空间，只是对其它变量对引用，<span style=\"color:rgb(255, 192, 0)\">相当于别名</span>\n\t- 所以定义引用变量时必须直接赋值，没法不引用而存在\n- <span style=\"color:rgb(255, 192, 0)\">引用变量在绑定对象后不能更改对象，而指针可以</span>\n\t- 下面这段代码中，试图让ref的引用对象更改为b，但实际上ref是a的别名，所以a的值变为了b的值即10，而ref的引用对象没有改变\n```C++\n    int a = 5;\n    int b = 10;\n    int& ref = a;\n    ref = b;\n```\n- 指针可以改变指向的对象，本例中ptr最终指向对象为b的地址\n```C++\n    int a = 5;\n    int b = 10;\n    int* ptr = &a;\n    ptr = &b;\n```\n\n- 例子：函数实现自增\n```C++\nvoid increment(int& x) {\n    x++;\n}\nint main() {\n    int a = 5;\n    increment(a);\n}\n```\n或者【因为引用正是指针的语法糖，引用可以让指针更简洁】\n```C++\nvoid increment(int* x) {\n    (*x)++;\n}\nint main() {\n    int a = 5;\n    int* ptr = &a;\n    increment(ptr);\n}\n```",
+            "spans": [
+              {
+                "source_file": "3指针 引用.md",
+                "heading": "引用",
+                "line_start": 25,
+                "line_end": 65
+              }
+            ],
+            "review_flags": [
+              "M05:资料待核"
+            ]
+          },
+          "score": 54.574040993072444,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "cf510fc0ec3c74a32656f3fb",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "#### 2. 哪些变量**必须**在初始化列表里初始化？\n\n下面的情况，**绝对不能在函数体 `{}` 里赋值**，只能在初始化列表里写：\n- **`const` 成员**（如 `m_maxHealth`）：因为常量定义时必须赋值，不能先定义再赋值。\n- **引用成员**（如 `m_nicknameRef`）：引用绑定后不能改绑，必须出生时就绑定好。\n- **没有默认构造函数的类类型成员**：如果 `m_name` 是一个没有 `默认构造函数`（即无参构造）的类，那么在函数体 `{}` 里 `m_name = name` 会报错，必须用初始化列表直接构造。\n    ",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 🚨 这一大串初始化列表的三个核心要点（面试常考） / 2. 哪些变量**必须**在初始化列表里初始化？",
+                "line_start": 160,
+                "line_end": 167
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 40.381636498969925,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "75d786b912dd202f6f4f502a",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "```cpp\n#include <iostream>\n#include <string>\nclass GameCharacter {\nprivate:\n    // 1. 基本类型\n    int m_health;\n    float m_speed;\n    \n    // 2. 类类型（string）\n    std::string m_name;\n    \n    // 3. 常量（必须初始化，且之后不能改）\n    const int m_maxHealth;\n    \n    // 4. 引用（必须初始化，且之后不能换绑）\n    std::string& m_nicknameRef;\npublic:\n    // ★ 构造函数：初始化列表用冒号开头，多个初始化用逗号隔开\n    GameCharacter(const std::string& name, int health, float speed, \n                  int maxHealth, std::string& nickname)\n        : m_name(name),          // 初始化字符串\n          m_health(health),      // 初始化整数\n          m_speed(speed),        // 初始化浮点数\n          m_maxHealth(maxHealth),// ★ 初始化常量（这里赋值，之后不能再改）\n          m_nicknameRef(nickname) // ★ 初始化引用（绑定到外部变量）\n    {\n        // 函数体里面不需要再写任何赋值代码了\n        // 如果这里写 m_health = health，就是二次赋值，效率低且对常量/引用不合法\n    }\n    // 打印函数，方便查看效果\n    void printInfo() const {\n        std::cout << \"Name: \" << m_name \n                  << \", Health: \" << m_health \n                  << \", Speed: \" << m_speed\n                  << \", MaxHealth: \" << m_maxHealth\n                  << \", Nickname: \" << m_nicknameRef << std::endl;\n    }\n};\n```",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 完整代码示例",
+                "line_start": 83,
+                "line_end": 122
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 33.78252821333819,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.9393015999812633,
+      "retrieval_seconds": 0.024996899999678135,
+      "generation_seconds": 1.9021118999226019,
+      "usage": {
+        "prompt_tokens": 1626,
+        "completion_tokens": 206,
+        "total_tokens": 1832,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 986
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"supported\",\"answer\":\"不能。引用在绑定对象后不能更改绑定对象，而指针可以改变指向的对象 [1]。对引用赋值（如 `ref = b;`）并不会让引用改绑到 b，而是把 b 的值赋给引用所绑定的原对象 a，因此 a 变为 10，ref 的引用对象没有改变 [1]。相比之下，让可修改的指针保存另一个对象的地址（如 `ptr = &b;`）会改变指针的指向，本例中 ptr 最终指向 b 的地址 [1]。引用成员同样必须在出生时绑定好，绑定后不能改绑 [2][3]。\",\"citations\":[{\"chunk_id\":\"8a60d7684091e3f2303127d6\"},{\"chunk_id\":\"cf510fc0ec3c74a32656f3fb\"},{\"chunk_id\":\"75d786b912dd202f6f4f502a\"}]}",
+      "run_id": "8306b94103594373856252a447a01768",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.944750800030306,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 17,
+    "question_id": "Q02",
+    "category": "answerable",
+    "question": "头文件为什么可能被重复包含，笔记介绍了哪两种避免重复包含的方法？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "头文件为什么可能被重复包含，笔记介绍了哪两种避免重复包含的方法？",
+      "method": "bm25",
+      "status": "supported",
+      "answer": "头文件可能被重复包含，是因为头文件可能存在嵌套 include 链条，导致同一个头文件在某个程序里被 include 多次，从而可能引起编译错误 [1]。笔记介绍了两种避免重复包含的方法：一是加 `#pragma once`（笔记称其为新语法糖）；二是使用宏保护写法：\n```\n#ifndef XXX  // if not define\n#define XXX\n......\n#endif\n```\n笔记说明这种写法和 `#pragma once` 等价 [1]。",
+      "citations": [
+        {
+          "chunk_id": "76ad3dd42b4dafa400794bcf",
+          "source_file": "2变量 头文件 调试 条件.md",
+          "heading": "头文件",
+          "line_start": 12,
+          "line_end": 25,
+          "quote": "# 头文件\n- 头文件可能有嵌套include链条，所以某程序里可能被include了多次同一个同文件，就可能导致编译错误，因此需要加`#pragma once`（这是新语法糖）或：\n```\n#ifndef XXX  // if not define\n#define XXX\n......\n#endif\n\n//这种写法和#pragma once等价\n```\n- `#include`时会用< >或者“ ”\n\t- “ ”内其实是填路径，只是如果所有cpp同级就不需要加路径了\n\t- iostream当然也能用\" \"包，只是< >不能使用于自定义的文件\n\t- iostream就是没有扩展名的文件（C++标准库都这样），而带.h的库一般是C标准库",
+          "review_flags": [
+            "M04:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "76ad3dd42b4dafa400794bcf",
+            "document_id": "5834b153c1fd9a711786d9ce",
+            "text": "# 头文件\n- 头文件可能有嵌套include链条，所以某程序里可能被include了多次同一个同文件，就可能导致编译错误，因此需要加`#pragma once`（这是新语法糖）或：\n```\n#ifndef XXX  // if not define\n#define XXX\n......\n#endif\n\n//这种写法和#pragma once等价\n```\n- `#include`时会用< >或者“ ”\n\t- “ ”内其实是填路径，只是如果所有cpp同级就不需要加路径了\n\t- iostream当然也能用\" \"包，只是< >不能使用于自定义的文件\n\t- iostream就是没有扩展名的文件（C++标准库都这样），而带.h的库一般是C标准库",
+            "spans": [
+              {
+                "source_file": "2变量 头文件 调试 条件.md",
+                "heading": "头文件",
+                "line_start": 12,
+                "line_end": 25
+              }
+            ],
+            "review_flags": [
+              "M04:资料待核"
+            ]
+          },
+          "score": 27.544335988641695,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "0a4c694c887644b2dd420948",
+            "document_id": "1cfeb1afc806e25091e59ce5",
+            "text": "- 就算没使用过的函数，如果没被链接，也会报错。\n\t- ![[Pasted image 20260815200459.png|368]]\n\t- 就算注释掉这条语句，本函数不会使用Multiply函数，但如果Log**没有**在其它文件里被定义，只是在这个cpp文件里被声明（区分声明 vs 定义），那编译会被通过，但链接会报错。\n\t- static表示该函数只会在本cpp文件里被使用，如果用static修饰Multiply()函数链接就不会报错，因为编译器知道这个函数只会在这个cpp文件里被使用而实际上没有被使用。\n- 如果返回类型或签名不同，那就无法链接\n- 如果一个函数在工程里有两个定义，会不知道链接哪一个\n\t- 比如，在.hpp文件里定义了一个函数，在两个.cpp文件里include了这个.hpp，而include又相当于复制黏贴，那么这个工程里就出现了对这个函数的重复定义，就会有连接报错。\n\t\t- 该例子的解决方法：1.不要在.hpp里进行定义，.hpp只声明。2.如果非要在.hpp里定义，则在前面加static或者inline关键字。\n\t\t\t- static的含义：让cpp文件知道这个定义只属于该文件，各用各的。坏处：代码体积会膨胀，在.exe文件中会存在两个相同的机器码。",
+            "spans": [
+              {
+                "source_file": "1运作原理 编译链接.md",
+                "heading": "无标题（原文）",
+                "line_start": 12,
+                "line_end": 20
+              }
+            ],
+            "review_flags": [
+              "M01:资料待核",
+              "M02:资料待核"
+            ]
+          },
+          "score": 26.039391361407638,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "af0d0452626823aed70a0e04",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "### 更复杂的例子\n为了让你看得更透彻，我写一个比刚才复杂得多的类——`GameCharacter`（游戏角色）。它包含了**普通类型**、**类类型**、**常量**和**引用**，让你看看初始化列表到底有多强大。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 更复杂的例子",
+                "line_start": 78,
+                "line_end": 79
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 21.23393269801783,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.229924299987033,
+      "retrieval_seconds": 0.022907700040377676,
+      "generation_seconds": 1.2032093000598252,
+      "usage": {
+        "prompt_tokens": 1141,
+        "completion_tokens": 137,
+        "total_tokens": 1278,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1013
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"supported\",\"answer\":\"头文件可能被重复包含，是因为头文件可能存在嵌套 include 链条，导致同一个头文件在某个程序里被 include 多次，从而可能引起编译错误 [1]。笔记介绍了两种避免重复包含的方法：一是加 `#pragma once`（笔记称其为新语法糖）；二是使用宏保护写法：\\n```\\n#ifndef XXX  // if not define\\n#define XXX\\n......\\n#endif\\n```\\n笔记说明这种写法和 `#pragma once` 等价 [1]。\",\"citations\":[{\"chunk_id\":\"76ad3dd42b4dafa400794bcf\"}]}",
+      "run_id": "233a1fa5321a47bb909fd81b2dc25792",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.2354349000379443,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 19,
+    "question_id": "Q17",
+    "category": "multi",
+    "question": "为什么给一个已经绑定的引用赋值，并不等于让它改绑到另一个对象？这一性质对类中引用成员的构造有什么要求，能否等到构造函数体中再用赋值完成初次绑定？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "为什么给一个已经绑定的引用赋值，并不等于让它改绑到另一个对象？这一性质对类中引用成员的构造有什么要求，能否等到构造函数体中再用赋值完成初次绑定？",
+      "method": "bm25",
+      "status": "supported",
+      "answer": "引用一旦绑定就不能改绑，所以对已绑定的引用再赋值只是给被引用的对象赋值，并不会让它改绑到另一个对象。因此类中的引用成员必须在构造函数的初始化列表中完成绑定，不能等到构造函数体里再用赋值完成初次绑定；文档明确把引用成员列为“绝对不能在函数体 {} 里赋值，只能在初始化列表里写”的情况，并说明引用“绑定后不能改绑，必须出生时就绑定好”[1]。示例中引用成员 `std::string& m_nicknameRef;` 在初始化列表里用 `m_nicknameRef(nickname)` 绑定到外部变量，函数体里不再写赋值代码[2]；文档也强调，如果成员是 const 类型、引用类型，或没有默认构造函数的类，就必须用初始化列表方式，而不能在花括号里赋值[3]。",
+      "citations": [
+        {
+          "chunk_id": "cf510fc0ec3c74a32656f3fb",
+          "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+          "heading": "初始化列表 / 🚨 这一大串初始化列表的三个核心要点（面试常考） / 2. 哪些变量**必须**在初始化列表里初始化？",
+          "line_start": 160,
+          "line_end": 166,
+          "quote": "#### 2. 哪些变量**必须**在初始化列表里初始化？\n\n下面的情况，**绝对不能在函数体 `{}` 里赋值**，只能在初始化列表里写：\n- **`const` 成员**（如 `m_maxHealth`）：因为常量定义时必须赋值，不能先定义再赋值。\n- **引用成员**（如 `m_nicknameRef`）：引用绑定后不能改绑，必须出生时就绑定好。\n- **没有默认构造函数的类类型成员**：如果 `m_name` 是一个没有 `默认构造函数`（即无参构造）的类，那么在函数体 `{}` 里 `m_name = name` 会报错，必须用初始化列表直接构造。\n    ",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "75d786b912dd202f6f4f502a",
+          "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+          "heading": "初始化列表 / 完整代码示例",
+          "line_start": 83,
+          "line_end": 122,
+          "quote": "```cpp\n#include <iostream>\n#include <string>\nclass GameCharacter {\nprivate:\n    // 1. 基本类型\n    int m_health;\n    float m_speed;\n    \n    // 2. 类类型（string）\n    std::string m_name;\n    \n    // 3. 常量（必须初始化，且之后不能改）\n    const int m_maxHealth;\n    \n    // 4. 引用（必须初始化，且之后不能换绑）\n    std::string& m_nicknameRef;\npublic:\n    // ★ 构造函数：初始化列表用冒号开头，多个初始化用逗号隔开\n    GameCharacter(const std::string& name, int health, float speed, \n                  int maxHealth, std::string& nickname)\n        : m_name(name),          // 初始化字符串\n          m_health(health),      // 初始化整数\n          m_speed(speed),        // 初始化浮点数\n          m_maxHealth(maxHealth),// ★ 初始化常量（这里赋值，之后不能再改）\n          m_nicknameRef(nickname) // ★ 初始化引用（绑定到外部变量）\n    {\n        // 函数体里面不需要再写任何赋值代码了\n        // 如果这里写 m_health = health，就是二次赋值，效率低且对常量/引用不合法\n    }\n    // 打印函数，方便查看效果\n    void printInfo() const {\n        std::cout << \"Name: \" << m_name \n                  << \", Health: \" << m_health \n                  << \", Speed: \" << m_speed\n                  << \", MaxHealth: \" << m_maxHealth\n                  << \", Nickname: \" << m_nicknameRef << std::endl;\n    }\n};\n```",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "d00a724e245385145510b171",
+          "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+          "heading": "初始化列表 / 上例中的分析",
+          "line_start": 69,
+          "line_end": 76,
+          "quote": "### 上例中的分析\n`: m_name(name)`\n这是**初始化列表**，它直接使用传入的 `name` 来**构造** `m_name`。\n- **效果**：相当于执行 `std::string m_name = name;`（直接构造）。\n- **重要区别**（和直接在花括号里赋值的区别）：\n    - 如果写成 `: m_name(name)`：`m_name` 只会被**构造一次**（拷贝构造）。\n    - 如果在花括号里写 `{ m_name = name; }`：`m_name` 会先被**默认构造**（空字符串），然后再被**赋值**（拷贝赋值），多了一次无用的操作。\n- **强制要求**：如果 `m_name` 是 `const` 类型、引用类型，或者是没有默认构造函数的类，**必须**用这种初始化列表方式，而不能在花括号里赋值。",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "cf510fc0ec3c74a32656f3fb",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "#### 2. 哪些变量**必须**在初始化列表里初始化？\n\n下面的情况，**绝对不能在函数体 `{}` 里赋值**，只能在初始化列表里写：\n- **`const` 成员**（如 `m_maxHealth`）：因为常量定义时必须赋值，不能先定义再赋值。\n- **引用成员**（如 `m_nicknameRef`）：引用绑定后不能改绑，必须出生时就绑定好。\n- **没有默认构造函数的类类型成员**：如果 `m_name` 是一个没有 `默认构造函数`（即无参构造）的类，那么在函数体 `{}` 里 `m_name = name` 会报错，必须用初始化列表直接构造。\n    ",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 🚨 这一大串初始化列表的三个核心要点（面试常考） / 2. 哪些变量**必须**在初始化列表里初始化？",
+                "line_start": 160,
+                "line_end": 167
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 87.88954813888206,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "75d786b912dd202f6f4f502a",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "```cpp\n#include <iostream>\n#include <string>\nclass GameCharacter {\nprivate:\n    // 1. 基本类型\n    int m_health;\n    float m_speed;\n    \n    // 2. 类类型（string）\n    std::string m_name;\n    \n    // 3. 常量（必须初始化，且之后不能改）\n    const int m_maxHealth;\n    \n    // 4. 引用（必须初始化，且之后不能换绑）\n    std::string& m_nicknameRef;\npublic:\n    // ★ 构造函数：初始化列表用冒号开头，多个初始化用逗号隔开\n    GameCharacter(const std::string& name, int health, float speed, \n                  int maxHealth, std::string& nickname)\n        : m_name(name),          // 初始化字符串\n          m_health(health),      // 初始化整数\n          m_speed(speed),        // 初始化浮点数\n          m_maxHealth(maxHealth),// ★ 初始化常量（这里赋值，之后不能再改）\n          m_nicknameRef(nickname) // ★ 初始化引用（绑定到外部变量）\n    {\n        // 函数体里面不需要再写任何赋值代码了\n        // 如果这里写 m_health = health，就是二次赋值，效率低且对常量/引用不合法\n    }\n    // 打印函数，方便查看效果\n    void printInfo() const {\n        std::cout << \"Name: \" << m_name \n                  << \", Health: \" << m_health \n                  << \", Speed: \" << m_speed\n                  << \", MaxHealth: \" << m_maxHealth\n                  << \", Nickname: \" << m_nicknameRef << std::endl;\n    }\n};\n```",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 完整代码示例",
+                "line_start": 83,
+                "line_end": 122
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 64.52614080934202,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "d00a724e245385145510b171",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "### 上例中的分析\n`: m_name(name)`\n这是**初始化列表**，它直接使用传入的 `name` 来**构造** `m_name`。\n- **效果**：相当于执行 `std::string m_name = name;`（直接构造）。\n- **重要区别**（和直接在花括号里赋值的区别）：\n    - 如果写成 `: m_name(name)`：`m_name` 只会被**构造一次**（拷贝构造）。\n    - 如果在花括号里写 `{ m_name = name; }`：`m_name` 会先被**默认构造**（空字符串），然后再被**赋值**（拷贝赋值），多了一次无用的操作。\n- **强制要求**：如果 `m_name` 是 `const` 类型、引用类型，或者是没有默认构造函数的类，**必须**用这种初始化列表方式，而不能在花括号里赋值。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 上例中的分析",
+                "line_start": 69,
+                "line_end": 77
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 53.39560912521432,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 2.0402135000331327,
+      "retrieval_seconds": 0.025983399944379926,
+      "generation_seconds": 2.003271900000982,
+      "usage": {
+        "prompt_tokens": 1469,
+        "completion_tokens": 252,
+        "total_tokens": 1721,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1341
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"supported\",\"answer\":\"引用一旦绑定就不能改绑，所以对已绑定的引用再赋值只是给被引用的对象赋值，并不会让它改绑到另一个对象。因此类中的引用成员必须在构造函数的初始化列表中完成绑定，不能等到构造函数体里再用赋值完成初次绑定；文档明确把引用成员列为“绝对不能在函数体 {} 里赋值，只能在初始化列表里写”的情况，并说明引用“绑定后不能改绑，必须出生时就绑定好”[1]。示例中引用成员 `std::string& m_nicknameRef;` 在初始化列表里用 `m_nicknameRef(nickname)` 绑定到外部变量，函数体里不再写赋值代码[2]；文档也强调，如果成员是 const 类型、引用类型，或没有默认构造函数的类，就必须用初始化列表方式，而不能在花括号里赋值[3]。\",\"citations\":[{\"chunk_id\":\"cf510fc0ec3c74a32656f3fb\"},{\"chunk_id\":\"75d786b912dd202f6f4f502a\"},{\"chunk_id\":\"d00a724e245385145510b171\"}]}",
+      "run_id": "c3b6de285d394755a85badde21ddbc42",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 2.045538500067778,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "B"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": false,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 23,
+    "question_id": "Q10",
+    "category": "answerable",
+    "question": "在 C++ 中，普通字符串字面量与 const char* 有什么关系？为什么不能修改字面量本身，却能修改由它构造的 std::string 的字符？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "在 C++ 中，普通字符串字面量与 const char* 有什么关系？为什么不能修改字面量本身，却能修改由它构造的 std::string 的字符？",
+      "method": "bm25",
+      "status": "uncertain",
+      "answer": "文档记载：在 C 中，字符串字面量本质上是 `const char*` 定义的字符数组，因为字符串存储在内存的只读区域，对其修改属于未定义行为，所以要用 const；底层 `\"hello\"` 的类型是 `const char[6]`，在大多数表达式中数组名会退化为指向首元素的指针，成为 `const char*` [1]。C++ 的 `std::string` 构造函数会将只读的 `\"hello\"` 深拷贝一份，存放到堆或栈上的可写内存中，之后修改 `s[0]` 改的是这份拷贝，而不是原始的只读字面量 [1]。\n\n待核范围：上述字符串条目带有“M19:资料待核”标记，因此关于字面量只读、修改属未定义行为以及深拷贝到可写内存的表述均属待核内容，不能据此扩展为语言保证。另外，文档未记载“为什么不能修改字面量本身”在标准层面的完整规则，也未记载 `std::string` 修改字符的具体接口细节。",
+      "citations": [
+        {
+          "chunk_id": "a48af37737f0e83efea96c4e",
+          "source_file": "9数组 字符串.md",
+          "heading": "字符串",
+          "line_start": 80,
+          "line_end": 87,
+          "quote": "# 字符串\n- 本质（C中）：const char* 定义的字符数组\n\t- 原因：字符串存储在内存的**只读区域**，对其的修改属于**未定义行为**，所以要用const\n\t- 在底层，`\"hello\"` 的类型是 **`const char[6]`**（一个长度为 6 的常量字符数组）。\n    - 只不过在大多数表达式中（比如赋值给指针时），数组名会**退化**（Decay）为指向首元素的指针，所以成了 `const char*`。\n- C++：std::string（需要`#include<string>`）\n\t- `std::string` 的构造函数会将只读的 `\"hello\"` **深拷贝**一份，存放到**堆（Heap）**或栈上的可写内存中。\n\t- 之后你修改 `s[0]`，改的是这份拷贝，而不是原始的只读字面量。",
+          "review_flags": [
+            "M19:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "a48af37737f0e83efea96c4e",
+            "document_id": "83d501db8f7147ff8e5ed103",
+            "text": "# 字符串\n- 本质（C中）：const char* 定义的字符数组\n\t- 原因：字符串存储在内存的**只读区域**，对其的修改属于**未定义行为**，所以要用const\n\t- 在底层，`\"hello\"` 的类型是 **`const char[6]`**（一个长度为 6 的常量字符数组）。\n    - 只不过在大多数表达式中（比如赋值给指针时），数组名会**退化**（Decay）为指向首元素的指针，所以成了 `const char*`。\n- C++：std::string（需要`#include<string>`）\n\t- `std::string` 的构造函数会将只读的 `\"hello\"` **深拷贝**一份，存放到**堆（Heap）**或栈上的可写内存中。\n\t- 之后你修改 `s[0]`，改的是这份拷贝，而不是原始的只读字面量。",
+            "spans": [
+              {
+                "source_file": "9数组 字符串.md",
+                "heading": "字符串",
+                "line_start": 80,
+                "line_end": 87
+              }
+            ],
+            "review_flags": [
+              "M19:资料待核"
+            ]
+          },
+          "score": 99.61631773810063,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "9943e3cd48beda0e8e28ac6e",
+            "document_id": "1d86bdeb1f22b3d074bf85f5",
+            "text": "### 3. 最精妙的地方：两者必须配合使用（这是编译通过的关键！）\n\n如果你的参数写了 `const Printable* obj`，但成员函数没写末尾的 `const`（比如写成 `virtual std::string writeClassName();`），那么编译会**直接报错**！\n**原因（权限控制链）**：\n- 在 `log` 函数内部，`obj` 被视作“指向常量的指针”。\n- C++ 规定：**通过指向常量的指针（或引用），只能调用该类型的常量成员函数**。\n- 因为“常量指针”意味着你不能修改对象，而调用一个非 `const` 的成员函数，相当于向编译器承诺“这个函数可能会修改对象”，这就违背了 `const` 指针的约束。\n**简单记法**：你不能用一个“不能修改对象”的钥匙（`const` 指针），去开启一个“允许修改对象”的门（非 `const` 成员函数）。必须用“只读钥匙”配“只读门锁”。",
+            "spans": [
+              {
+                "source_file": "8纯虚函数（接口） 可见性.md",
+                "heading": "const / 3. 最精妙的地方：两者必须配合使用（这是编译通过的关键！）",
+                "line_start": 66,
+                "line_end": 74
+              }
+            ],
+            "review_flags": [
+              "M16:资料待核"
+            ]
+          },
+          "score": 42.43971926714403,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "7e51b8e52698d0fd81d23a03",
+            "document_id": "1d86bdeb1f22b3d074bf85f5",
+            "text": "### 2. 函数参数中的 `const`（`const Printable* obj`）\n\n这是**指向常量对象的指针**。\n**核心含义**：`log` 函数承诺不会通过指针 `obj` 来修改它所指向的对象。\n**注意细节**：这里修饰的是指针指向的内容（即 `Printable` 对象），而不是指针本身（指针本身是拷贝进来的，无论如何修改它都不影响外部）。",
+            "spans": [
+              {
+                "source_file": "8纯虚函数（接口） 可见性.md",
+                "heading": "const / 2. 函数参数中的 `const`（`const Printable* obj`）",
+                "line_start": 60,
+                "line_end": 64
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 34.46958121220943,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 2.1459601999958977,
+      "retrieval_seconds": 0.02228329994250089,
+      "generation_seconds": 2.119970400002785,
+      "usage": {
+        "prompt_tokens": 1227,
+        "completion_tokens": 269,
+        "total_tokens": 1496,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1099
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"uncertain\",\"answer\":\"文档记载：在 C 中，字符串字面量本质上是 `const char*` 定义的字符数组，因为字符串存储在内存的只读区域，对其修改属于未定义行为，所以要用 const；底层 `\\\"hello\\\"` 的类型是 `const char[6]`，在大多数表达式中数组名会退化为指向首元素的指针，成为 `const char*` [1]。C++ 的 `std::string` 构造函数会将只读的 `\\\"hello\\\"` 深拷贝一份，存放到堆或栈上的可写内存中，之后修改 `s[0]` 改的是这份拷贝，而不是原始的只读字面量 [1]。\\n\\n待核范围：上述字符串条目带有“M19:资料待核”标记，因此关于字面量只读、修改属未定义行为以及深拷贝到可写内存的表述均属待核内容，不能据此扩展为语言保证。另外，文档未记载“为什么不能修改字面量本身”在标准层面的完整规则，也未记载 `std::string` 修改字符的具体接口细节。\",\"citations\":[{\"chunk_id\":\"a48af37737f0e83efea96c4e\"}]}",
+      "run_id": "516084fc1f92464697aaf461fdf1399a",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 2.152208400075324,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 27,
+    "question_id": "Q15",
+    "category": "unanswerable",
+    "question": "std::sort 的基本工作原理是什么，它的时间复杂度有什么特点？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "std::sort 的基本工作原理是什么，它的时间复杂度有什么特点？",
+      "method": "bm25",
+      "status": "refused",
+      "answer": "文档中没有相关信息",
+      "citations": [],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "28d6713674a89fca7a8824d4",
+            "document_id": "5834b153c1fd9a711786d9ce",
+            "text": "# 变量\n- C++里的基本变量类型挺灵活的，可以干不属于它们类型的事情，所以可以说：\n\t- 区分不同变量类型的根本是它们的占用空间大小（字节）\n- 某类型分配多少内存具体取决于编译器。\n- 常用整型：\n\tchar 1\n\tshort 2\n\tint 4 （-21亿~21亿，因为32字节，1个符号位，2^31≈21亿）\n\tlong 4\n\tlong long 8\n- unsigned关键字加在前面，表示无符号数",
+            "spans": [
+              {
+                "source_file": "2变量 头文件 调试 条件.md",
+                "heading": "变量",
+                "line_start": 1,
+                "line_end": 11
+              }
+            ],
+            "review_flags": [
+              "M03:资料待核"
+            ]
+          },
+          "score": 14.098667763002162,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "75d786b912dd202f6f4f502a",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "```cpp\n#include <iostream>\n#include <string>\nclass GameCharacter {\nprivate:\n    // 1. 基本类型\n    int m_health;\n    float m_speed;\n    \n    // 2. 类类型（string）\n    std::string m_name;\n    \n    // 3. 常量（必须初始化，且之后不能改）\n    const int m_maxHealth;\n    \n    // 4. 引用（必须初始化，且之后不能换绑）\n    std::string& m_nicknameRef;\npublic:\n    // ★ 构造函数：初始化列表用冒号开头，多个初始化用逗号隔开\n    GameCharacter(const std::string& name, int health, float speed, \n                  int maxHealth, std::string& nickname)\n        : m_name(name),          // 初始化字符串\n          m_health(health),      // 初始化整数\n          m_speed(speed),        // 初始化浮点数\n          m_maxHealth(maxHealth),// ★ 初始化常量（这里赋值，之后不能再改）\n          m_nicknameRef(nickname) // ★ 初始化引用（绑定到外部变量）\n    {\n        // 函数体里面不需要再写任何赋值代码了\n        // 如果这里写 m_health = health，就是二次赋值，效率低且对常量/引用不合法\n    }\n    // 打印函数，方便查看效果\n    void printInfo() const {\n        std::cout << \"Name: \" << m_name \n                  << \", Health: \" << m_health \n                  << \", Speed: \" << m_speed\n                  << \", MaxHealth: \" << m_maxHealth\n                  << \", Nickname: \" << m_nicknameRef << std::endl;\n    }\n};\n```",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 完整代码示例",
+                "line_start": 83,
+                "line_end": 122
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 9.844223968912372,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "af0d0452626823aed70a0e04",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "### 更复杂的例子\n为了让你看得更透彻，我写一个比刚才复杂得多的类——`GameCharacter`（游戏角色）。它包含了**普通类型**、**类类型**、**常量**和**引用**，让你看看初始化列表到底有多强大。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 更复杂的例子",
+                "line_start": 78,
+                "line_end": 79
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 8.757946889395782,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.0922543000197038,
+      "retrieval_seconds": 0.02151140000205487,
+      "generation_seconds": 1.070704699959606,
+      "usage": {
+        "prompt_tokens": 1216,
+        "completion_tokens": 17,
+        "total_tokens": 1233,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1088
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"refused\",\"answer\":\"文档中没有相关信息\",\"citations\":[]}",
+      "run_id": "957a607022a145e9a53f07f3d9a07e4b",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.0994699000148103,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": false,
+      "reason": "Corpus-level trap; related background is not answer evidence"
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 29,
+    "question_id": "Q19",
+    "category": "multi",
+    "question": "在 C++ 中，仅有继承关系并使用基类指针，是否就能自动获得运行时多态？虚函数怎样改变默认绑定方式；如果进一步用纯虚函数定义统一接口，抽象基类能否直接创建对象，应怎样使用它？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "在 C++ 中，仅有继承关系并使用基类指针，是否就能自动获得运行时多态？虚函数怎样改变默认绑定方式；如果进一步用纯虚函数定义统一接口，抽象基类能否直接创建对象，应怎样使用它？",
+      "method": "bm25",
+      "status": "partial",
+      "answer": "文档记载：在 C++ 中默认都是静态绑定，想要实现动态绑定必须使用 virtual 关键词，并可用 override 增强代码可读性；实现多态时使用父类类型的指针，一个指向父类对象、一个指向子类对象 [1]。纯虚函数用 virtual 和 = 0 定义，含纯虚函数的类是抽象类，不能被实例化，但可以有指针和引用指向子类对象，例如不能 new Entity()，但可以 Entity* ptr 或 Entity& ptr [2]。文档示例中通过抽象接口 Printable 的指针调用 writeClassName()，分别传入 Entity 对象和 Player 对象 [2]。\n\n文档未明确记载的问题：仅有继承关系并使用基类指针是否“自动”获得运行时多态（文档只说明默认静态绑定、需 virtual 才能动态绑定，未直接以该措辞回答）；虚函数具体如何改变默认绑定机制（如虚表等实现细节）未记载。",
+      "citations": [
+        {
+          "chunk_id": "23a79cc0548ed57299d9c17b",
+          "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+          "heading": "继承 多态 虚函数",
+          "line_start": 29,
+          "line_end": 32,
+          "quote": "# 继承 多态 虚函数\n- 本例中要实现多态，都使用父类Entity类型的指针，一个指向父类Player，一个指向子类Player\n- 在java中，父类变量指向子类就能多态，编译时是静态审查，符号`.`之前的类中有这个方法就能通过编译，在运行阶段调用方法时采用动态绑定，看变量实际指向了什么类，并用那个类的方法，如果是子类的覆写方法，就相当于实现多态了。\n- 在cpp中，“父类变量指向子类”这一过程就使用指针来实现，其实更接近本质。默认都是静态绑定，想要实现动态绑定，必须使用virtual关键词，并使用override增强代码可读性。",
+          "review_flags": [
+            "M13:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "c7b64d6a7c7f6190cf5f7bd6",
+          "source_file": "8纯虚函数（接口） 可见性.md",
+          "heading": "纯虚函数（接口）",
+          "line_start": 1,
+          "line_end": 52,
+          "quote": "# 纯虚函数（接口）\n- 关键字：`virtual` 和 `= 0`\n- 有纯虚函数的类是抽象类，不能被实例化，但可以有指针和引用，指向子类对象\n- 例如Entity类中有纯虚函数，不能`new Entity()`但是可以`Entity* ptr`或者`Entity& ptr`\n- 下面这段程序的设计思路应该是先确认log()函数的函数体和类，再去设计抽象类（接口）！\n```cpp\n#include <iostream>\n\n//用纯虚函数实现打印类名\n\nclass Printable {\n    public:\n        virtual ~Printable() = default;\n        virtual std::string writeClassName() const = 0;\n};\nclass Entity : public Printable {\n    public:\n        virtual ~Entity() = default;\n        std::string writeClassName() const override {\n            return \"Entity\";\n        }\n};\nclass Player : public Entity {\n    private:\n        std::string m_name;\n    public:\n        Player(const std::string& name) : m_name(name) {}\n        std::string writeClassName() const override {\n            return \"Player\";\n        }\n};\n\n//注意本程序的设计思路应该是先设计这个函数，再设计接口！\n\nvoid log(const Printable* obj) {\n    std::cout << obj->writeClassName() << std::endl;\n}\n\n\nint main() {\n    Entity* e = new Entity();\n    Entity* p = new Player(\"John\");\n\n    log(e);\n    log(p);\n\n    delete e;\n    delete p;\n\n    return 0;\n}\n```",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "23a79cc0548ed57299d9c17b",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "# 继承 多态 虚函数\n- 本例中要实现多态，都使用父类Entity类型的指针，一个指向父类Player，一个指向子类Player\n- 在java中，父类变量指向子类就能多态，编译时是静态审查，符号`.`之前的类中有这个方法就能通过编译，在运行阶段调用方法时采用动态绑定，看变量实际指向了什么类，并用那个类的方法，如果是子类的覆写方法，就相当于实现多态了。\n- 在cpp中，“父类变量指向子类”这一过程就使用指针来实现，其实更接近本质。默认都是静态绑定，想要实现动态绑定，必须使用virtual关键词，并使用override增强代码可读性。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "继承 多态 虚函数",
+                "line_start": 29,
+                "line_end": 32
+              }
+            ],
+            "review_flags": [
+              "M13:资料待核"
+            ]
+          },
+          "score": 96.11540590288485,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "c7b64d6a7c7f6190cf5f7bd6",
+            "document_id": "1d86bdeb1f22b3d074bf85f5",
+            "text": "# 纯虚函数（接口）\n- 关键字：`virtual` 和 `= 0`\n- 有纯虚函数的类是抽象类，不能被实例化，但可以有指针和引用，指向子类对象\n- 例如Entity类中有纯虚函数，不能`new Entity()`但是可以`Entity* ptr`或者`Entity& ptr`\n- 下面这段程序的设计思路应该是先确认log()函数的函数体和类，再去设计抽象类（接口）！\n```cpp\n#include <iostream>\n\n//用纯虚函数实现打印类名\n\nclass Printable {\n    public:\n        virtual ~Printable() = default;\n        virtual std::string writeClassName() const = 0;\n};\nclass Entity : public Printable {\n    public:\n        virtual ~Entity() = default;\n        std::string writeClassName() const override {\n            return \"Entity\";\n        }\n};\nclass Player : public Entity {\n    private:\n        std::string m_name;\n    public:\n        Player(const std::string& name) : m_name(name) {}\n        std::string writeClassName() const override {\n            return \"Player\";\n        }\n};\n\n//注意本程序的设计思路应该是先设计这个函数，再设计接口！\n\nvoid log(const Printable* obj) {\n    std::cout << obj->writeClassName() << std::endl;\n}\n\n\nint main() {\n    Entity* e = new Entity();\n    Entity* p = new Player(\"John\");\n\n    log(e);\n    log(p);\n\n    delete e;\n    delete p;\n\n    return 0;\n}\n```",
+            "spans": [
+              {
+                "source_file": "8纯虚函数（接口） 可见性.md",
+                "heading": "纯虚函数（接口）",
+                "line_start": 1,
+                "line_end": 52
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 72.88679347208162,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "2edce95113db1a33411f9c02",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "# 虚析构函数\n- `Entity` 里加上**虚析构函数**：否则，未来如果你写了 `delete p;`（基类指针指向子类），子类的析构函数不会被调用（虽然你这代码里子类没有额外资源，但这是好习惯）。\n\n---",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "虚析构函数",
+                "line_start": 33,
+                "line_end": 36
+              }
+            ],
+            "review_flags": [
+              "M13:资料待核"
+            ]
+          },
+          "score": 52.85367953926119,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 2.20699929993134,
+      "retrieval_seconds": 0.033336499938741326,
+      "generation_seconds": 2.1666364999255165,
+      "usage": {
+        "prompt_tokens": 1279,
+        "completion_tokens": 262,
+        "total_tokens": 1541,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1151
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"partial\",\"answer\":\"文档记载：在 C++ 中默认都是静态绑定，想要实现动态绑定必须使用 virtual 关键词，并可用 override 增强代码可读性；实现多态时使用父类类型的指针，一个指向父类对象、一个指向子类对象 [1]。纯虚函数用 virtual 和 = 0 定义，含纯虚函数的类是抽象类，不能被实例化，但可以有指针和引用指向子类对象，例如不能 new Entity()，但可以 Entity* ptr 或 Entity& ptr [2]。文档示例中通过抽象接口 Printable 的指针调用 writeClassName()，分别传入 Entity 对象和 Player 对象 [2]。\\n\\n文档未明确记载的问题：仅有继承关系并使用基类指针是否“自动”获得运行时多态（文档只说明默认静态绑定、需 virtual 才能动态绑定，未直接以该措辞回答）；虚函数具体如何改变默认绑定机制（如虚表等实现细节）未记载。\",\"citations\":[{\"chunk_id\":\"23a79cc0548ed57299d9c17b\"},{\"chunk_id\":\"c7b64d6a7c7f6190cf5f7bd6\"}]}",
+      "run_id": "af7116676c2144b8a7f9c3613160eab7",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 2.212372799986042,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A",
+        "B"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 31,
+    "question_id": "Q07",
+    "category": "answerable",
+    "question": "怎样限制外部代码通过默认构造函数创建对象，同时保留公开静态方法的使用？请说明笔记介绍的两种做法。",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "怎样限制外部代码通过默认构造函数创建对象，同时保留公开静态方法的使用？请说明笔记介绍的两种做法。",
+      "method": "bm25",
+      "status": "supported",
+      "answer": "笔记介绍两种禁用构造函数的方法，使外部代码不能通过默认构造函数创建对象，同时保留公开静态方法（如 `Log::Write()`）的使用：\n\n方法一：把构造函数放入 private [1]\n```cpp\nclass Log {\nprivate:\n\tLog() {}\npublic:\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```\n\n方法二：用 `= delete` 删除构造函数 [1]\n```cpp\nclass Log {\npublic:\n\tLog() = delete;\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```\n\n笔记说明，这样写之后 `Log entity;` 就会报错，而静态方法仍可通过 `Log::Write()` 调用 [1]。",
+      "citations": [
+        {
+          "chunk_id": "1d0618bcac24a398f2cb16b2",
+          "source_file": "6枚举 构造函数 析构函数.md",
+          "heading": "构造函数",
+          "line_start": 23,
+          "line_end": 70,
+          "quote": "# 构造函数\n- 构造函数不写返回类型\n- 初始化变量\n\t- 在java中所有变量都会初始化为0\n\t- 在C++中所有变量都要通过构造函数初始化，否则是随机的值\n- 构造函数的签名不同时，可以有多个构造函数（重载）\n- 特殊构造函数（相对复杂）\n\t- 复制构造函数\n\t- 移动构造函数\n- 禁用构造函数：\n\t- 例：有静态方法，想仅用`Log::Write()`调用，而不是创建实例后调用，就可以禁用构造函数，两种方法：delete或放入private里\n↓ 这段代码就是静态方法的两种调用\n```cpp\nclass Log {\npublic:\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\nint main() {\n    Log::Write();\n    \n    Log entity;\n    entity.Write();\n}\n```\n↓ 要想禁用构造函数可以这么写，Log entity时就报错了。\n方法一：\n```cpp\nclass Log {\nprivate:\n\tLog() {}\npublic:\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```\n方法二：\n```cpp\nclass Log {\npublic:\n\tLog() = delete;\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```",
+          "review_flags": [
+            "M12:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "1d0618bcac24a398f2cb16b2",
+            "document_id": "f2493e4b736ac4234c548e88",
+            "text": "# 构造函数\n- 构造函数不写返回类型\n- 初始化变量\n\t- 在java中所有变量都会初始化为0\n\t- 在C++中所有变量都要通过构造函数初始化，否则是随机的值\n- 构造函数的签名不同时，可以有多个构造函数（重载）\n- 特殊构造函数（相对复杂）\n\t- 复制构造函数\n\t- 移动构造函数\n- 禁用构造函数：\n\t- 例：有静态方法，想仅用`Log::Write()`调用，而不是创建实例后调用，就可以禁用构造函数，两种方法：delete或放入private里\n↓ 这段代码就是静态方法的两种调用\n```cpp\nclass Log {\npublic:\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\nint main() {\n    Log::Write();\n    \n    Log entity;\n    entity.Write();\n}\n```\n↓ 要想禁用构造函数可以这么写，Log entity时就报错了。\n方法一：\n```cpp\nclass Log {\nprivate:\n\tLog() {}\npublic:\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```\n方法二：\n```cpp\nclass Log {\npublic:\n\tLog() = delete;\n    static void Write() {\n        std::cout << \"Log::Write()\" << std::endl;\n    }\n};\n```",
+            "spans": [
+              {
+                "source_file": "6枚举 构造函数 析构函数.md",
+                "heading": "构造函数",
+                "line_start": 23,
+                "line_end": 70
+              }
+            ],
+            "review_flags": [
+              "M12:资料待核"
+            ]
+          },
+          "score": 60.09741800356997,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "4fe619ae785572ff94e7e972",
+            "document_id": "f2493e4b736ac4234c548e88",
+            "text": "# 析构函数\n- 如果一个类没有写析构函数，系统会给一个默认的\n- 析构函数的内容通常是删除变量、清理使用过的内存\n- 析构函数会在销毁对象时运行（很少手动调用），两种情形：\n\t- 堆分配对象，new出来的，delete时会调用析构函数\n\t- 栈分配对象，直接定义的，出作用域时会调用析构函数\n\t\t- 所以对于栈分配对象，直接写在main函数里会到程序结束才释放，更好的做法是封装到函数里，出这个函数时就会被释放了\n- 析构函数的写法：类同名并在前面加个`~`\n- ",
+            "spans": [
+              {
+                "source_file": "6枚举 构造函数 析构函数.md",
+                "heading": "析构函数",
+                "line_start": 71,
+                "line_end": 79
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 29.131766162809093,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "23a79cc0548ed57299d9c17b",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "# 继承 多态 虚函数\n- 本例中要实现多态，都使用父类Entity类型的指针，一个指向父类Player，一个指向子类Player\n- 在java中，父类变量指向子类就能多态，编译时是静态审查，符号`.`之前的类中有这个方法就能通过编译，在运行阶段调用方法时采用动态绑定，看变量实际指向了什么类，并用那个类的方法，如果是子类的覆写方法，就相当于实现多态了。\n- 在cpp中，“父类变量指向子类”这一过程就使用指针来实现，其实更接近本质。默认都是静态绑定，想要实现动态绑定，必须使用virtual关键词，并使用override增强代码可读性。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "继承 多态 虚函数",
+                "line_start": 29,
+                "line_end": 32
+              }
+            ],
+            "review_flags": [
+              "M13:资料待核"
+            ]
+          },
+          "score": 24.72988727636068,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.8066338999196887,
+      "retrieval_seconds": 0.022798200021497905,
+      "generation_seconds": 1.7803446999751031,
+      "usage": {
+        "prompt_tokens": 1273,
+        "completion_tokens": 230,
+        "total_tokens": 1503,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 633
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"supported\",\"answer\":\"笔记介绍两种禁用构造函数的方法，使外部代码不能通过默认构造函数创建对象，同时保留公开静态方法（如 `Log::Write()`）的使用：\\n\\n方法一：把构造函数放入 private [1]\\n```cpp\\nclass Log {\\nprivate:\\n\\tLog() {}\\npublic:\\n    static void Write() {\\n        std::cout << \\\"Log::Write()\\\" << std::endl;\\n    }\\n};\\n```\\n\\n方法二：用 `= delete` 删除构造函数 [1]\\n```cpp\\nclass Log {\\npublic:\\n\\tLog() = delete;\\n    static void Write() {\\n        std::cout << \\\"Log::Write()\\\" << std::endl;\\n    }\\n};\\n```\\n\\n笔记说明，这样写之后 `Log entity;` 就会报错，而静态方法仍可通过 `Log::Write()` 调用 [1]。\",\"citations\":[{\"chunk_id\":\"1d0618bcac24a398f2cb16b2\"}]}",
+      "run_id": "fa6bf89ec9a24408aeb0489ea1942d98",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.8119706000434235,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 32,
+    "question_id": "Q16",
+    "category": "multi",
+    "question": "头文件中的普通函数定义被多个源文件包含时，为什么可能产生重复定义问题？请给出笔记中的一种处理办法，并比较文件作用域 static 与 C++17 起类内 inline static 数据成员在跨编译单元存储上的含义。",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "头文件中的普通函数定义被多个源文件包含时，为什么可能产生重复定义问题？请给出笔记中的一种处理办法，并比较文件作用域 static 与 C++17 起类内 inline static 数据成员在跨编译单元存储上的含义。",
+      "method": "bm25",
+      "status": "supported",
+      "answer": "头文件中的普通函数定义被多个源文件包含时，include 相当于复制黏贴，因此工程里会出现对该函数的重复定义，链接时不知道链接哪一个，从而报连接错误 [1]。\n\n笔记中的处理办法有两种：1. 不要在 .hpp 里进行定义，.hpp 只声明；2. 如果非要在 .hpp 里定义，则在前面加 static 或者 inline 关键字 [1]。其中 static 的含义是让 cpp 文件知道这个定义只属于该文件，各用各的，坏处是代码体积会膨胀，在 .exe 文件中会存在两个相同的机器码 [1]；inline 的含义是允许多个编译单元中存在相同的函数定义，好处是最后 .exe 中只会保留一份机器码 [2]。\n\n关于 C++17 起类内 inline static 数据成员：在 C++17 之前，类的静态成员必须在头文件里声明，再在源文件里定义；加上 `inline static int x = 0;` 后放宽了 ODR 限制，inline 告诉编译器这个变量可以有多个相同的定义分散在不同的 .cpp 编译单元里，最后链接时只保留一份副本，不需要再在 cpp 里写 `int Entity::x;` [3]。\n\n需要说明的是，文档未记载“文件作用域 static”这一术语的完整定义，也未直接以“跨编译单元存储”的措辞对两者作对比；上述 static 与 inline static 的含义分别来自函数定义场景和类内静态数据成员场景的记载 [1][3]。",
+      "citations": [
+        {
+          "chunk_id": "0a4c694c887644b2dd420948",
+          "source_file": "1运作原理 编译链接.md",
+          "heading": "无标题（原文）",
+          "line_start": 12,
+          "line_end": 20,
+          "quote": "- 就算没使用过的函数，如果没被链接，也会报错。\n\t- ![[Pasted image 20260815200459.png|368]]\n\t- 就算注释掉这条语句，本函数不会使用Multiply函数，但如果Log**没有**在其它文件里被定义，只是在这个cpp文件里被声明（区分声明 vs 定义），那编译会被通过，但链接会报错。\n\t- static表示该函数只会在本cpp文件里被使用，如果用static修饰Multiply()函数链接就不会报错，因为编译器知道这个函数只会在这个cpp文件里被使用而实际上没有被使用。\n- 如果返回类型或签名不同，那就无法链接\n- 如果一个函数在工程里有两个定义，会不知道链接哪一个\n\t- 比如，在.hpp文件里定义了一个函数，在两个.cpp文件里include了这个.hpp，而include又相当于复制黏贴，那么这个工程里就出现了对这个函数的重复定义，就会有连接报错。\n\t\t- 该例子的解决方法：1.不要在.hpp里进行定义，.hpp只声明。2.如果非要在.hpp里定义，则在前面加static或者inline关键字。\n\t\t\t- static的含义：让cpp文件知道这个定义只属于该文件，各用各的。坏处：代码体积会膨胀，在.exe文件中会存在两个相同的机器码。",
+          "review_flags": [
+            "M01:资料待核",
+            "M02:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "120803ae88ae81dcd8a86a9b",
+          "source_file": "1运作原理 编译链接.md",
+          "heading": "无标题（原文）",
+          "line_start": 21,
+          "line_end": 21,
+          "quote": "\t\t\t- inline的含义：允许多个编译单元中存在<span style=\"color:rgb(255, 192, 0)\">相同</span>的函数定义。好处：最后.exe中只会保留一份机器码。",
+          "review_flags": [
+            "M02:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "10bcf1b56640c6a7b9d0694e",
+          "source_file": "4类和结构体 static ODR.md",
+          "heading": "static的三种用法 / 3.在类或结构体内",
+          "line_start": 40,
+          "line_end": 47,
+          "quote": "- <span style=\"color:rgb(255, 192, 0)\">相当于在Entity命名空间中创建了两个变量，他们实际上不属于类</span>\n- 带 `::` 作用域限定符的变量定义**必须**出现在全局作用域（或命名空间作用域）中，不允许出现在函数体 `{}` 内部。\n\t- <span style=\"color:rgb(255, 77, 77)\"><b>C++ 的单一定义规则（ODR，One Definition Rule）</b></span>\n\t\t- **一句话核心概括：** 在整个程序（所有 `.cpp` 文件加起来）中，**任何变量、函数、类、枚举、模板等实体，只能有且仅有一个“定义”（Definition）。可以有无数次“声明”（Declaration），但定义必须唯一。**\n\t- // C++17起有了 inline，在结构体static前加上inline，这就是定义，不需要再在 cpp 里写 int Entity::x;\n\t\t- 在 C++17 之前（也就是你下面这段代码的写法），类的静态成员必须在头文件（`.h`）里**声明**，再在源文件（`.cpp`）里**定义**。\n\t\t- 加上 `inline static int x = 0;` 后：\n\t\t\t- **放宽了 ODR 限制**：`inline` 告诉编译器：“这个变量可以有多个相同的定义（分散在不同的 `.cpp` 编译单元里），没事，你们各自编译，最后链接的时候**只保留一份副本**就行了。”",
+          "review_flags": [
+            "M06:资料待核",
+            "M07:资料待核",
+            "M08:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "10bcf1b56640c6a7b9d0694e",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "- <span style=\"color:rgb(255, 192, 0)\">相当于在Entity命名空间中创建了两个变量，他们实际上不属于类</span>\n- 带 `::` 作用域限定符的变量定义**必须**出现在全局作用域（或命名空间作用域）中，不允许出现在函数体 `{}` 内部。\n\t- <span style=\"color:rgb(255, 77, 77)\"><b>C++ 的单一定义规则（ODR，One Definition Rule）</b></span>\n\t\t- **一句话核心概括：** 在整个程序（所有 `.cpp` 文件加起来）中，**任何变量、函数、类、枚举、模板等实体，只能有且仅有一个“定义”（Definition）。可以有无数次“声明”（Declaration），但定义必须唯一。**\n\t- // C++17起有了 inline，在结构体static前加上inline，这就是定义，不需要再在 cpp 里写 int Entity::x;\n\t\t- 在 C++17 之前（也就是你下面这段代码的写法），类的静态成员必须在头文件（`.h`）里**声明**，再在源文件（`.cpp`）里**定义**。\n\t\t- 加上 `inline static int x = 0;` 后：\n\t\t\t- **放宽了 ODR 限制**：`inline` 告诉编译器：“这个变量可以有多个相同的定义（分散在不同的 `.cpp` 编译单元里），没事，你们各自编译，最后链接的时候**只保留一份副本**就行了。”",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 3.在类或结构体内",
+                "line_start": 40,
+                "line_end": 47
+              }
+            ],
+            "review_flags": [
+              "M06:资料待核",
+              "M07:资料待核",
+              "M08:资料待核"
+            ]
+          },
+          "score": 77.36428969964676,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "120803ae88ae81dcd8a86a9b",
+            "document_id": "1cfeb1afc806e25091e59ce5",
+            "text": "\t\t\t- inline的含义：允许多个编译单元中存在<span style=\"color:rgb(255, 192, 0)\">相同</span>的函数定义。好处：最后.exe中只会保留一份机器码。",
+            "spans": [
+              {
+                "source_file": "1运作原理 编译链接.md",
+                "heading": "无标题（原文）",
+                "line_start": 21,
+                "line_end": 21
+              }
+            ],
+            "review_flags": [
+              "M02:资料待核"
+            ]
+          },
+          "score": 61.9340254107134,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "0a4c694c887644b2dd420948",
+            "document_id": "1cfeb1afc806e25091e59ce5",
+            "text": "- 就算没使用过的函数，如果没被链接，也会报错。\n\t- ![[Pasted image 20260815200459.png|368]]\n\t- 就算注释掉这条语句，本函数不会使用Multiply函数，但如果Log**没有**在其它文件里被定义，只是在这个cpp文件里被声明（区分声明 vs 定义），那编译会被通过，但链接会报错。\n\t- static表示该函数只会在本cpp文件里被使用，如果用static修饰Multiply()函数链接就不会报错，因为编译器知道这个函数只会在这个cpp文件里被使用而实际上没有被使用。\n- 如果返回类型或签名不同，那就无法链接\n- 如果一个函数在工程里有两个定义，会不知道链接哪一个\n\t- 比如，在.hpp文件里定义了一个函数，在两个.cpp文件里include了这个.hpp，而include又相当于复制黏贴，那么这个工程里就出现了对这个函数的重复定义，就会有连接报错。\n\t\t- 该例子的解决方法：1.不要在.hpp里进行定义，.hpp只声明。2.如果非要在.hpp里定义，则在前面加static或者inline关键字。\n\t\t\t- static的含义：让cpp文件知道这个定义只属于该文件，各用各的。坏处：代码体积会膨胀，在.exe文件中会存在两个相同的机器码。",
+            "spans": [
+              {
+                "source_file": "1运作原理 编译链接.md",
+                "heading": "无标题（原文）",
+                "line_start": 12,
+                "line_end": 20
+              }
+            ],
+            "review_flags": [
+              "M01:资料待核",
+              "M02:资料待核"
+            ]
+          },
+          "score": 57.378178939332955,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 2.824670299887657,
+      "retrieval_seconds": 0.024846899905242026,
+      "generation_seconds": 2.789529199944809,
+      "usage": {
+        "prompt_tokens": 1381,
+        "completion_tokens": 418,
+        "total_tokens": 1799,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 1125
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"supported\",\"answer\":\"头文件中的普通函数定义被多个源文件包含时，include 相当于复制黏贴，因此工程里会出现对该函数的重复定义，链接时不知道链接哪一个，从而报连接错误 [1]。\\n\\n笔记中的处理办法有两种：1. 不要在 .hpp 里进行定义，.hpp 只声明；2. 如果非要在 .hpp 里定义，则在前面加 static 或者 inline 关键字 [1]。其中 static 的含义是让 cpp 文件知道这个定义只属于该文件，各用各的，坏处是代码体积会膨胀，在 .exe 文件中会存在两个相同的机器码 [1]；inline 的含义是允许多个编译单元中存在相同的函数定义，好处是最后 .exe 中只会保留一份机器码 [2]。\\n\\n关于 C++17 起类内 inline static 数据成员：在 C++17 之前，类的静态成员必须在头文件里声明，再在源文件里定义；加上 `inline static int x = 0;` 后放宽了 ODR 限制，inline 告诉编译器这个变量可以有多个相同的定义分散在不同的 .cpp 编译单元里，最后链接时只保留一份副本，不需要再在 cpp 里写 `int Entity::x;` [3]。\\n\\n需要说明的是，文档未记载“文件作用域 static”这一术语的完整定义，也未直接以“跨编译单元存储”的措辞对两者作对比；上述 static 与 inline static 的含义分别来自函数定义场景和类内静态数据成员场景的记载 [1][3]。\",\"citations\":[{\"chunk_id\":\"0a4c694c887644b2dd420948\"},{\"chunk_id\":\"120803ae88ae81dcd8a86a9b\"},{\"chunk_id\":\"10bcf1b56640c6a7b9d0694e\"}]}",
+      "run_id": "cf029bf2501b43038ca2c989b0c797f1",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 2.8302130999509245,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A",
+        "B"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": false,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 33,
+    "question_id": "Q08",
+    "category": "answerable",
+    "question": "类类型成员的构造初始化，与进入构造函数体后再赋值有什么区别？成员真正的初始化顺序由什么决定？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "类类型成员的构造初始化，与进入构造函数体后再赋值有什么区别？成员真正的初始化顺序由什么决定？",
+      "method": "bm25",
+      "status": "partial",
+      "answer": "类类型成员在初始化列表中直接构造，只构造一次（如拷贝构造）；若进入构造函数体后再赋值，则会先默认构造再拷贝赋值，多一次操作 [1]。此外，const 成员、引用成员以及没有默认构造函数的类类型成员必须在初始化列表中初始化，不能在函数体里赋值 [1][2]。\n\n关于“成员真正的初始化顺序由什么决定”，本次提供的文档没有记载，无法据此回答。",
+      "citations": [
+        {
+          "chunk_id": "d00a724e245385145510b171",
+          "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+          "heading": "初始化列表 / 上例中的分析",
+          "line_start": 69,
+          "line_end": 76,
+          "quote": "### 上例中的分析\n`: m_name(name)`\n这是**初始化列表**，它直接使用传入的 `name` 来**构造** `m_name`。\n- **效果**：相当于执行 `std::string m_name = name;`（直接构造）。\n- **重要区别**（和直接在花括号里赋值的区别）：\n    - 如果写成 `: m_name(name)`：`m_name` 只会被**构造一次**（拷贝构造）。\n    - 如果在花括号里写 `{ m_name = name; }`：`m_name` 会先被**默认构造**（空字符串），然后再被**赋值**（拷贝赋值），多了一次无用的操作。\n- **强制要求**：如果 `m_name` 是 `const` 类型、引用类型，或者是没有默认构造函数的类，**必须**用这种初始化列表方式，而不能在花括号里赋值。",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "cf510fc0ec3c74a32656f3fb",
+          "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+          "heading": "初始化列表 / 🚨 这一大串初始化列表的三个核心要点（面试常考） / 2. 哪些变量**必须**在初始化列表里初始化？",
+          "line_start": 160,
+          "line_end": 166,
+          "quote": "#### 2. 哪些变量**必须**在初始化列表里初始化？\n\n下面的情况，**绝对不能在函数体 `{}` 里赋值**，只能在初始化列表里写：\n- **`const` 成员**（如 `m_maxHealth`）：因为常量定义时必须赋值，不能先定义再赋值。\n- **引用成员**（如 `m_nicknameRef`）：引用绑定后不能改绑，必须出生时就绑定好。\n- **没有默认构造函数的类类型成员**：如果 `m_name` 是一个没有 `默认构造函数`（即无参构造）的类，那么在函数体 `{}` 里 `m_name = name` 会报错，必须用初始化列表直接构造。\n    ",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "cf510fc0ec3c74a32656f3fb",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "#### 2. 哪些变量**必须**在初始化列表里初始化？\n\n下面的情况，**绝对不能在函数体 `{}` 里赋值**，只能在初始化列表里写：\n- **`const` 成员**（如 `m_maxHealth`）：因为常量定义时必须赋值，不能先定义再赋值。\n- **引用成员**（如 `m_nicknameRef`）：引用绑定后不能改绑，必须出生时就绑定好。\n- **没有默认构造函数的类类型成员**：如果 `m_name` 是一个没有 `默认构造函数`（即无参构造）的类，那么在函数体 `{}` 里 `m_name = name` 会报错，必须用初始化列表直接构造。\n    ",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 🚨 这一大串初始化列表的三个核心要点（面试常考） / 2. 哪些变量**必须**在初始化列表里初始化？",
+                "line_start": 160,
+                "line_end": 167
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 67.69313016841731,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "d00a724e245385145510b171",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "### 上例中的分析\n`: m_name(name)`\n这是**初始化列表**，它直接使用传入的 `name` 来**构造** `m_name`。\n- **效果**：相当于执行 `std::string m_name = name;`（直接构造）。\n- **重要区别**（和直接在花括号里赋值的区别）：\n    - 如果写成 `: m_name(name)`：`m_name` 只会被**构造一次**（拷贝构造）。\n    - 如果在花括号里写 `{ m_name = name; }`：`m_name` 会先被**默认构造**（空字符串），然后再被**赋值**（拷贝赋值），多了一次无用的操作。\n- **强制要求**：如果 `m_name` 是 `const` 类型、引用类型，或者是没有默认构造函数的类，**必须**用这种初始化列表方式，而不能在花括号里赋值。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 上例中的分析",
+                "line_start": 69,
+                "line_end": 77
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 48.241975238177744,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "549e8842ab25488f7d3e1f82",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "### 如果你想“偷懒”只初始化几个，其余用默认值\n\n你可以结合**默认参数**一起用：\n```cpp\n// 给构造函数参数设默认值\nGameCharacter(const std::string& name = \"无名\", int health = 100, float speed = 1.0f)\n    : m_name(name), m_health(health), m_speed(speed) \n    // 常量 m_maxHealth 和引用必须依赖外部传入，这里先不管\n{}\n```\n简单总结：**逗号分隔就是初始化列表的“乘号”，你要初始化几个成员，就写几个，用逗号隔开。** 如果还有关于初始化顺序或者构造函数的任何疑问，随时可以再问我！🤔",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 如果你想“偷懒”只初始化几个，其余用默认值",
+                "line_start": 177,
+                "line_end": 187
+              }
+            ],
+            "review_flags": [
+              "M15:资料待核"
+            ]
+          },
+          "score": 46.00197939905154,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.5493880999274552,
+      "retrieval_seconds": 0.025280899950303137,
+      "generation_seconds": 1.5170925001148134,
+      "usage": {
+        "prompt_tokens": 1221,
+        "completion_tokens": 142,
+        "total_tokens": 1363,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 709
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"partial\",\"answer\":\"类类型成员在初始化列表中直接构造，只构造一次（如拷贝构造）；若进入构造函数体后再赋值，则会先默认构造再拷贝赋值，多一次操作 [1]。此外，const 成员、引用成员以及没有默认构造函数的类类型成员必须在初始化列表中初始化，不能在函数体里赋值 [1][2]。\\n\\n关于“成员真正的初始化顺序由什么决定”，本次提供的文档没有记载，无法据此回答。\",\"citations\":[{\"chunk_id\":\"d00a724e245385145510b171\"},{\"chunk_id\":\"cf510fc0ec3c74a32656f3fb\"}]}",
+      "run_id": "282b96e10f494d0bbff7810f449b139e",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.5549288999754936,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": false,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 34,
+    "question_id": "Q11",
+    "category": "unanswerable",
+    "question": "enum class 和传统 enum 在枚举值的名字作用域、隐式类型转换方面有什么区别？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "enum class 和传统 enum 在枚举值的名字作用域、隐式类型转换方面有什么区别？",
+      "method": "bm25",
+      "status": "partial",
+      "answer": "文档中没有相关信息。现有证据只提到“现代C++中更推荐枚举类enum class，而不是枚举enum，枚举类后面再介绍”[1]，并给出了传统 enum 的示例（如 `enum Example : unsigned char { A, B, C };`，以及 `Example e = A;`）[1]，但没有记载 enum class 与 enum 在枚举值名字作用域、隐式类型转换方面的具体区别。",
+      "citations": [
+        {
+          "chunk_id": "73fe357e8bc09e9e0ce59320",
+          "source_file": "6枚举 构造函数 析构函数.md",
+          "heading": "枚举",
+          "line_start": 1,
+          "line_end": 22,
+          "quote": "# 枚举\n- 相当于定义一种数据类型，只能是某些值\n- enum（enumerate）\n- 现代C++中更推荐枚举类enum class，而不是枚举enum，枚举类后面再介绍\n```cpp\n// 枚举元素默认为int，但前面也说过，不同数据类型的本质区别其实只有内存空间大小\n// : unsigned char 相当于规定枚举元素的类型，char只占1字节，可以节省空间\nenum Example : unsinged char {\n\tA, B, C         //默认A=0, B=1, C=2\n};\n\nint main() {\n    Example e = A;\n    if (e == A) {\n        std::cout << \"A\" << std::endl;\n    } else if (e == B) {\n        std::cout << \"B\" << std::endl;\n    } else if (e == C) {\n        std::cout << \"C\" << std::endl;\n    }\n}\n```",
+          "review_flags": [
+            "M12:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "73fe357e8bc09e9e0ce59320",
+            "document_id": "f2493e4b736ac4234c548e88",
+            "text": "# 枚举\n- 相当于定义一种数据类型，只能是某些值\n- enum（enumerate）\n- 现代C++中更推荐枚举类enum class，而不是枚举enum，枚举类后面再介绍\n```cpp\n// 枚举元素默认为int，但前面也说过，不同数据类型的本质区别其实只有内存空间大小\n// : unsigned char 相当于规定枚举元素的类型，char只占1字节，可以节省空间\nenum Example : unsinged char {\n\tA, B, C         //默认A=0, B=1, C=2\n};\n\nint main() {\n    Example e = A;\n    if (e == A) {\n        std::cout << \"A\" << std::endl;\n    } else if (e == B) {\n        std::cout << \"B\" << std::endl;\n    } else if (e == C) {\n        std::cout << \"C\" << std::endl;\n    }\n}\n```",
+            "spans": [
+              {
+                "source_file": "6枚举 构造函数 析构函数.md",
+                "heading": "枚举",
+                "line_start": 1,
+                "line_end": 22
+              }
+            ],
+            "review_flags": [
+              "M12:资料待核"
+            ]
+          },
+          "score": 38.40848041231786,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "9610f6a7e802284b15734dce",
+            "document_id": "83d501db8f7147ff8e5ed103",
+            "text": "# 传统数组\n- 数组的本质是连续的数据块，索引的本质是指针操作去访问\n- 栈和堆上创建数组的区别\n\t- 栈上 `int a[10]`\n\t\t- 数组名a指向数组首地址\n\t\t- 离开作用域会自动释放\n\t- 堆上 `int *ptr = new int[10]`\n\t\t- 指针ptr的内存空间包含指向数组的地址\n\t\t- 生命周期可以无限长，需要手动释放\n\t\t- 删除操作：`delete[] ptr`\n\t- 堆上数组“开销大”指的是**额外的内存占用**和**分配时的系统调用**，主要有以下三个层面：\n\t    1. **分配慢**（系统调用 vs 一条 CPU 指令）。\n\t    2. **多读一次**（先读指针变量，再读目标数据）。\n\t    3. **缓存差**（栈连续紧凑，堆可能天南海北）。\n\t    - （详细解释见本页面最下面的附录）\n- 数组一定不能越界（有时甚至不会报错，难以排查）\n- 数组大小需要自己维护\n\t- 没有办法像那种把数组作为实例的语言，直接用a.size获得数组大小\n\t- c++中，数组大小需要自己维护，`sizeof(a) / sizeof(int)`也是不可靠的！\n\t- 原因：当数组作为函数参数进行传递时，会自动退化decay为指向首元素的指针\n\t- 维护数组大小的实际方法可见下例，定义xxxSize",
+            "spans": [
+              {
+                "source_file": "9数组 字符串.md",
+                "heading": "传统数组",
+                "line_start": 1,
+                "line_end": 21
+              }
+            ],
+            "review_flags": [
+              "M17:资料待核"
+            ]
+          },
+          "score": 18.245593343653365,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "10bcf1b56640c6a7b9d0694e",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "- <span style=\"color:rgb(255, 192, 0)\">相当于在Entity命名空间中创建了两个变量，他们实际上不属于类</span>\n- 带 `::` 作用域限定符的变量定义**必须**出现在全局作用域（或命名空间作用域）中，不允许出现在函数体 `{}` 内部。\n\t- <span style=\"color:rgb(255, 77, 77)\"><b>C++ 的单一定义规则（ODR，One Definition Rule）</b></span>\n\t\t- **一句话核心概括：** 在整个程序（所有 `.cpp` 文件加起来）中，**任何变量、函数、类、枚举、模板等实体，只能有且仅有一个“定义”（Definition）。可以有无数次“声明”（Declaration），但定义必须唯一。**\n\t- // C++17起有了 inline，在结构体static前加上inline，这就是定义，不需要再在 cpp 里写 int Entity::x;\n\t\t- 在 C++17 之前（也就是你下面这段代码的写法），类的静态成员必须在头文件（`.h`）里**声明**，再在源文件（`.cpp`）里**定义**。\n\t\t- 加上 `inline static int x = 0;` 后：\n\t\t\t- **放宽了 ODR 限制**：`inline` 告诉编译器：“这个变量可以有多个相同的定义（分散在不同的 `.cpp` 编译单元里），没事，你们各自编译，最后链接的时候**只保留一份副本**就行了。”",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 3.在类或结构体内",
+                "line_start": 40,
+                "line_end": 47
+              }
+            ],
+            "review_flags": [
+              "M06:资料待核",
+              "M07:资料待核",
+              "M08:资料待核"
+            ]
+          },
+          "score": 16.17318445428419,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.4626437000697479,
+      "retrieval_seconds": 0.024011400062590837,
+      "generation_seconds": 1.4345346000045538,
+      "usage": {
+        "prompt_tokens": 1557,
+        "completion_tokens": 124,
+        "total_tokens": 1681,
+        "prompt_tokens_details": {
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 1045
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"partial\",\"answer\":\"文档中没有相关信息。现有证据只提到“现代C++中更推荐枚举类enum class，而不是枚举enum，枚举类后面再介绍”[1]，并给出了传统 enum 的示例（如 `enum Example : unsigned char { A, B, C };`，以及 `Example e = A;`）[1]，但没有记载 enum class 与 enum 在枚举值名字作用域、隐式类型转换方面的具体区别。\",\"citations\":[{\"chunk_id\":\"73fe357e8bc09e9e0ce59320\"}]}",
+      "run_id": "f8de5bd574624fd087532908da9fe436",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.4679753999225795,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": false,
+      "reason": "Corpus-level trap; related background is not answer evidence"
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 36,
+    "question_id": "Q20",
+    "category": "multi",
+    "question": "class 与 struct 在默认成员访问权限上有什么差别？这一默认规则与显式 private、protected 分别允许的访问范围应怎样区分？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "class 与 struct 在默认成员访问权限上有什么差别？这一默认规则与显式 private、protected 分别允许的访问范围应怎样区分？",
+      "method": "bm25",
+      "status": "partial",
+      "answer": "关于 class 与 struct 的默认访问权限差别，文档有明确记载：类和结构体除了可见性没有本质区别；结构体 struct 的成员默认为 public，类 class 的所有成员默认为 private [1]。\n\n但关于显式 private、protected 分别允许的访问范围，以及它们与默认规则应如何区分，本次提供的证据中没有相关记载。",
+      "citations": [
+        {
+          "chunk_id": "83b355741c460e7c6417ba91",
+          "source_file": "4类和结构体 static ODR.md",
+          "heading": "无标题（原文）",
+          "line_start": 1,
+          "line_end": 7,
+          "quote": "- 类和结构体除了可见性，其实没有本质区别\n\t- 可见性不同\n\t\t- 结构体struct的有成员默认为public\n\t\t- 类class所有成员<span style=\"color:rgb(255, 192, 0)\">默认为private</span>\n\t- 其实结构体里也可以定义函数，也有构造函数\n\t- struct之所以保留只是为了兼容C的代码\n\t- C++代码风格来说，一般struct只作为多个变量的集中存放（但实际上当类用也可以），不参与继承等操作（虽然实际上也可以）",
+          "review_flags": [],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "83b355741c460e7c6417ba91",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "- 类和结构体除了可见性，其实没有本质区别\n\t- 可见性不同\n\t\t- 结构体struct的有成员默认为public\n\t\t- 类class所有成员<span style=\"color:rgb(255, 192, 0)\">默认为private</span>\n\t- 其实结构体里也可以定义函数，也有构造函数\n\t- struct之所以保留只是为了兼容C的代码\n\t- C++代码风格来说，一般struct只作为多个变量的集中存放（但实际上当类用也可以），不参与继承等操作（虽然实际上也可以）",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "无标题（原文）",
+                "line_start": 1,
+                "line_end": 7
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 27.183509149532846,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "b29b977ae5c5e16ad21cca0a",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "\t\t\t- **内存唯一性**：虽然 `main.cpp` 和 `test.cpp` 编译时都看到了这份定义，但经过链接器的合并后，最终生成的程序中，`Entity::x` 在内存里依然**只有一个全局唯一的地址**。\n\t- 该部分总结：\n\t\t- 在 C++17 之前，类内的 `static int x;` 永远只是<span style=\"color:rgb(255, 77, 77)\"><b>声明</b></span>。即使你写成 `static int x = 5;`（直接初始化），在没有 `inline` 的情况下，它依然只是声明加了一个默认初始化器，**依然不算定义**，必须在类外补 `int Entity::x;`。只有加上 `inline`（C++17 起），编译器才把这一行视为<span style=\"color:rgb(255, 77, 77)\"><b>定义</b></span>，从而允许你省略类外定义。\n- 静态方法不能访问非静态变量\n\t- 因为静态方法没有类实例",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 3.在类或结构体内",
+                "line_start": 48,
+                "line_end": 52
+              }
+            ],
+            "review_flags": [
+              "M08:资料待核"
+            ]
+          },
+          "score": 26.738120788221323,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "9943e3cd48beda0e8e28ac6e",
+            "document_id": "1d86bdeb1f22b3d074bf85f5",
+            "text": "### 3. 最精妙的地方：两者必须配合使用（这是编译通过的关键！）\n\n如果你的参数写了 `const Printable* obj`，但成员函数没写末尾的 `const`（比如写成 `virtual std::string writeClassName();`），那么编译会**直接报错**！\n**原因（权限控制链）**：\n- 在 `log` 函数内部，`obj` 被视作“指向常量的指针”。\n- C++ 规定：**通过指向常量的指针（或引用），只能调用该类型的常量成员函数**。\n- 因为“常量指针”意味着你不能修改对象，而调用一个非 `const` 的成员函数，相当于向编译器承诺“这个函数可能会修改对象”，这就违背了 `const` 指针的约束。\n**简单记法**：你不能用一个“不能修改对象”的钥匙（`const` 指针），去开启一个“允许修改对象”的门（非 `const` 成员函数）。必须用“只读钥匙”配“只读门锁”。",
+            "spans": [
+              {
+                "source_file": "8纯虚函数（接口） 可见性.md",
+                "heading": "const / 3. 最精妙的地方：两者必须配合使用（这是编译通过的关键！）",
+                "line_start": 66,
+                "line_end": 74
+              }
+            ],
+            "review_flags": [
+              "M16:资料待核"
+            ]
+          },
+          "score": 21.27793322723031,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.695748999947682,
+      "retrieval_seconds": 0.023251199978403747,
+      "generation_seconds": 1.6685265999985859,
+      "usage": {
+        "prompt_tokens": 1271,
+        "completion_tokens": 113,
+        "total_tokens": 1384,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 887
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"partial\",\"answer\":\"关于 class 与 struct 的默认访问权限差别，文档有明确记载：类和结构体除了可见性没有本质区别；结构体 struct 的成员默认为 public，类 class 的所有成员默认为 private [1]。\\n\\n但关于显式 private、protected 分别允许的访问范围，以及它们与默认规则应如何区分，本次提供的证据中没有相关记载。\",\"citations\":[{\"chunk_id\":\"83b355741c460e7c6417ba91\"}]}",
+      "run_id": "1c13ccfee3e648d59072b5b6ff5d27de",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.7013562000356615,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": false,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 37,
+    "question_id": "Q01",
+    "category": "answerable",
+    "question": "预处理、编译和链接如何衔接？源文件、目标文件与可执行程序之间是什么关系？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "预处理、编译和链接如何衔接？源文件、目标文件与可执行程序之间是什么关系？",
+      "method": "bm25",
+      "status": "error",
+      "answer": "请求未完成：回答正文或引用缺失。",
+      "citations": [],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "d2cea64db601cba1b95b136a",
+            "document_id": "1cfeb1afc806e25091e59ce5",
+            "text": "n个.cpp文件 → 编译complie → n个.obj文件 → 链接link → <span style=\"color:rgb(255, 192, 0)\">一个</span>.exe文件\n\n对C++编译器来说，文件不重要，文件只是提供给编译器源代码的方式，java中类名必须和文件名一样、包名必须和文件夹名一样的规定都是java的，C++中没这些规定。Files have no meaning\n\n错误信息：LNK开头为连接错误，C开头为编译错误compile\n\n编译\n- 先预处理再编译：include define if ifdef pragma\n\t- include其实就是复制黏贴，甚至可以只是一个花括号贴过来用\n\n链接",
+            "spans": [
+              {
+                "source_file": "1运作原理 编译链接.md",
+                "heading": "无标题（原文）",
+                "line_start": 1,
+                "line_end": 11
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 39.48786915055305,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "0a4c694c887644b2dd420948",
+            "document_id": "1cfeb1afc806e25091e59ce5",
+            "text": "- 就算没使用过的函数，如果没被链接，也会报错。\n\t- ![[Pasted image 20260815200459.png|368]]\n\t- 就算注释掉这条语句，本函数不会使用Multiply函数，但如果Log**没有**在其它文件里被定义，只是在这个cpp文件里被声明（区分声明 vs 定义），那编译会被通过，但链接会报错。\n\t- static表示该函数只会在本cpp文件里被使用，如果用static修饰Multiply()函数链接就不会报错，因为编译器知道这个函数只会在这个cpp文件里被使用而实际上没有被使用。\n- 如果返回类型或签名不同，那就无法链接\n- 如果一个函数在工程里有两个定义，会不知道链接哪一个\n\t- 比如，在.hpp文件里定义了一个函数，在两个.cpp文件里include了这个.hpp，而include又相当于复制黏贴，那么这个工程里就出现了对这个函数的重复定义，就会有连接报错。\n\t\t- 该例子的解决方法：1.不要在.hpp里进行定义，.hpp只声明。2.如果非要在.hpp里定义，则在前面加static或者inline关键字。\n\t\t\t- static的含义：让cpp文件知道这个定义只属于该文件，各用各的。坏处：代码体积会膨胀，在.exe文件中会存在两个相同的机器码。",
+            "spans": [
+              {
+                "source_file": "1运作原理 编译链接.md",
+                "heading": "无标题（原文）",
+                "line_start": 12,
+                "line_end": 20
+              }
+            ],
+            "review_flags": [
+              "M01:资料待核",
+              "M02:资料待核"
+            ]
+          },
+          "score": 26.05864307070217,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "10bcf1b56640c6a7b9d0694e",
+            "document_id": "272b506a6d434355c59d4bb2",
+            "text": "- <span style=\"color:rgb(255, 192, 0)\">相当于在Entity命名空间中创建了两个变量，他们实际上不属于类</span>\n- 带 `::` 作用域限定符的变量定义**必须**出现在全局作用域（或命名空间作用域）中，不允许出现在函数体 `{}` 内部。\n\t- <span style=\"color:rgb(255, 77, 77)\"><b>C++ 的单一定义规则（ODR，One Definition Rule）</b></span>\n\t\t- **一句话核心概括：** 在整个程序（所有 `.cpp` 文件加起来）中，**任何变量、函数、类、枚举、模板等实体，只能有且仅有一个“定义”（Definition）。可以有无数次“声明”（Declaration），但定义必须唯一。**\n\t- // C++17起有了 inline，在结构体static前加上inline，这就是定义，不需要再在 cpp 里写 int Entity::x;\n\t\t- 在 C++17 之前（也就是你下面这段代码的写法），类的静态成员必须在头文件（`.h`）里**声明**，再在源文件（`.cpp`）里**定义**。\n\t\t- 加上 `inline static int x = 0;` 后：\n\t\t\t- **放宽了 ODR 限制**：`inline` 告诉编译器：“这个变量可以有多个相同的定义（分散在不同的 `.cpp` 编译单元里），没事，你们各自编译，最后链接的时候**只保留一份副本**就行了。”",
+            "spans": [
+              {
+                "source_file": "4类和结构体 static ODR.md",
+                "heading": "static的三种用法 / 3.在类或结构体内",
+                "line_start": 40,
+                "line_end": 47
+              }
+            ],
+            "review_flags": [
+              "M06:资料待核",
+              "M07:资料待核",
+              "M08:资料待核"
+            ]
+          },
+          "score": 25.319351134230093,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.8034718999406323,
+      "retrieval_seconds": 0.023093999945558608,
+      "generation_seconds": 1.7803662000223994,
+      "usage": {
+        "prompt_tokens": 1442,
+        "completion_tokens": 223,
+        "total_tokens": 1665,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1314
+      },
+      "error": "回答正文或引用缺失。",
+      "raw_response": "{\"status\":\"supported\",\"answer\":\"文档给出的衔接流程是：n 个 .cpp 文件 → 编译（compile）→ n 个 .obj 文件 → 链接（link）→ 一个 .exe 文件 [1]。\\n\\n- 编译阶段先进行预处理，再进行编译；预处理涉及 include、define、if、ifdef、pragma，其中 include 相当于复制粘贴 [1]。\\n- 链接阶段把各编译产物合成一个可执行文件；文档举例说明：某函数只在当前 cpp 中声明、未在其它文件中定义时，编译能通过，但链接会报错 [2]。\\n- 错误信息方面：LNK 开头为链接错误，C 开头为编译错误 [1]。\\n- 文档还提到，对 C++ 编译器来说文件本身不重要，文件只是向编译器提供源代码的方式 [1]。\\n\\n关于源文件、目标文件与可执行程序之间更一般的对应关系（例如目标文件内部结构、符号解析细节），文档未记载。\"}",
+      "run_id": "efd3af1c0a8f4538a8fae9f910968141",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.8110179000068456,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 39,
+    "question_id": "Q13",
+    "category": "unanswerable",
+    "question": "std::shared_ptr 和 std::weak_ptr 在所有权管理上有什么区别，它们与循环引用问题有什么关系？",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "std::shared_ptr 和 std::weak_ptr 在所有权管理上有什么区别，它们与循环引用问题有什么关系？",
+      "method": "bm25",
+      "status": "refused",
+      "answer": "文档中没有相关信息",
+      "citations": [],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "321472ea0d7194238b46dadc",
+            "document_id": "fc3869d4f12741e750d51dda",
+            "text": "- char类型占一个字节，分配8个连续字节，首地址返回给指针buffer\n- 上面这三行代码的潜在问题：\n\t1. **异常安全问题**：如果在 `new` 和 `delete` 之间抛出异常，`delete[]` 不会被执行，导致内存泄漏。\n\t2. **悬空指针风险**：`delete[]` 后，`buffer` 变量仍然保存着原来的地址，如果程序员误用会导致**未定义行为**（程序崩溃或数据损坏）。\n\t3. **需要手动管理**：你必须时刻记得调用 `delete[]`，维护成本高。\n- 现代C++推荐写法：\n\t- **固定大小数组**（8 个 char）：直接用栈数组 `char buffer[8] = {};`，自动初始化为 0，无需手动释放。\n    - **需要动态大小且要清空**：使用 `std::vector<char> buffer(8, 0);`，内存自动管理，自带清零，安全且高效。\n    - **如果确实需要原始指针操作**：使用智能指针 `std::unique_ptr<char[]> buffer = std::make_unique<char[]>(8);` 并手动 `std::fill(buffer.get(), buffer.get() + 8, 0);`，自动释放，无需 `delete`。",
+            "spans": [
+              {
+                "source_file": "3指针 引用.md",
+                "heading": "指针",
+                "line_start": 16,
+                "line_end": 24
+              }
+            ],
+            "review_flags": [
+              "M05:资料待核"
+            ]
+          },
+          "score": 20.124461205554812,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "d00a724e245385145510b171",
+            "document_id": "fd301f3831617012d07872f8",
+            "text": "### 上例中的分析\n`: m_name(name)`\n这是**初始化列表**，它直接使用传入的 `name` 来**构造** `m_name`。\n- **效果**：相当于执行 `std::string m_name = name;`（直接构造）。\n- **重要区别**（和直接在花括号里赋值的区别）：\n    - 如果写成 `: m_name(name)`：`m_name` 只会被**构造一次**（拷贝构造）。\n    - 如果在花括号里写 `{ m_name = name; }`：`m_name` 会先被**默认构造**（空字符串），然后再被**赋值**（拷贝赋值），多了一次无用的操作。\n- **强制要求**：如果 `m_name` 是 `const` 类型、引用类型，或者是没有默认构造函数的类，**必须**用这种初始化列表方式，而不能在花括号里赋值。",
+            "spans": [
+              {
+                "source_file": "7多态 虚函数 初始化列表 智能指针.md",
+                "heading": "初始化列表 / 上例中的分析",
+                "line_start": 69,
+                "line_end": 77
+              }
+            ],
+            "review_flags": []
+          },
+          "score": 15.54701551977022,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "737ba18dd3faeedce8bdc083",
+            "document_id": "83d501db8f7147ff8e5ed103",
+            "text": "#### ② 存储指针本身的“额外一跳”（你说的“跳来跳去”其实暗含了这个）\n\n这是你问题里提到的“跳”，但你没意识到这里的**双层寻址**：\n- **栈数组 `a`**：`a` 在编译时被替换为**栈底的固定偏移量**（如 `[rbp-40]`）。它不占用额外的存储空间，直接就是地址。\n- **堆指针 `ptr`**：`ptr` 本身是一个**局部变量**，存储在栈上（占 8 字节）。它里面存的是堆上的地址。\n**对比读取流程：**\n- 读 `a[0]`：CPU 直接拿栈基址 + 0，读内存（**1次**内存访问）。\n- 读 `ptr[0]`：CPU 先从栈上读取 `ptr` 的值（**第1次**内存访问），拿到堆地址后，再去堆上读取数据（**第2次**内存访问）。\n所以，**堆确实比栈多了一次读取指针变量的内存访问**。虽然这点开销在单次访问中微乎其微，但在高频循环里是客观存在的。",
+            "spans": [
+              {
+                "source_file": "9数组 字符串.md",
+                "heading": "附录：为什么堆上数组的开销更大 / ② 存储指针本身的“额外一跳”（你说的“跳来跳去”其实暗含了这个）",
+                "line_start": 67,
+                "line_end": 75
+              }
+            ],
+            "review_flags": [
+              "M18:资料待核"
+            ]
+          },
+          "score": 14.52741187383459,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 1.0483494999352843,
+      "retrieval_seconds": 0.022895599948242307,
+      "generation_seconds": 1.025437799980864,
+      "usage": {
+        "prompt_tokens": 1425,
+        "completion_tokens": 17,
+        "total_tokens": 1442,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1297
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"refused\",\"answer\":\"文档中没有相关信息\",\"citations\":[]}",
+      "run_id": "52816212b7af46638a79a71e0b077f29",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 1.0542684000683948,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": false,
+      "reason": "Corpus-level trap; related background is not answer evidence"
+    }
+  },
+  {
+    "run_id": "20261021T062813.667648Z",
+    "sequence": 40,
+    "question_id": "Q18",
+    "category": "multi",
+    "question": "动态数组的资源管理和长度管理为什么是两个不同的问题？请结合裸指针手动分配释放的风险、std::vector 的替代方式，以及原生数组作为函数参数时的退化说明。",
+    "method": "bm25",
+    "kind": "formal",
+    "corpus_sha256": "144645eb05477fbe42b3e4e0b78c74b039863b0773ab924b79481d4622491e3c",
+    "index_corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+    "chunks_sha256": "36f82bf046fbdf1cf67960b6e10cc5fa624d083334d739297f6b3647ed2ed9b6",
+    "config_sha256": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595",
+    "question_sha256": "654c8df85ab5da2816c6d6e3930f8652f6a30ec6782b519ba82b24a05b706025",
+    "answer": {
+      "question": "动态数组的资源管理和长度管理为什么是两个不同的问题？请结合裸指针手动分配释放的风险、std::vector 的替代方式，以及原生数组作为函数参数时的退化说明。",
+      "method": "bm25",
+      "status": "partial",
+      "answer": "文档能支持“资源管理”和“长度管理”是两个不同问题，但未直接给出二者为何不同的完整论证。\n\n资源管理方面：裸指针手动分配释放存在异常安全问题（`new` 与 `delete` 之间抛异常会导致 `delete[]` 不执行、内存泄漏）、悬空指针风险（`delete[]` 后指针仍保存原地址，误用导致未定义行为），以及必须时刻记得调用 `delete[]`、维护成本高 [1]。堆上 `int *ptr = new int[10]` 生命周期可无限长、需要手动释放，删除操作为 `delete[] ptr` [2]。替代方式包括：固定大小用栈数组 `char buffer[8] = {};`；需要动态大小且清零用 `std::vector<char> buffer(8, 0);`，内存自动管理；确需原始指针操作时用 `std::unique_ptr<char[]> buffer = std::make_unique<char[]>(8);` 并配合 `std::fill`，自动释放 [1]。\n\n长度管理方面：数组大小需要自己维护，`sizeof(a) / sizeof(int)` 不可靠，原因是数组作为函数参数传递时会自动退化（decay）为指向首元素的指针 [2]。`std::array<int, 10> a;` 会保留大小信息、不会退化，`std::vector<int> v(10);` 内部封装 `size()` 和 `capacity()`，无需额外传 `int n` [3]。\n\n文档未记载的部分：没有明确论述“资源管理与长度管理为何是两个不同问题”的专门说明，也未展开退化后如何在函数内恢复长度信息的具体代码。",
+      "citations": [
+        {
+          "chunk_id": "321472ea0d7194238b46dadc",
+          "source_file": "3指针 引用.md",
+          "heading": "指针",
+          "line_start": 16,
+          "line_end": 24,
+          "quote": "- char类型占一个字节，分配8个连续字节，首地址返回给指针buffer\n- 上面这三行代码的潜在问题：\n\t1. **异常安全问题**：如果在 `new` 和 `delete` 之间抛出异常，`delete[]` 不会被执行，导致内存泄漏。\n\t2. **悬空指针风险**：`delete[]` 后，`buffer` 变量仍然保存着原来的地址，如果程序员误用会导致**未定义行为**（程序崩溃或数据损坏）。\n\t3. **需要手动管理**：你必须时刻记得调用 `delete[]`，维护成本高。\n- 现代C++推荐写法：\n\t- **固定大小数组**（8 个 char）：直接用栈数组 `char buffer[8] = {};`，自动初始化为 0，无需手动释放。\n    - **需要动态大小且要清空**：使用 `std::vector<char> buffer(8, 0);`，内存自动管理，自带清零，安全且高效。\n    - **如果确实需要原始指针操作**：使用智能指针 `std::unique_ptr<char[]> buffer = std::make_unique<char[]>(8);` 并手动 `std::fill(buffer.get(), buffer.get() + 8, 0);`，自动释放，无需 `delete`。",
+          "review_flags": [
+            "M05:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "9610f6a7e802284b15734dce",
+          "source_file": "9数组 字符串.md",
+          "heading": "传统数组",
+          "line_start": 1,
+          "line_end": 21,
+          "quote": "# 传统数组\n- 数组的本质是连续的数据块，索引的本质是指针操作去访问\n- 栈和堆上创建数组的区别\n\t- 栈上 `int a[10]`\n\t\t- 数组名a指向数组首地址\n\t\t- 离开作用域会自动释放\n\t- 堆上 `int *ptr = new int[10]`\n\t\t- 指针ptr的内存空间包含指向数组的地址\n\t\t- 生命周期可以无限长，需要手动释放\n\t\t- 删除操作：`delete[] ptr`\n\t- 堆上数组“开销大”指的是**额外的内存占用**和**分配时的系统调用**，主要有以下三个层面：\n\t    1. **分配慢**（系统调用 vs 一条 CPU 指令）。\n\t    2. **多读一次**（先读指针变量，再读目标数据）。\n\t    3. **缓存差**（栈连续紧凑，堆可能天南海北）。\n\t    - （详细解释见本页面最下面的附录）\n- 数组一定不能越界（有时甚至不会报错，难以排查）\n- 数组大小需要自己维护\n\t- 没有办法像那种把数组作为实例的语言，直接用a.size获得数组大小\n\t- c++中，数组大小需要自己维护，`sizeof(a) / sizeof(int)`也是不可靠的！\n\t- 原因：当数组作为函数参数进行传递时，会自动退化decay为指向首元素的指针\n\t- 维护数组大小的实际方法可见下例，定义xxxSize",
+          "review_flags": [
+            "M17:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        },
+        {
+          "chunk_id": "e8883c4614db4add42618996",
+          "source_file": "9数组 字符串.md",
+          "heading": "std::array(C++11)",
+          "line_start": 54,
+          "line_end": 61,
+          "quote": "# std::array(C++11)\n- 优点\n\t- 会进行边界检查，更安全\n\t- 会保留数组的大小信息，使用更方便\n- 缺点\n\t- 开销略大一点\n- **`std::array<int, 10> a;`**（固定大小，栈上）：它重载了 `size()` 方法，底层编译后和原生数组一样高效，但不会退化。\n- **`std::vector<int> v(10);`**（动态大小，堆上）：内部封装了 `size()` 和 `capacity()`，你永远不需要传额外的 `int n` 给函数，直接调用 `v.size()` 即可。",
+          "review_flags": [
+            "M17:资料待核"
+          ],
+          "excerpt_origin": "source_chunk"
+        }
+      ],
+      "hits": [
+        {
+          "chunk": {
+            "chunk_id": "321472ea0d7194238b46dadc",
+            "document_id": "fc3869d4f12741e750d51dda",
+            "text": "- char类型占一个字节，分配8个连续字节，首地址返回给指针buffer\n- 上面这三行代码的潜在问题：\n\t1. **异常安全问题**：如果在 `new` 和 `delete` 之间抛出异常，`delete[]` 不会被执行，导致内存泄漏。\n\t2. **悬空指针风险**：`delete[]` 后，`buffer` 变量仍然保存着原来的地址，如果程序员误用会导致**未定义行为**（程序崩溃或数据损坏）。\n\t3. **需要手动管理**：你必须时刻记得调用 `delete[]`，维护成本高。\n- 现代C++推荐写法：\n\t- **固定大小数组**（8 个 char）：直接用栈数组 `char buffer[8] = {};`，自动初始化为 0，无需手动释放。\n    - **需要动态大小且要清空**：使用 `std::vector<char> buffer(8, 0);`，内存自动管理，自带清零，安全且高效。\n    - **如果确实需要原始指针操作**：使用智能指针 `std::unique_ptr<char[]> buffer = std::make_unique<char[]>(8);` 并手动 `std::fill(buffer.get(), buffer.get() + 8, 0);`，自动释放，无需 `delete`。",
+            "spans": [
+              {
+                "source_file": "3指针 引用.md",
+                "heading": "指针",
+                "line_start": 16,
+                "line_end": 24
+              }
+            ],
+            "review_flags": [
+              "M05:资料待核"
+            ]
+          },
+          "score": 72.48876556088784,
+          "rank": 1
+        },
+        {
+          "chunk": {
+            "chunk_id": "9610f6a7e802284b15734dce",
+            "document_id": "83d501db8f7147ff8e5ed103",
+            "text": "# 传统数组\n- 数组的本质是连续的数据块，索引的本质是指针操作去访问\n- 栈和堆上创建数组的区别\n\t- 栈上 `int a[10]`\n\t\t- 数组名a指向数组首地址\n\t\t- 离开作用域会自动释放\n\t- 堆上 `int *ptr = new int[10]`\n\t\t- 指针ptr的内存空间包含指向数组的地址\n\t\t- 生命周期可以无限长，需要手动释放\n\t\t- 删除操作：`delete[] ptr`\n\t- 堆上数组“开销大”指的是**额外的内存占用**和**分配时的系统调用**，主要有以下三个层面：\n\t    1. **分配慢**（系统调用 vs 一条 CPU 指令）。\n\t    2. **多读一次**（先读指针变量，再读目标数据）。\n\t    3. **缓存差**（栈连续紧凑，堆可能天南海北）。\n\t    - （详细解释见本页面最下面的附录）\n- 数组一定不能越界（有时甚至不会报错，难以排查）\n- 数组大小需要自己维护\n\t- 没有办法像那种把数组作为实例的语言，直接用a.size获得数组大小\n\t- c++中，数组大小需要自己维护，`sizeof(a) / sizeof(int)`也是不可靠的！\n\t- 原因：当数组作为函数参数进行传递时，会自动退化decay为指向首元素的指针\n\t- 维护数组大小的实际方法可见下例，定义xxxSize",
+            "spans": [
+              {
+                "source_file": "9数组 字符串.md",
+                "heading": "传统数组",
+                "line_start": 1,
+                "line_end": 21
+              }
+            ],
+            "review_flags": [
+              "M17:资料待核"
+            ]
+          },
+          "score": 65.34048254445416,
+          "rank": 2
+        },
+        {
+          "chunk": {
+            "chunk_id": "e8883c4614db4add42618996",
+            "document_id": "83d501db8f7147ff8e5ed103",
+            "text": "# std::array(C++11)\n- 优点\n\t- 会进行边界检查，更安全\n\t- 会保留数组的大小信息，使用更方便\n- 缺点\n\t- 开销略大一点\n- **`std::array<int, 10> a;`**（固定大小，栈上）：它重载了 `size()` 方法，底层编译后和原生数组一样高效，但不会退化。\n- **`std::vector<int> v(10);`**（动态大小，堆上）：内部封装了 `size()` 和 `capacity()`，你永远不需要传额外的 `int n` 给函数，直接调用 `v.size()` 即可。",
+            "spans": [
+              {
+                "source_file": "9数组 字符串.md",
+                "heading": "std::array(C++11)",
+                "line_start": 54,
+                "line_end": 61
+              }
+            ],
+            "review_flags": [
+              "M17:资料待核"
+            ]
+          },
+          "score": 57.60348614827536,
+          "rank": 3
+        }
+      ],
+      "latency_seconds": 2.8620191999943927,
+      "retrieval_seconds": 0.02601069991942495,
+      "generation_seconds": 2.826492099906318,
+      "usage": {
+        "prompt_tokens": 1427,
+        "completion_tokens": 432,
+        "total_tokens": 1859,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 1171
+      },
+      "error": null,
+      "raw_response": "{\"status\":\"partial\",\"answer\":\"文档能支持“资源管理”和“长度管理”是两个不同问题，但未直接给出二者为何不同的完整论证。\\n\\n资源管理方面：裸指针手动分配释放存在异常安全问题（`new` 与 `delete` 之间抛异常会导致 `delete[]` 不执行、内存泄漏）、悬空指针风险（`delete[]` 后指针仍保存原地址，误用导致未定义行为），以及必须时刻记得调用 `delete[]`、维护成本高 [1]。堆上 `int *ptr = new int[10]` 生命周期可无限长、需要手动释放，删除操作为 `delete[] ptr` [2]。替代方式包括：固定大小用栈数组 `char buffer[8] = {};`；需要动态大小且清零用 `std::vector<char> buffer(8, 0);`，内存自动管理；确需原始指针操作时用 `std::unique_ptr<char[]> buffer = std::make_unique<char[]>(8);` 并配合 `std::fill`，自动释放 [1]。\\n\\n长度管理方面：数组大小需要自己维护，`sizeof(a) / sizeof(int)` 不可靠，原因是数组作为函数参数传递时会自动退化（decay）为指向首元素的指针 [2]。`std::array<int, 10> a;` 会保留大小信息、不会退化，`std::vector<int> v(10);` 内部封装 `size()` 和 `capacity()`，无需额外传 `int n` [3]。\\n\\n文档未记载的部分：没有明确论述“资源管理与长度管理为何是两个不同问题”的专门说明，也未展开退化后如何在函数内恢复长度信息的具体代码。\",\"citations\":[{\"chunk_id\":\"321472ea0d7194238b46dadc\"},{\"chunk_id\":\"9610f6a7e802284b15734dce\"},{\"chunk_id\":\"e8883c4614db4add42618996\"}]}",
+      "run_id": "5260bff1329c4a549f26a2dcfe4da864",
+      "corpus_hash": "8700d55d68ba814d8e0cec31baa9ef4057e3d94cb270126be8406d1900b29d61",
+      "config_hash": "b882648346e9a87769ae182efcc9b7e3ec7bf19c6379575f9105e7a8dac5f595"
+    },
+    "elapsed_seconds": 2.867763699963689,
+    "attempt": 1,
+    "automatic_source_overlap": {
+      "applicable": true,
+      "source_overlap_only": true,
+      "covered_group_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "any_source_overlap": true,
+      "all_groups_source_overlap": true,
+      "requires_manual_semantic_review": true
+    }
+  }
+]

@@ -1,0 +1,23 @@
+# Frozen separately before the formal experiment. No secrets in this file.
+source_dir = "问答素材"
+storage_dir = "storage"
+model_name = "BAAI/bge-small-zh-v1.5"
+embedding_revision = "7999e1d3359715c523056ef9478215996d62a620"
+chunk_max_tokens = 480
+top_k = 3
+generation_model = "deepseek-flash"
+api_base_url = "https://api.deepseek.com"
+temperature = 0.0
+max_output_tokens = 1400
+api_timeout_seconds = 90.0
+# Low-score prefilter only; the generator must still assess evidence sufficiency.
+bm25_min_score = 0.0
+vector_min_score = 0.0
+budget_cny = 20.0
+# Conservative upper estimate at official RMB peak rates, checked 2026-10-19:
+# https://api-docs.deepseek.com/zh-cn/quick_start/pricing/
+# Off-peak actual debit may be lower. The ledger labels upper estimates explicitly.
+input_cny_per_million = 2.0
+cached_input_cny_per_million = 0.04
+output_cny_per_million = 8.0
+historical_allowance_cny = 0.01

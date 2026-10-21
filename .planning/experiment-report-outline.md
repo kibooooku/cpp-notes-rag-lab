@@ -1,6 +1,6 @@
 # 实验报告结构：C++ 个人笔记 RAG 问答助手
 
-更新日期：2026-10-21。本文是四页以内 PDF 的写作、实验与演示方案，尚未开展正式评测。所有结果、费用、失败案例和开发错误均须来自实际记录。
+更新日期：2026-10-21。本文是四页以内 PDF 的写作、实验与演示方案。首轮 BM25 与向量检索各 20 条正式记录已生成，实际结果尚待人工核对，详见 [本轮结果](../eval/formal/formal-01/README.md)。所有最终指标、费用、失败案例和开发错误均须来自实际记录，不从状态标签推算正确率。
 
 主方案见 [project-plan-cpp-rag.md](project-plan-cpp-rag.md)，资料现状见 [material-review.md](../docs/material-review.md)，库存与字数依据见 [corpus_inventory.json](../data/corpus_inventory.json)。
 
