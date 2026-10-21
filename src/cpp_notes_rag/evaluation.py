@@ -34,7 +34,7 @@ def read_json(path: Path) -> Any:
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     # Windows antivirus/indexing can briefly hold the destination. Retry only
     # this filesystem commit; the previous valid JSON remains intact and no
     # generation request is repeated. Permanent failures remain visible.
@@ -65,6 +65,7 @@ def render_review_sheet(questions_path: Path, output_path: Path) -> None:
         "# 20 题金标准审核单", "",
         f"题库为 `eval/questions.json` 的当前版本：10 道有答案、5 道陷阱、5 道跨片段。**用户批准 {approved}/20 题**。本页便于阅读，JSON 是机器执行的题库。", "",
         "请逐题审核问题、标准答案、每个必要要点、原文证据和技术前提。跨片段题还须在最终切片后验证：没有单个片段包含全部答案，且 Top-3 能容纳必要证据。陷阱需通读全文确认关键内容缺失。", "",
+        "**统一判分原则**：考查概念、机制和条件，允许语义等价的解释。原示例中的变量名、类名、函数名、字符串、初始值和数组长度不作为得分条件；除题目明确考查语法外，不要求照抄代码。C++ 标准版本、具有语义作用的关键字/运算符及证据完整性仍需正确。", "",
         "流程与判分字段见 [判分说明](../docs/scoring-guide.md)，原文疑点见 [资料审核清单](../docs/material-review.md)。本页没有模拟审核签字；待修内容可反馈给 AI 整理。", "",
         "生成时题库文件 SHA-256：`" + hashlib.sha256(questions_path.read_bytes()).hexdigest() + "`。如题库改动应重新生成本页，不能依据旧页批准新版。", "",
     ]
@@ -72,6 +73,8 @@ def render_review_sheet(questions_path: Path, output_path: Path) -> None:
     for q in questions:
         lines += [f"## {q['question_id']} · {labels[q['category']]}", "", "**问题**：" + q["question"], "", "**候选标准答案**：" + q["gold_answer"], "", "**完整答对所需要点**：", ""]
         lines += ["- " + point for point in q["required_points"]]
+        if q.get("scoring_notes"):
+            lines += ["", "**等价答案与评分边界**：" + q["scoring_notes"]]
         lines += ["", "**必要原文证据**：", ""]
         for group in q["required_evidence_groups"]:
             refs = [f"`{s['source_file']}` L{s['line_start']}–{s['line_end']}" for s in group["sources"]]
@@ -83,7 +86,7 @@ def render_review_sheet(questions_path: Path, output_path: Path) -> None:
         if q["category"] == "multi":
             lines += [f"- 必要证据组：{len(q['required_evidence_groups'])} 组；文件不同本身不能代替语义支持审核。"]
         lines += ["", "审核状态：`reviewed=" + str(q.get("reviewed") is True).lower() + "`。", ""]
-    output_path.write_text("\n".join(lines), encoding="utf-8")
+    output_path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
 
 def source_snapshot(materials: Path) -> dict:

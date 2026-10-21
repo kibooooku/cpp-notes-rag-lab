@@ -68,18 +68,18 @@
       "category": "answerable",
       "group_chunk_candidates": {
         "A": [
-          "10bcf1b56640c6a7b9d0694e"
+          "10bcf1b56640c6a7b9d0694e",
+          "b29b977ae5c5e16ad21cca0a"
         ],
         "B": [
           "b29b977ae5c5e16ad21cca0a"
         ]
       },
-      "minimum_source_overlap_cover": 2,
+      "minimum_source_overlap_cover": 1,
       "example_cover": [
-        "10bcf1b56640c6a7b9d0694e",
         "b29b977ae5c5e16ad21cca0a"
       ],
-      "single_chunk_source_overlap": false,
+      "single_chunk_source_overlap": true,
       "requires_manual_semantic_review": true
     },
     {
@@ -117,16 +117,16 @@
       "category": "answerable",
       "group_chunk_candidates": {
         "A": [
-          "b856e236250b63de3209a048"
+          "d00a724e245385145510b171"
         ],
         "B": [
-          "cf510fc0ec3c74a32656f3fb"
+          "b856e236250b63de3209a048"
         ]
       },
       "minimum_source_overlap_cover": 2,
       "example_cover": [
-        "b856e236250b63de3209a048",
-        "cf510fc0ec3c74a32656f3fb"
+        "d00a724e245385145510b171",
+        "b856e236250b63de3209a048"
       ],
       "single_chunk_source_overlap": false,
       "requires_manual_semantic_review": true
@@ -202,16 +202,16 @@
           "0a4c694c887644b2dd420948"
         ],
         "B": [
-          "10bcf1b56640c6a7b9d0694e"
+          "10bcf1b56640c6a7b9d0694e",
+          "b29b977ae5c5e16ad21cca0a"
         ],
         "C": [
           "b29b977ae5c5e16ad21cca0a"
         ]
       },
-      "minimum_source_overlap_cover": 3,
+      "minimum_source_overlap_cover": 2,
       "example_cover": [
         "0a4c694c887644b2dd420948",
-        "10bcf1b56640c6a7b9d0694e",
         "b29b977ae5c5e16ad21cca0a"
       ],
       "single_chunk_source_overlap": false,
@@ -225,13 +225,15 @@
           "8a60d7684091e3f2303127d6"
         ],
         "B": [
-          "75d786b912dd202f6f4f502a"
+          "d00a724e245385145510b171",
+          "75d786b912dd202f6f4f502a",
+          "cf510fc0ec3c74a32656f3fb"
         ]
       },
       "minimum_source_overlap_cover": 2,
       "example_cover": [
         "8a60d7684091e3f2303127d6",
-        "75d786b912dd202f6f4f502a"
+        "d00a724e245385145510b171"
       ],
       "single_chunk_source_overlap": false,
       "requires_manual_semantic_review": true
@@ -264,7 +266,7 @@
       "category": "multi",
       "group_chunk_candidates": {
         "A": [
-          "996241b64812513745641513"
+          "23a79cc0548ed57299d9c17b"
         ],
         "B": [
           "c7b64d6a7c7f6190cf5f7bd6"
@@ -272,7 +274,7 @@
       },
       "minimum_source_overlap_cover": 2,
       "example_cover": [
-        "996241b64812513745641513",
+        "23a79cc0548ed57299d9c17b",
         "c7b64d6a7c7f6190cf5f7bd6"
       ],
       "single_chunk_source_overlap": false,

@@ -92,7 +92,7 @@ $env:PYTHONUTF8 = '1'
 
 ## 评测流程
 
-正式集为 `eval/questions.json`：10 有答案、5 无答案、5 跨片段，全部初始 `reviewed=false`。先阅读 [20 题审核单](eval/review-sheet.md)，使用 [判分指南](docs/scoring-guide.md) 核对标准答案与必要证据。脚本不会替用户批准。
+正式集为 `eval/questions.json`：10 有答案、5 无答案、5 跨片段，全部初始 `reviewed=false`。2026-10-21 已改为概念与机制题，接受语义等价的解释，不要求复现笔记示例中的名称、数值或输出。先阅读 [20 题审核单](eval/review-sheet.md)，使用 [判分指南](docs/scoring-guide.md) 核对标准答案与必要证据。脚本不会替用户批准。
 
 ```powershell
 # 独立开发集：两方法共 12 条，用于调试，不报正式成绩

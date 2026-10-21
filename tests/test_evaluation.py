@@ -1,6 +1,7 @@
 """Evaluation invariants: no unapproved formal runs, no invented scores/errors."""
 import copy
 import csv
+import hashlib
 import json
 import sys
 import tempfile
@@ -17,6 +18,7 @@ from cpp_notes_rag.evaluation import (
     load_questions,
     question_content_hash,
     read_json,
+    render_review_sheet,
     run_experiment,
     source_snapshot,
     summarize_records,
@@ -92,6 +94,22 @@ class EvaluationTests(unittest.TestCase):
         before = source_snapshot(source)
         (source / "a.md").write_text("edited", encoding="utf-8")
         self.assertNotEqual(before["sha256"], source_snapshot(source)["sha256"])
+
+    def test_review_sheet_preserves_scoring_boundaries_and_portable_hash(self):
+        questions = copy.deepcopy(self.questions)
+        questions[0]["scoring_notes"] = "允许等价解释；不要求示例中的固定数值。"
+        path = self.root / "questions.json"
+        sheet = self.root / "review.md"
+        write_json(path, questions)
+        render_review_sheet(path, sheet)
+        raw = path.read_bytes()
+        # Match the repository's LF policy so checkout cannot stale the hash.
+        self.assertNotIn(b"\r", raw)
+        self.assertNotIn(b"\r", sheet.read_bytes())
+        content = sheet.read_text(encoding="utf-8")
+        self.assertIn(hashlib.sha256(raw).hexdigest(), content)
+        self.assertIn(questions[0]["scoring_notes"], content)
+        self.assertFalse(any(q["reviewed"] for q in read_json(path)))
 
     def test_hits_use_real_schema_and_traps_have_no_hit_metric(self):
         q = self.questions[0]
